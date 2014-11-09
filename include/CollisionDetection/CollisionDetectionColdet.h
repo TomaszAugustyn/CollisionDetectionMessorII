@@ -1,6 +1,6 @@
-/** @file kinect_grabber.h
+/** @file CollisionDetectionColdet.h
  *
- * implementation - Kinect Grabber
+ * implementation - CollisionDetectionColdet
  *
  */
 
@@ -20,7 +20,7 @@ namespace coldet {
 
 using namespace coldet;
 
-/// Grabber implementation
+/// CollisionDetection implementation
 class CollisionDetectionColdet : public coldet::CollisionDetection {
     public:
 
@@ -52,4 +52,4 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
     private:
 };
 
-#endif // KINECT_GRABBER_H_INCLUDED
+#endif // COLLISIONDETECTIONCOLDET_H_INCLUDED

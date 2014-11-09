@@ -104,7 +104,7 @@ endif(BUILD_COLLISIONDETECTIONMESSORII AND BUILD_COLLISIONDETECTIONMESSORII_DEFS
 
 ###############################################################################
 #
-# TUTORIAL Grabber library
+# TUTORIAL CollisionDetection library
 #
 ###############################################################################
 

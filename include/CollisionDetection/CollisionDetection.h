@@ -1,6 +1,6 @@
 /** @file CollisionDetection.h
  *
- * Point Cloud Grabber interface
+ * Point Cloud CollisionDetection interface
  *
  */
 
@@ -14,11 +14,11 @@
 //#include <mutex>
 
 namespace coldet{
-	/// Grabber interface
+	/// CollisionDetection interface
 	class CollisionDetection {
         public:
 
-            /// Grabber type
+            /// CollisinDetection type
             enum Type {
                     /// RGB camera
                     TYPE_COLDET,
@@ -27,24 +27,30 @@ namespace coldet{
                     /// 3D Depth sensor
             };
 
+			/*void CheckCollisions (const RobotConfiguration& config, CollisionTable& collisionTable);
+			void DecodeCollisionTable (const CollisionTable ...);
+			void CheckCollisions (const Mat34 RobotPose, const RobotConfiguration config, const CElevationMap& map, CollisionTable& collisionTable);
+
+			bool CheckCollisions(const RobotConfiguration& config, CollisionTable& collisionTable);
+			bool CheckCollisions (const Mat34 RobotPose, const RobotConfiguration config, const CElevationMap& map, CollisionTable& collisionTable);
+			void drawGL (const Mat34 RobotPose, const RobotConfiguration config); */
+
             /// overloaded constructor
             CollisionDetection(const std::string _name, Type _type) : name(_name), type(_type) {};
 
-            /// Name of the grabber
+            /// Name of the CollisionDetection
             virtual const std::string& getName() const = 0;
-
-           
 
             /// Virtual descrutor
             virtual ~CollisionDetection() {}
 
         protected:
-            /// Grabber type
+            /// CollisonDetection type
             Type type;
 
-            /// Grabber name
+            /// CollisonDetection name
             const std::string name;
 	};
 };
 
-#endif // _GRABBER_H_
+#endif // _COLLISIONDETECTION_H_

@@ -1,6 +1,7 @@
 #include "../include/CollisionDetection/CollisionDetectionColdet.h"
 #include <memory>
 #include <stdexcept>
+#include "../include/CollisionDetection/3dsloader.h"
 //#include <chrono>
 //#include <thread>
 

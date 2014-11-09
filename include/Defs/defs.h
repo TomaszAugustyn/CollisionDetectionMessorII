@@ -1,4 +1,4 @@
-#pragma once
+//#pragma once
 
 #ifndef DEFS_H_INCLUDED
 #define DEFS_H_INCLUDED
