@@ -3,8 +3,8 @@
 #include "../Defs/defs.h"
 #include <iostream>
 
-#include <windows.h>
-#include <GL/GLU.h>
+//#include <windows.h>
+#include <GL/glut.h>
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
