@@ -18,12 +18,14 @@ INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/include/Defs")
 
 # core libraries
 option(BUILD_COLLISIONDETECTIONMESSORII "Build PUT SLAM libraries" YES)
-option(BUILD_COLLISIONDETECTIONMESSORII_DEFS "Build TUTORIAL Defs library" YES)
+option(BUILD_COLLISIONDETECTIONMESSORII_DEFS "Build COLLISIONDETECTIONMESSORII Defs library" YES)
 mark_as_advanced(BUILD_COLLISIONDETECTIONMESSORII_DEFS)
 option(BUILD_COLLISIONDETECTIONMESSORII_COLDET "Build COLLISIONDETECTIONMESSORII COLDET library" YES)
 mark_as_advanced(BUILD_COLLISIONDETECTIONMESSORII_COLDET)
-# option(BUILD_COLLISIONDETECTIONMESSORII_VISUALIZER "Build TUTORIAL visualizer library" YES)
-# mark_as_advanced(BUILD_TUTORIAL_VISUALIZER)
+option(BUILD_COLLISIONDETECTIONMESSORII_GLUT "Build COLLISIONDETECTIONMESSORII GLUT library" YES)
+mark_as_advanced(BUILD_COLLISIONDETECTIONMESSORII_GLUT)
+# option(BUILD_COLLISIONDETECTIONMESSORII_VISUALIZER "Build COLLISIONDETECTIONMESSORII visualizer library" YES)
+# mark_as_advanced(BUILD_COLLISIONDETECTIONMESSORII_VISUALIZER)
 
 # demos
 option(BUILD_COLLISIONDETECTIONMESSORII_DEMO "Build COLLISIONDETECTIONMESSORII demonstration programs and libraries" YES)
@@ -34,7 +36,7 @@ mark_as_advanced(BUILD_COLLISIONDETECTIONMESSORII_DEMO_BASIC)
 
 #additional dependencies
 # Boost
-#FIND_PACKAGE(Boost COMPONENTS system filesystem thread)
+# FIND_PACKAGE(Boost COMPONENTS system filesystem thread)
 # OpenCV
 # FIND_PACKAGE(OpenCV REQUIRED)
 # include_directories( ${OpenCV_INCLUDE_DIRS} )
@@ -78,7 +80,7 @@ endif()
 
 ###############################################################################
 #
-# TUTORIAL tinyXML2 library
+# COLLISIONDETECTIONMESSORII tinyXML2 library
 #
 ###############################################################################
 
@@ -87,7 +89,7 @@ add_library(tinyxml2 STATIC ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/tinyXML/tinyxml
 
 ###############################################################################
 #
-# TUTORIAL defs library
+# COLLISIONDETECTIONMESSORII defs library
 #
 ###############################################################################
 
@@ -104,7 +106,7 @@ endif(BUILD_COLLISIONDETECTIONMESSORII AND BUILD_COLLISIONDETECTIONMESSORII_DEFS
 
 ###############################################################################
 #
-# TUTORIAL CollisionDetection library
+# COLLISIONDETECTIONMESSORII CollisionDetection library
 #
 ###############################################################################
 
@@ -121,6 +123,26 @@ endif(BUILD_COLLISIONDETECTIONMESSORII AND BUILD_COLLISIONDETECTIONMESSORII_DEFS
 #        INSTALL(TARGETS Coldet RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 #        INSTALL(FILES ${COLDET_HEADERS} GRABBERKINECT_HEADERS DESTINATION include/TUTORIAL/Grabber/)
  endif(BUILD_COLLISIONDETECTIONMESSORII AND BUILD_COLLISIONDETECTIONMESSORII_COLDET)
+
+ ###############################################################################
+#
+# COLLISIONDETECTIONMESSORII GLUT library
+#
+###############################################################################
+
+ if(BUILD_COLLISIONDETECTIONMESSORII AND BUILD_COLLISIONDETECTIONMESSORII_GLUT)
+        file(GLOB GLUT_HEADERS
+            "${CMAKE_SOURCE_DIR}/include/glut/*.h"
+        )
+
+        ADD_LIBRARY(GLUT STATIC ${GLUT_HEADERS})
+		set_target_properties(GLUT PROPERTIES LINKER_LANGUAGE CXX)
+#       TARGET_LINK_LIBRARIES(glut)
+#       INSTALL(TARGETS glut RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
+        INSTALL(FILES ${GLUT_HEADERS} DESTINATION include/glut/)
+ endif(BUILD_COLLISIONDETECTIONMESSORII AND BUILD_COLLISIONDETECTIONMESSORII_GLUT)
+
+
 ###############################################################################
 #
 # TUTORIAL Visualizer
@@ -154,7 +176,7 @@ if(BUILD_COLLISIONDETECTIONMESSORII_DEMO AND BUILD_COLLISIONDETECTIONMESSORII_DE
 
         SET(DEMO_SOURCES ./main.cpp)
         ADD_EXECUTABLE(Demo ${DEMO_SOURCES})
-        TARGET_LINK_LIBRARIES(Demo tinyxml2 Coldet)
+        TARGET_LINK_LIBRARIES(Demo tinyxml2 Coldet glut)
         INSTALL(TARGETS Demo RUNTIME DESTINATION bin)
         INSTALL(FILES ${DEMO_FILES} DESTINATION bin)
 
