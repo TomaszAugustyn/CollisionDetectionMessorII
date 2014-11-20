@@ -13,10 +13,16 @@
  *  
  */
 
+
 //#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 //#include <conio.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
 //#include <io.h>
 #include "../include/CollisionDetection/types.h"
 #include "../include/CollisionDetection/3dsloader.h"
