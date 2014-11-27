@@ -7,8 +7,10 @@
 #ifndef COLLISIONDETECTIONCOLDET_H_INCLUDED
 #define COLLISIONDETECTIONCOLDET_H_INCLUDED
 
-#include "CollisionDetection.h"
+#include "../include/CollisionDetection/CollisionDetection.h"
 #include "../../3rdParty/tinyXML/tinyxml2.h"
+#include "../include/CollisionDetection/3dsloader.h"
+#include "../include/CollisionDetection/types.h"
 #include <iostream>
 #include <memory>
 
@@ -23,6 +25,9 @@ using namespace coldet;
 /// CollisionDetection implementation
 class CollisionDetectionColdet : public coldet::CollisionDetection {
     public:
+
+		//Loads .3ds object 
+		char Load3DS (obj_type_ptr p_object, const char *p_filename);
 
         /// Pointer
         typedef std::unique_ptr<CollisionDetectionColdet> Ptr;

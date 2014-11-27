@@ -1,20 +1,20 @@
 // Main.cpp : Defines the entry point for the console application.
-//
+
 #include "../Defs/defs.h"
 #include <iostream>
 
 
 //#include <windows.h>
 
-//#include <GL/gl.h>
-//#include <GL/GLU.h>
 #include <GL/glut.h>
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/CollisionDetection/3dsloader.h"
 #include "../include/CollisionDetection/types.h"
-#include "../include/glut/glut.h"
+#include "../include/CollisionDetection/CollisionDetectionColdet.h"
+#include "../include/CollisionDetection/CollisionDetection.h"
+
 
 //using namespace std;
 /**********************************************************
@@ -27,21 +27,26 @@
 int screen_width=640;
 int screen_height=480;
 
+
 // Absolute rotation values (0-359 degrees) and rotation increments for each frame
-double rotation_x=0, rotation_x_increment=0.1;
-double rotation_y=0, rotation_y_increment=0.05;
-double rotation_z=0, rotation_z_increment=0.03;
+//double rotation_x=0, rotation_x_increment=0.1;
+//double rotation_y=0, rotation_y_increment=0.05;
+//double rotation_z=0, rotation_z_increment=0.03;
  
+double rotation_x=0, rotation_x_increment=0.0;
+double rotation_y=0, rotation_y_increment=0.0;
+double rotation_z=0, rotation_z_increment=0.0;
+
 // Flag for rendering as lines or filled polygons
 int filling=1; //0=OFF 1=ON
 
 //Now the object is generic, the cube has annoyed us a little bit, or not?
 obj_type object;
+CollisionDetectionColdet kolizja;
 
 
 
 /**********************************************************
- *
  * SUBROUTINE init()
  *
  * Used to initialize OpenGL and to setup our world
@@ -66,8 +71,8 @@ void init(void)
     
     //glEnable(GL_TEXTURE_2D); // This Enable the Texture mapping
 
-    Load3DS(&object, "C:/Users/dom/Desktop/3ds-nowe2/coxa2.3ds");
-
+	//Load3DS(&object, "C:/Users/dom/Desktop/3ds-Poprawione/corpus.3ds");
+	kolizja.Load3DS(&object, "C:/Users/dom/Desktop/3ds-Poprawione2/corpus.3ds");
 
 }
 
@@ -180,7 +185,8 @@ void display(void)
     glMatrixMode(GL_MODELVIEW); // Modeling transformation
     glLoadIdentity(); // Initialize the model matrix as identity
     
-    glTranslatef(0.0,0.0,-300); // We move the object forward (the model matrix is multiplied by the translation matrix)
+    //glTranslatef(0.0,0.0,-300); // We move the object forward (the model matrix is multiplied by the translation matrix)
+	glTranslatef(0.0,0.0, -50); // We move the object forward (the model matrix is multiplied by the translation matrix)
  
     rotation_x = rotation_x + rotation_x_increment;
     rotation_y = rotation_y + rotation_y_increment;
@@ -238,7 +244,7 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(screen_width,screen_height);
     glutInitWindowPosition(0,0);
-    glutCreateWindow("www.spacesimulator.net - 3d engine tutorials: Tutorial 4");    
+    glutCreateWindow("Model robota Messor II");    
     glutDisplayFunc(display);
     glutIdleFunc(display);
     glutReshapeFunc (resize);

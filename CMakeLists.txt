@@ -48,8 +48,8 @@ mark_as_advanced(BUILD_COLLISIONDETECTIONMESSORII_DEMO_BASIC)
 # link_directories(${PCL_LIBRARY_DIRS})
 # add_definitions(${PCL_DEFINITIONS})
 
-find_package(GLUT)
-find_package(OpenGL)
+# find_package(GLUT)
+# find_package(OpenGL)
 
 #Eigen
 #add_definitions(-Wno-deprecated -DEIGEN_DONT_VECTORIZE -DEIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT)
