@@ -1,27 +1,13 @@
 #include "../include/CollisionDetection/terrain.h"
 #include <stdlib.h>
-#include <gl\glut.h> // glut.h includes gl.h and glu.h
+#include <GL/glut.h> // glut.h includes gl.h and glu.h
 
 CTerrain::CTerrain(void){
 	MAP_X = 85;
-	MAP_Z = 85;
-	terrain = new float **[MAP_X];
-	for (int i=0;i<MAP_X;i++){
-		terrain[i] = new float* [MAP_Z];
-		for (int j=0;j<MAP_X;j++){
-			terrain[i][j] = new float [3];
-		}
-	}
+    MAP_Z = 85;
 }
 
 CTerrain::~CTerrain(void){
-	for (int i=0;i<MAP_X;i++){
-		for (int j=0;j<MAP_X;j++){
-			delete [] terrain[i][j];
-		}
-		delete [] terrain[i];
-	}
-	delete [] terrain;
 }
 
 // desc: initializes the heightfield terrain data

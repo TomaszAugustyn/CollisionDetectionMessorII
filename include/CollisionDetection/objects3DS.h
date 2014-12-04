@@ -4,7 +4,7 @@
 //#include <gl\gl.h>
 //#include <gl\glu.h>
 #include <stdlib.h>
-#include <gl\glut.h>
+#include <GL/glut.h>
 
 //#include <gl\glaux.h>
 #include "types.h"

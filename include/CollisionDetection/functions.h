@@ -63,9 +63,9 @@ void colorMap(unsigned char *rgb,float value,float min,float max);
 void cyclicColorMap(unsigned char *rgb,float value,float min,float max);
 void randColorMap(unsigned char *rgb,float value,float min,float max);
 void grayColorMap(unsigned char *rgb,float value,float min,float max);
-/// Funkcja normalizuj¹ca wektor podany jako zbiór trzech wspó³rzêdnych 
+/// Funkcja normalizuj¹ca wektor podany jako zbiór trzech wspó³rzêdnych
 void ReduceToUnit(float vector[3]);
-/// Punkty p1, p2 i p3 zdefiniowane w odwrotnym do wskazówek zegara porzadku 
+/// Punkty p1, p2 i p3 zdefiniowane w odwrotnym do wskazówek zegara porzadku
 void calcNormal(float** v, float* out);
 /// startuje timer do pomiaru czasu wykonania polecenia
 void startTimeMeasure(void);

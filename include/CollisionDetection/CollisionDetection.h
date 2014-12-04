@@ -14,7 +14,7 @@
 #include "../include/CollisionDetection/coldet.h"
 #include "../include/CollisionDetection/objects3DS.h"
 #include "../include/CollisionDetection/CQuaternion.h"
-#include "../include/CollisionDetection/Punctum.h"
+#include "../include/CollisionDetection/punctum.h"
 #include <GL/glut.h>
 //#include <mutex>
 

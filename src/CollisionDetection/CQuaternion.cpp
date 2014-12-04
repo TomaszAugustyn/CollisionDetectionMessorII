@@ -1,6 +1,8 @@
 #include "../include/CollisionDetection/CQuaternion.h"
 #include "../include/CollisionDetection/functions.h"
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
 
 CQuaternion::CQuaternion()
 {
@@ -75,7 +77,7 @@ void CQuaternion::multQuat(CQuaternion q)
 	float vectorq2[3] = {q.x, q.y, q.z};
 
     float tempvec1[3], tempvec2[3], tempvec3[3];
-	memcpy(tempvec1, vectorq1, sizeof(tempvec1));
+    memcpy(tempvec1, vectorq1, sizeof(tempvec1));
     q3.w = (w*q.w) - (tempvec1[0]*vectorq2[0]+tempvec1[1]*vectorq2[1]+tempvec1[2]*vectorq2[2]);
 	tempvec1[0] = tempvec1[1] * vectorq2[2] - tempvec1[2] * vectorq2[1];
 	tempvec1[1] = tempvec1[2] * vectorq2[0] - tempvec1[0] * vectorq2[2];
