@@ -1,19 +1,18 @@
-//#pragma once
-
 #ifndef DEFS_H_INCLUDED
 #define DEFS_H_INCLUDED
 
 #include <cstdint>
 #include <vector>
+#include "../include/CollisionDetection/vector.h"
 #include <memory>
 #include <cmath>
 #include "../../3rdParty/Eigen/Core"
 #include "../../3rdParty/Eigen/Geometry"
 
-/// putslam name space
+/// coldet name space
 namespace coldet {
 
-	/// putslam default floating point
+	/// coldet default floating point
 	typedef double float_type;
 
 	/// 3 element vector class
