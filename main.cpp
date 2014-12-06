@@ -29,30 +29,16 @@ int screen_height=480;
 double rotation_x=0, rotation_x_increment=0.0;
 double rotation_y=0, rotation_y_increment=0.0;
 double rotation_z=0, rotation_z_increment=0.0;
-
+double translation_x=0;
+double translation_y=0;
+double translation_z=0;
 // Flag for rendering as lines or filled polygons
 int filling=1; //0=OFF 1=ON
 
 //Now the object is generic, the cube has annoyed us a little bit, or not?
-//obj_type object;
-CollisionDetection* robot_structure;
-/*coldet::float_type *pos;
-pos[1]=0.0;
-pos[2]=0.0;
-pos[3]=0.0;
-coldet::float_type *rot;
-rot[0]=1.0;
-rot[4]=0.0;
-rot[8]=0.0;
-rot[1]=0.0;
-rot[5]=1.0;
-rot[9]=0.0;
-rot[2]=0.0;
-rot[6]=0.0;
-rot[10]=1.0;
-std::vector<coldet::float_type> config;
-config={1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};*/
 
+CollisionDetection* robot_structure;
+obj_type object;
 
 
 /**********************************************************
@@ -172,6 +158,19 @@ void keyboard_s (int key, int x, int y)
         case GLUT_KEY_RIGHT:
             rotation_y_increment = rotation_y_increment -0.005;
         break;
+		case GLUT_KEY_PAGE_UP:
+			translation_x = translation_x + 2;
+		break;
+		case GLUT_KEY_PAGE_DOWN:
+			translation_x = translation_x - 2;
+		break;
+		case GLUT_KEY_END:
+			translation_y = translation_y + 2;
+		break;
+		case GLUT_KEY_HOME:
+			translation_y = translation_y - 2;
+		break;
+
     }
 }
 
@@ -192,8 +191,9 @@ void display(void)
     glLoadIdentity(); // Initialize the model matrix as identity
     
     //glTranslatef(0.0,0.0,-300); // We move the object forward (the model matrix is multiplied by the translation matrix)
-	glTranslatef(0.0,0.0, -50); // We move the object forward (the model matrix is multiplied by the translation matrix)
- 
+	//glTranslatef(0.0,0.0, -50); // We move the object forward (the model matrix is multiplied by the translation matrix)
+	glTranslatef(0,0,-20.0); // We move the object forward (the model matrix is multiplied by the translation matrix)
+
     rotation_x = rotation_x + rotation_x_increment;
     rotation_y = rotation_y + rotation_y_increment;
     rotation_z = rotation_z + rotation_z_increment;
@@ -205,9 +205,15 @@ void display(void)
     glRotatef(rotation_x,1.0,0.0,0.0); // Rotations of the object (the model matrix is multiplied by the rotation matrices)
     glRotatef(rotation_y,0.0,1.0,0.0);
     glRotatef(rotation_z,0.0,0.0,1.0);
-    
-	robot_structure->initStructures();
+	glTranslatef(translation_x, 0.0, 0.0);
+    glTranslatef(0.0, translation_y, 0.0);
+	glTranslatef(0.0, 0.0, translation_z);
 
+	coldet::float_type pos[3]={0,0,0};
+	coldet::float_type rot[11]={1,0,0,0,0,1,0,0,0,0,1};
+	std::vector<coldet::float_type> config(18,1);
+	robot_structure->GLDrawRobot(pos, rot, config);
+	//glutWireTeapot(10);
 
     /*glBegin(GL_TRIANGLES); // glBegin and glEnd delimit the vertices that define a primitive (in our case triangles)
     for (l_index=0;l_index<object.polygons_qty;l_index++)
@@ -247,14 +253,15 @@ void display(void)
 
 int main(int argc, char **argv)
 {
-	robot_structure = createCollisionDetectionColdet();
-	//robot_structure->GLDrawRobot(pos, rot, config);
+	//robot_structure = createCollisionDetectionColdet();
+	
     // We use the GLUT utility to initialize the window, to handle the input and to interact with the windows system
     glutInit(&argc, argv);    
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(screen_width,screen_height);
-    glutInitWindowPosition(0,0);
+    glutInitWindowPosition(400,200);
     glutCreateWindow("Model robota Messor II");    
+	robot_structure = createCollisionDetectionColdet();
     glutDisplayFunc(display);
     glutIdleFunc(display);
     glutReshapeFunc (resize);

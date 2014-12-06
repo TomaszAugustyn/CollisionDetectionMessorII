@@ -13,7 +13,6 @@
  *  
  */
 
-
 //#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,15 +21,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 //#include <io.h>
 #include "../include/CollisionDetection/types.h"
 #include "../include/CollisionDetection/3dsloader.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 //#include <unistd.h>
-
-
 
 /**********************************************************
  *

@@ -18,11 +18,24 @@ CollisionDetectionColdet::CollisionDetectionColdet(void) : CollisionDetection("M
 //	angles[i]=0;
 //	angles[0]=45*3.14/180;
 //	angles[1]=-45*3.14/180;
-	robot_model.ObjLoad("resources/Messor_II_model/corpus.3ds");
-	robot_model.ObjLoad("resources/Messor_II_model/coxa.3ds");
-	robot_model.ObjLoad("resources/Messor_II_model/femur.3ds");
-	robot_model.ObjLoad("resources/Messor_II_model/vitulus.3ds");
-	
+	char a,b,c,d,e;
+//	a=robot_model.ObjLoad("resources/Messor_II_Model/corpus.3ds");
+//	b=robot_model.ObjLoad("resources/Messor_II_Model/coxa.3ds");
+//	c=robot_model.ObjLoad("resources/Messor_II_Model/femur.3ds");
+//	d=robot_model.ObjLoad("resources/Messor_II_Model/vitulus.3ds");
+//	a=robot_model.ObjLoad("../CollisionDetection_VS2012/Messor_II_Model/corpus.3ds");
+//	b=robot_model.ObjLoad("../CollisionDetection_VS2012/Messor_II_Model/coxa.3ds");
+//	c=robot_model.ObjLoad("../CollisionDetection_VS2012/Messor_II_Model/femur.3ds");
+//	d=robot_model.ObjLoad("../CollisionDetection_VS2012/Messor_II_Model/vitulus.3ds");
+//	e=robot_model.ObjLoad("../../../../../CollisionDetectionMessorII/resources/Messor_II_Model/vitulus.3ds");
+
+
+	a=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
+	b=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/coxa.3ds");
+	c=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/femur.3ds");
+	d=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/vitulus.3ds");
+	//robot_model.Object3DS(4, 1.0);
+
 	for (int i=0;i<19;i++) {
 		CollisionModel3D* tmp = newCollisionModel3D();
 		meshModel.push_back(tmp);
@@ -31,6 +44,11 @@ CollisionDetectionColdet::CollisionDetectionColdet(void) : CollisionDetection("M
 	CollisionModels();	// Init Collision Models
 //	robot_model.TerrainCollisionModels();	// Init Collision Models
 	initStructures();
+	for (int j=0;j<4;j++){
+		cout<<robot_model.object[j].vertices_qty<<"\n";
+	}
+	cout<<"\n"<<int(a)<<int(b)<<int(c)<<int(d);
+//	cout<<int(c)<<int(d)<<int(e);
 }
 
 CollisionDetectionColdet::~CollisionDetectionColdet(void)
@@ -277,6 +295,7 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3) const 
 	glRotatef(Qn_1,0,0,1);
 	glPushMatrix();
 		glCallList(GL_COXA);
+//		glFlush();
 		glTranslatef(-2.14*0.254,0,0.49*0.254);
 		glRotatef(90,1,0,0);
 		glRotatef(180,0,1,0);
@@ -290,12 +309,14 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3) const 
 	glRotatef(Qn_2,0,0,1);		
 	glPushMatrix();
 		glCallList(GL_FEMUR);
+//		glFlush();
 		glTranslatef(0,0,-1.91*0.254);
 		glTranslatef(-6.28*0.254,0,0.22*0.254);
 		glRotatef(0.0,0,0,1);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			glCallList(GL_VITULUS);
+//			glFlush();
 			glTranslatef(0,0,1.57*0.254);
 			glTranslatef(-7.90*0.254,-0.03*0.254,-0.81*0.254);
 			glRotatef(90,0,1,0);
@@ -478,7 +499,6 @@ void CollisionDetectionColdet::DrawRobot(coldet::float_type* pos, coldet::float_
 	
 		
 //===============NOGA_3=================================
-
 	CPunctum m_noga;
 	m_noga = m4*tmp.makeTransformMatrix("x", -2.56*0.254)*tmp.makeTransformMatrix("y", -6.06*0.254)*tmp.makeTransformMatrix("z", 3.33*0.254);
 	Leg3(-angles[6]*180/3.14,-angles[7]*180/3.14,-angles[8]*180/3.14,&m_noga); 
@@ -524,6 +544,7 @@ void CollisionDetectionColdet::GLDrawRobot(coldet::float_type *pos, coldet::floa
 		glPushMatrix();
 			glTranslatef(-2.56*0.254,-6.06*0.254,3.33*0.254);
 			GLLeg3(-config[6]*180/3.14,-config[7]*180/3.14,-config[8]*180/3.14); 
+//			glFlush();
 		glPopMatrix();
 
 //===============LEG_4=================================
