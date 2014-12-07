@@ -18,8 +18,10 @@
  *********************************************************/
 
 // The width and height of your window, change them as you like
-int screen_width=640;
-int screen_height=480;
+//int screen_width=640;
+//int screen_height=480;
+int screen_width=1024;
+int screen_height=640;
 
 // Absolute rotation values (0-359 degrees) and rotation increments for each frame
 //double rotation_x=0, rotation_x_increment=0.1;
@@ -33,7 +35,7 @@ double translation_x=0;
 double translation_y=0;
 double translation_z=0;
 // Flag for rendering as lines or filled polygons
-int filling=1; //0=OFF 1=ON
+int filling=0; //0=OFF 1=ON
 
 //Now the object is generic, the cube has annoyed us a little bit, or not?
 
@@ -62,7 +64,10 @@ void init(void)
     gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,10.0f,10000.0f); // We define the "viewing volume"
    
     glEnable(GL_DEPTH_TEST); // We enable the depth test (also called z buffer)
-    glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // Polygon rasterization mode (polygon filled)
+    glPolygonMode (GL_FRONT_AND_BACK, GL_LINE); // GL_FILL-> Polygon rasterization mode (polygon filled),  GL_LINE-> (not filled) filling=0;
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_DITHER);
     
     //glEnable(GL_TEXTURE_2D); // This Enable the Texture mapping
 
@@ -128,6 +133,25 @@ void keyboard (unsigned char key, int x, int y)
                 filling=0;
             }
         break;
+		case '.':
+			translation_z = translation_z + 0.5;
+		break;
+		case ',':
+			translation_z = translation_z - 0.5;
+		break;
+		case ';':
+			translation_x = translation_x + 0.5;
+		break;
+		case 'k': case 'K':
+			translation_x = translation_x - 0.5;
+		break;
+		case 'o': case 'O':
+			translation_y = translation_y + 0.5;
+		break;
+		case 'l': case 'L':
+			translation_y = translation_y - 0.5;
+		break;
+
     }
 }
 
@@ -142,35 +166,21 @@ void keyboard (unsigned char key, int x, int y)
  *********************************************************/
 
 void keyboard_s (int key, int x, int y)
-{
-        
+{  
     switch (key)
     {
         case GLUT_KEY_UP:
-            rotation_x_increment = rotation_x_increment +0.005;
+            rotation_x = rotation_x  +1;
         break;
         case GLUT_KEY_DOWN:
-            rotation_x_increment = rotation_x_increment -0.005;
+            rotation_x = rotation_x -1;
         break;
         case GLUT_KEY_LEFT:
-            rotation_y_increment = rotation_y_increment +0.005;
+            rotation_y  = rotation_y +1;
         break;
         case GLUT_KEY_RIGHT:
-            rotation_y_increment = rotation_y_increment -0.005;
+            rotation_y = rotation_y -1;
         break;
-		case GLUT_KEY_PAGE_UP:
-			translation_x = translation_x + 2;
-		break;
-		case GLUT_KEY_PAGE_DOWN:
-			translation_x = translation_x - 2;
-		break;
-		case GLUT_KEY_END:
-			translation_y = translation_y + 2;
-		break;
-		case GLUT_KEY_HOME:
-			translation_y = translation_y - 2;
-		break;
-
     }
 }
 
@@ -192,11 +202,7 @@ void display(void)
     
     //glTranslatef(0.0,0.0,-300); // We move the object forward (the model matrix is multiplied by the translation matrix)
 	//glTranslatef(0.0,0.0, -50); // We move the object forward (the model matrix is multiplied by the translation matrix)
-	glTranslatef(0,0,-20.0); // We move the object forward (the model matrix is multiplied by the translation matrix)
-
-    rotation_x = rotation_x + rotation_x_increment;
-    rotation_y = rotation_y + rotation_y_increment;
-    rotation_z = rotation_z + rotation_z_increment;
+	glTranslatef(0,0,-18.0); // We move the object forward (the model matrix is multiplied by the translation matrix)
 
     if (rotation_x > 359) rotation_x = 0;
     if (rotation_y > 359) rotation_y = 0;
@@ -211,7 +217,7 @@ void display(void)
 
 	coldet::float_type pos[3]={0,0,0};
 	coldet::float_type rot[11]={1,0,0,0,0,1,0,0,0,0,1};
-	std::vector<coldet::float_type> config(18,1);
+	std::vector<coldet::float_type> config(18,0);
 	robot_structure->GLDrawRobot(pos, rot, config);
 	//glutWireTeapot(10);
 
@@ -256,7 +262,7 @@ int main(int argc, char **argv)
 	//robot_structure = createCollisionDetectionColdet();
 	
     // We use the GLUT utility to initialize the window, to handle the input and to interact with the windows system
-    glutInit(&argc, argv);    
+    glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(screen_width,screen_height);
     glutInitWindowPosition(400,200);

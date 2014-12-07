@@ -15,7 +15,7 @@ void CObjects3DS::Object3DS(int obj_qty, float scale)
 	float ** vert = new float*[3];
 	for(int i = 0; i < 3; i++)
 		vert[i] = new float[3];
-	glColor3f(0.5,0.5,0.5);	
+//	glColor3f(0.5,0.5,0.5);	
 	glBegin(GL_TRIANGLES); // glBegin and glEnd delimit the vertices that define a primitive (in our case triangles)
 	for (j=0;j<object[obj_qty].polygons_qty;j++) {
 		//----------------- FIRST VERTEX -----------------
