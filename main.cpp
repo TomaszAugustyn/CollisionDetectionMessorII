@@ -204,9 +204,9 @@ void display(void)
 	//glTranslatef(0.0,0.0, -50); // We move the object forward (the model matrix is multiplied by the translation matrix)
 	glTranslatef(0,0,-18.0); // We move the object forward (the model matrix is multiplied by the translation matrix)
 
-    if (rotation_x > 359) rotation_x = 0;
-    if (rotation_y > 359) rotation_y = 0;
-    if (rotation_z > 359) rotation_z = 0;
+  if (rotation_x > 359) rotation_x = 0;
+  if (rotation_y > 359) rotation_y = 0;
+  if (rotation_z > 359) rotation_z = 0;
 
     glRotatef(rotation_x,1.0,0.0,0.0); // Rotations of the object (the model matrix is multiplied by the rotation matrices)
     glRotatef(rotation_y,0.0,1.0,0.0);
@@ -217,7 +217,7 @@ void display(void)
 
 	coldet::float_type pos[3]={0,0,0};
 	coldet::float_type rot[11]={1,0,0,0,0,1,0,0,0,0,1};
-	std::vector<coldet::float_type> config(18,0);
+	std::vector<coldet::float_type> config(18,1);
 	robot_structure->GLDrawRobot(pos, rot, config);
 	//glutWireTeapot(10);
 
