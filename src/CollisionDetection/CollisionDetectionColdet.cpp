@@ -33,7 +33,7 @@ CollisionDetectionColdet::CollisionDetectionColdet(void) : CollisionDetection("M
 	a=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
 	b=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/coxa.3ds");
 	c=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/femur.3ds");
-	//d=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/vitulus.3ds");
+	d=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/vitulus.3ds");
 
 	for (int i=0;i<19;i++) {
 		CollisionModel3D* tmp = newCollisionModel3D();
@@ -109,7 +109,8 @@ void CollisionDetectionColdet::structCoxa(void)
 {
 	glNewList(GL_COXA, GL_COMPILE);
 //	glColor3f(0.5,0.5,0.5);
-	glColor3f(0.97, 0.85, 0.47);
+//	glColor3f(0.97, 0.85, 0.47);
+	glColor3f(0.957, 0.98, 0.263);
 	robot_model.Object3DS(1);
 	glEndList();
 }
@@ -125,7 +126,7 @@ void CollisionDetectionColdet::structFemur(void)
 void CollisionDetectionColdet::structVitulus(void)
 {
 	glNewList(GL_VITULUS, GL_COMPILE);
-	glColor3f(0.6,0.6,0.6);
+	glColor3f(0.0,1.0,0.0);
 	robot_model.Object3DS(3);
 	glEndList();
 }
@@ -297,20 +298,20 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3) const 
 		glTranslatef(7.71*0.254, 18.12*0.254 ,0.720*0.254);
 		glRotatef(Qn_1,0,0,1);
 		glCallList(GL_COXA);
-	glPopMatrix();	
-
-/*	glRotatef(-90,1,0,0);
-	glTranslatef(-2.15*0.254,-0.49*0.254,0.92*0.254);
-	glRotatef(Qn_2,0,0,1);		
+	glPushMatrix();
+	glRotatef(-90,1,0,0);
+	glTranslatef(4.865*0.254, 1.18*0.254, 0.075*0.254);
+	glRotatef(Qn_2,0,0,1);	
 	glPushMatrix();
 		glCallList(GL_FEMUR);
-		glTranslatef(0,0,-1.91*0.254);
-		glTranslatef(-6.28*0.254,0,0.22*0.254);
+			glTranslatef(12.0*0.254, 0, 0.0*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			glCallList(GL_VITULUS);
 		glPopMatrix();
-	glPopMatrix();*/
+	glPopMatrix();
+	glPopMatrix();
+	glPopMatrix();
 
 }
 
@@ -321,20 +322,26 @@ void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3) const 
 		glRotatef(180,0,0,1);
 		glRotatef(Qn_1,0,0,1);
 		glCallList(GL_COXA);
-	glPopMatrix();
-	
-/*	glRotatef(-90,1,0,0);
-	glTranslatef(-2.15*0.254,-0.49*0.254,0.92*0.254);
-	glRotatef(Qn_2,0,0,1);
+	glPushMatrix();
+	glRotatef(-90,1,0,0);
+	glTranslatef(4.865*0.254, 1.18*0.254, 0.075*0.254);
+	glRotatef(Qn_2,0,0,1);	
 	glPushMatrix();
 		glCallList(GL_FEMUR);
-		glTranslatef(0,0,-1.91*0.254);
+/*		glTranslatef(0,0,-1.91*0.254);
 		glTranslatef(-6.28*0.254,0,0.22*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			glCallList(GL_VITULUS);
+		glPopMatrix(); */
+		glTranslatef(12.0*0.254, 0, 0.0*0.254);
+		glRotatef(Qn_3,0,0,1);
+		glPushMatrix();
+			glCallList(GL_VITULUS);
 		glPopMatrix();
-	glPopMatrix(); */
+	glPopMatrix(); 
+	glPopMatrix(); 
+	glPopMatrix(); 
 }
 
 void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3) const {
@@ -343,20 +350,21 @@ void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3) const 
 		glTranslatef(15.400*0.254, 0.0 ,0.720*0.254);
 		glRotatef(Qn_1,0,0,1);
 		glCallList(GL_COXA);
-	glPopMatrix();
-
-	/*glRotatef(-90,1,0,0);
-	glTranslatef(-2.15*0.254,-0.49*0.254,0.92*0.254);
+	glPushMatrix();
+	glRotatef(-90,1,0,0);
+	glTranslatef(4.865*0.254, 1.18*0.254, 0.075*0.254);
 	glRotatef(Qn_2,0,0,1);
 	glPushMatrix();
 		glCallList(GL_FEMUR);
-		glTranslatef(0,0,-1.91*0.254);
-		glTranslatef(-6.28*0.254,0,0.22*0.254);
+
+		glTranslatef(12.0*0.254, 0, 0.0*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			glCallList(GL_VITULUS);
 		glPopMatrix();
-	glPopMatrix(); */
+	glPopMatrix(); 
+	glPopMatrix(); 
+	glPopMatrix(); 
 }
 
 void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3) const {
@@ -366,20 +374,26 @@ void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3) const 
 		glRotatef(180,0,0,1);
 		glRotatef(Qn_1,0,0,1);
 		glCallList(GL_COXA);
-	glPopMatrix();
-	
-/*	glRotatef(-90,1,0,0);
-	glTranslatef(-2.15*0.254,-0.49*0.254,0.92*0.254);
+	glPushMatrix();
+	glRotatef(-90,1,0,0);
+	glTranslatef(4.865*0.254, 1.18*0.254, 0.075*0.254);
 	glRotatef(Qn_2,0,0,1);
 	glPushMatrix();
 		glCallList(GL_FEMUR);
-		glTranslatef(0,0,-1.91*0.254);
+/*		glTranslatef(0,0,-1.91*0.254);
 		glTranslatef(-6.28*0.254,0,0.22*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			glCallList(GL_VITULUS);
+		glPopMatrix(); */
+			glTranslatef(12.0*0.254, 0, 0.0*0.254);
+		glRotatef(Qn_3,0,0,1);
+		glPushMatrix();
+			glCallList(GL_VITULUS);
 		glPopMatrix();
-	glPopMatrix(); */
+	glPopMatrix();
+	glPopMatrix();
+	glPopMatrix();
 }
 
 void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3) const {
@@ -388,21 +402,19 @@ void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3) const 
 		glTranslatef(7.71*0.254,-18.12*0.254, 0.720*0.254);
 		glRotatef(Qn_1,0,0,1);
 		glCallList(GL_COXA);
-//	glPopMatrix();
 	glPushMatrix();
 	glRotatef(-90,1,0,0);
 	glTranslatef(4.865*0.254, 1.18*0.254, 0.075*0.254);
 	glRotatef(Qn_2,0,0,1);
-
-
 	glPushMatrix();
 		glCallList(GL_FEMUR);
-/*		glTranslatef(0,0,-1.91*0.254);					
-		glTranslatef(-6.28*0.254,0,0.22*0.254);
+				
+		glTranslatef(12.0*0.254, 0, 0.0*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			glCallList(GL_VITULUS);
-		glPopMatrix(); */
+		glPopMatrix();
+
 	glPopMatrix();  
 	glPopMatrix();
 	glPopMatrix();
@@ -415,20 +427,26 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3) const 
 		glRotatef(180,0,0,1);
 		glRotatef(Qn_1,0,0,1);
 		glCallList(GL_COXA);
-	glPopMatrix();
-
-/*	glRotatef(-90,1,0,0);
-	glTranslatef(-2.15*0.254,-0.49*0.254,0.92*0.254);
+	glPushMatrix();
+	glRotatef(-90,1,0,0);
+	glTranslatef(4.865*0.254, 1.18*0.254, 0.075*0.254);
 	glRotatef(Qn_2,0,0,1);
 	glPushMatrix();
 		glCallList(GL_FEMUR);
-		glTranslatef(0,0,-1.91*0.254);
+/*		glTranslatef(0,0,-1.91*0.254);
 		glTranslatef(-6.28*0.254,0,0.22*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			glCallList(GL_VITULUS);
+		glPopMatrix(); */
+			glTranslatef(12.0*0.254, 0, 0.0*0.254);
+		glRotatef(Qn_3,0,0,1);
+		glPushMatrix();
+			glCallList(GL_VITULUS);
 		glPopMatrix();
-	glPopMatrix();*/
+	glPopMatrix();
+	glPopMatrix();
+	glPopMatrix();
 }
 
 void CollisionDetectionColdet::DrawRobot(coldet::float_type* pos, coldet::float_type* rot, coldet::float_type * angles) const
@@ -483,7 +501,7 @@ void CollisionDetectionColdet::GLDrawRobot(coldet::float_type *pos, coldet::floa
 //			glCallList(GL_PLATFORM_TOP);
 		glPopMatrix();
 					
-/*//===============LEG_3=================================
+//===============LEG_3=================================
 		glPushMatrix();
 			glTranslatef(-2.56*0.254,-6.06*0.254,3.33*0.254);
 			GLLeg3(-config[6]*180/3.14,-config[7]*180/3.14,-config[8]*180/3.14); 
@@ -505,7 +523,7 @@ void CollisionDetectionColdet::GLDrawRobot(coldet::float_type *pos, coldet::floa
 		glPushMatrix();
 			glTranslatef(5.1*0.254,0,3.33*0.254);
 			GLLeg5(config[12]*180/3.14,-config[13]*180/3.14,-config[14]*180/3.14);	
-		glPopMatrix(); */
+		glPopMatrix();
 
 //===============LEG_1=================================
 		glPushMatrix();
@@ -513,12 +531,12 @@ void CollisionDetectionColdet::GLDrawRobot(coldet::float_type *pos, coldet::floa
 			GLLeg1(-config[0]*180/3.14,-config[1]*180/3.14,-config[2]*180/3.14);	
 		glPopMatrix();
 
-/*//===============LEG_6=================================
+//===============LEG_6=================================
 		glPushMatrix();
 			glTranslatef(2.56*0.254,6.06*0.254,3.33*0.254);
 //			glRotatef(180,0,0,1);
 			GLLeg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14);	
-		glPopMatrix(); */
+		glPopMatrix();
 
 	glPopMatrix(); 
 
