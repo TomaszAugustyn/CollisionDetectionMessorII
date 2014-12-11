@@ -56,7 +56,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 			//pose = Quaternion (query[0], query[1], query[2], query[3])*Vec3(queryPos[0], queryPos[1], queryPos[2]);
         }
 
-        /// Name of the grabber
+        /// Name of the CollisionDetectionColdet
         const std::string& getName() const;
 
 		/// Destructor
@@ -66,7 +66,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void GLDrawRobot(coldet::float_type *pos, coldet::float_type * rot, std::vector<coldet::float_type> config) const;
 
 		/// Check collisions
-		bool checkCollision(coldet::float_type* pos, coldet::float_type* rot, coldet::float_type * angles, bool * collision_table) const;
+		bool checkCollision(coldet::float_type* pos, coldet::float_type* rot, std::vector<coldet::float_type> config, bool * collision_table) const;
 
        
     private:
@@ -95,7 +95,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void GLLeg5(float Qn_1, float Qn_2, float Qn_3) const;
 		void GLLeg6(float Qn_1, float Qn_2, float Qn_3) const;
 		void copyTable(CPunctum * src, float * dest) const;
-		void DrawRobot(coldet::float_type* pos, coldet::float_type* rot, coldet::float_type * angles) const;
+		void DrawRobot(coldet::float_type* pos, coldet::float_type* rot, std::vector<coldet::float_type> config) const;
 
 		std::vector<CollisionModel3D*> meshModel;
 		//zadane katy dla serwomechanizmow

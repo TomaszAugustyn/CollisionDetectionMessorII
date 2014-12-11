@@ -134,7 +134,7 @@ double computeTriangleArea(const float* a, const float* b, const float* c){
     return fabs(0.5*(a[0]*b[1]+b[0]*c[1]+c[0]*a[1]-c[0]*b[1]-a[0]*c[1]-b[0]*a[1]));
 }
 
-//sprawdza czy punkt lezy wewn¹trz wielokata
+//sprawdza czy punkt lezy wewnatrz wielokata
 bool polygonIncludePoint(const vector< vector<float> >& vertices,float *com2d, int vert_no){
     if (vert_no!=0){
         double S_triangle = computePolygonArea(vertices,vert_no);
@@ -330,28 +330,28 @@ void grayColorMap(unsigned char *rgb,float value,float min,float max)
 }
 
 
-// Funkcja normalizuj¹ca wektor podany jako zbiór trzech wspó³rzêdnych
+// Funkcja normalizujaca wektor podany jako zbior trzech wspolrzednych
 void ReduceToUnit(float vector[3])
  {
  float length;
 
-  // Oblicz d³ugoœæ wektora
+  // Oblicz dlugosc wektora
   length = (float)sqrt(  (vector[0]*vector[0]) +
      (vector[1]*vector[1]) +
      (vector[2]*vector[2]));
 
-  // Zabezpieczenie przed podzia³em przez 0
+  // Zabezpieczenie przed podzialem przez 0
   if(length == 0.0f)
   length = 1.0f;
 
-  // Podziel ka¿d¹ ze wspó³rzêdnych przez d³ugoœæ wektora
+  // Podziel kazda ze wspolrzednych przez dlugosc wektora
   vector[0] /= length;
   vector[1] /= length;
   vector[2] /= length;
  }
 
-// Punkty p1, p2 i p3 zdefiniowane w odwrotnym do wskazówek zegara
-// porz¹dku
+// Punkty p1, p2 i p3 zdefiniowane w odwrotnym do wskazowek zegara
+// porzadku
 void calcNormal(float **v, float *out)
  {
  float v1[3],v2[3];
@@ -359,7 +359,7 @@ void calcNormal(float **v, float *out)
   static const int y = 1;
   static const int z = 2;
 
-  // Oblicz 2 wektory na podstawie trzech punktów
+  // Oblicz 2 wektory na podstawie trzech punktow
   v1[x] = v[0][x] - v[1][x];
   v1[y] = v[0][y] - v[1][y];
   v1[z] = v[0][z] - v[1][z];
@@ -368,7 +368,7 @@ void calcNormal(float **v, float *out)
   v2[y] = v[1][y] - v[2][y];
   v2[z] = v[1][z] - v[2][z];
 
-  // Oblicz wspó³rzêdne wektora normalnego na podstawie
+  // Oblicz wspolrzedne wektora normalnego na podstawie
   // iloczynu wektorowego
   out[x] = v1[y]*v2[z] - v1[z]*v2[y];
   out[y] = v1[z]*v2[x] - v1[x]*v2[z];

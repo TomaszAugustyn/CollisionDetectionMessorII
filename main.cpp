@@ -18,8 +18,6 @@
  *********************************************************/
 
 // The width and height of your window, change them as you like
-//int screen_width=640;
-//int screen_height=480;
 int screen_width=1024;
 int screen_height=640;
 
@@ -38,10 +36,10 @@ double translation_z=0;
 int filling=0; //0=OFF 1=ON
 
 //Now the object is generic, the cube has annoyed us a little bit, or not?
-
 CollisionDetection* robot_structure;
+bool czy_jest_kolizja;
+bool* collision_table= new bool[44];
 obj_type object;
-
 
 /**********************************************************
  * SUBROUTINE init()
@@ -70,12 +68,8 @@ void init(void)
 	glEnable(GL_DITHER);
     
     //glEnable(GL_TEXTURE_2D); // This Enable the Texture mapping
-
 	//Load3DS(&object, "C:/Users/dom/Desktop/3ds-Poprawione2/corpus.3ds");
-
 }
-
-
 
 /**********************************************************
  *
@@ -100,8 +94,6 @@ void resize (int width, int height)
     glutPostRedisplay (); // This command redraw the scene (it calls the same routine of glutDisplayFunc)
 }
 
-
-
 /**********************************************************
  *
  * SUBROUTINE keyboard(unsigned char,int,int)
@@ -111,11 +103,9 @@ void resize (int width, int height)
  *********************************************************/
 
 void keyboard (unsigned char key, int x, int y)
-{
-        
+{    
     switch (key)
     {
-  
         case ' ':
             rotation_x_increment=0;
             rotation_y_increment=0;
@@ -151,11 +141,8 @@ void keyboard (unsigned char key, int x, int y)
 		case 'l': case 'L':
 			translation_y = translation_y - 0.5;
 		break;
-
     }
 }
-
-
 
 /**********************************************************
  *
@@ -201,12 +188,11 @@ void display(void)
     glLoadIdentity(); // Initialize the model matrix as identity
     
     //glTranslatef(0.0,0.0,-300); // We move the object forward (the model matrix is multiplied by the translation matrix)
-	//glTranslatef(0.0,0.0, -50); // We move the object forward (the model matrix is multiplied by the translation matrix)
 	glTranslatef(0,0,-18.0); // We move the object forward (the model matrix is multiplied by the translation matrix)
 
-  if (rotation_x > 359) rotation_x = 0;
-  if (rotation_y > 359) rotation_y = 0;
-  if (rotation_z > 359) rotation_z = 0;
+ // if (rotation_x > 359) rotation_x = 0;
+ // if (rotation_y > 359) rotation_y = 0;
+ // if (rotation_z > 359) rotation_z = 0;
 
     glRotatef(rotation_x,1.0,0.0,0.0); // Rotations of the object (the model matrix is multiplied by the rotation matrices)
     glRotatef(rotation_y,0.0,1.0,0.0);
@@ -217,8 +203,28 @@ void display(void)
 
 	coldet::float_type pos[3]={0,0,0};
 	coldet::float_type rot[11]={1,0,0,0,0,1,0,0,0,0,1};
-	std::vector<coldet::float_type> config(18,1);
+	std::vector<coldet::float_type> config(18,0.8);
+	coldet::float_type rotation[3]={0,0,0};
+
+	//konfiguracja dla serwonapedow lydek
+	config[2]=2.3;
+	config[5]=2.3;
+	config[8]=2.3;
+	config[11]=2.3;
+	config[14]=2.3;
+	config[17]=2.3;
+
+	//konfiguracja dla serwonapedow ud
+	config[1]=-0.8;
+	config[4]=-0.8;
+	config[7]=-0.8;
+	config[10]=-0.8;
+	config[13]=-0.8;
+	config[16]=-0.8;
+
 	robot_structure->GLDrawRobot(pos, rot, config);
+	czy_jest_kolizja=robot_structure->checkCollision(pos, rotation, config, collision_table);
+//	robot_structure->checkCollision(pos, rotation, config, collision_table);
 	//glutWireTeapot(10);
 
     /*glBegin(GL_TRIANGLES); // glBegin and glEnd delimit the vertices that define a primitive (in our case triangles)
@@ -249,8 +255,6 @@ void display(void)
     glutSwapBuffers(); // In double buffered mode we invert the positions of the visible buffer and the writing buffer
 }
 
-
-
 /**********************************************************
  *
  * The main routine
@@ -268,6 +272,8 @@ int main(int argc, char **argv)
     glutInitWindowPosition(400,200);
     glutCreateWindow("Model robota Messor II");    
 	robot_structure = createCollisionDetectionColdet();
+	std::cout<<czy_jest_kolizja<<"\n"<<collision_table;
+//	std::cout<<"\n"<<collision_table;
     glutDisplayFunc(display);
     glutIdleFunc(display);
     glutReshapeFunc (resize);
@@ -276,9 +282,9 @@ int main(int argc, char **argv)
     init();
     glutMainLoop();
 
+	delete [] collision_table;
     return(0);    
 }
-
 
 /*int main()
 {
@@ -297,4 +303,3 @@ int main(int argc, char **argv)
 	system("pause");
 	return 0;
 }*/
-

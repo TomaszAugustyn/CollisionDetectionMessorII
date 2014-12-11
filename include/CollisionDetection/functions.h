@@ -42,11 +42,11 @@ int findAbsMax(const std::vector<float>& table, float& max_value);
 int findMin(float *table, int size, float * max_value);
 ///znajduje minimum w tablicy float (wartosc bezwzgledna)
 int findAbsMin(float *table, int size, float * max_value);
-//sprawdza czy punkt lezy wewn¹trz trojkata
+//sprawdza czy punkt lezy wewnatrz trojkata
 bool triangleIncludePoint(const float *a,const float *b,const float *c,const float *com2d);
 //obliczenie powierzchni trojkata
 double computeTriangleArea(const float* a, const float* b, const float* c);
-//sprawdza czy punkt lezy wewn¹trz wielokata
+//sprawdza czy punkt lezy wewnatrz wielokata
 bool polygonIncludePoint(const vector< vector<float> >& vertices,float *com2d, int vert_no);
 //obliczenie powierzchni wielokata
 double computePolygonArea(const vector< vector<float> >& vertices, int vert_no);
@@ -63,9 +63,9 @@ void colorMap(unsigned char *rgb,float value,float min,float max);
 void cyclicColorMap(unsigned char *rgb,float value,float min,float max);
 void randColorMap(unsigned char *rgb,float value,float min,float max);
 void grayColorMap(unsigned char *rgb,float value,float min,float max);
-/// Funkcja normalizuj¹ca wektor podany jako zbiór trzech wspó³rzêdnych
+/// Funkcja normalizujaca wektor podany jako zbior trzech wspolrzednych
 void ReduceToUnit(float vector[3]);
-/// Punkty p1, p2 i p3 zdefiniowane w odwrotnym do wskazówek zegara porzadku
+/// Punkty p1, p2 i p3 zdefiniowane w odwrotnym do wskazowek zegara porzadku
 void calcNormal(float** v, float* out);
 /// startuje timer do pomiaru czasu wykonania polecenia
 void startTimeMeasure(void);

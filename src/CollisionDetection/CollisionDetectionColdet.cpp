@@ -109,8 +109,8 @@ void CollisionDetectionColdet::structCoxa(void)
 {
 	glNewList(GL_COXA, GL_COMPILE);
 //	glColor3f(0.5,0.5,0.5);
-//	glColor3f(0.97, 0.85, 0.47);
-	glColor3f(0.957, 0.98, 0.263);
+//	glColor3f(0.957, 0.98, 0.263);
+	glColor3f(1.0, 0.77, 0.02);
 	robot_model.Object3DS(1);
 	glEndList();
 }
@@ -118,7 +118,7 @@ void CollisionDetectionColdet::structCoxa(void)
 void CollisionDetectionColdet::structFemur(void)
 {
 	glNewList(GL_FEMUR, GL_COMPILE);
-	glColor3f(0.0, 0.0, 0.95);
+	glColor3f(0.02, 0.25, 1.0);
 	robot_model.Object3DS(2);
 	glEndList();
 }
@@ -126,7 +126,7 @@ void CollisionDetectionColdet::structFemur(void)
 void CollisionDetectionColdet::structVitulus(void)
 {
 	glNewList(GL_VITULUS, GL_COMPILE);
-	glColor3f(0.0,1.0,0.0);
+	glColor3f(0.0,0.92,0.1);
 	robot_model.Object3DS(3);
 	glEndList();
 }
@@ -148,7 +148,6 @@ void CollisionDetectionColdet::drawCoordinateSystem(void)
         glVertex3f(0, 0, 0.5);
     glEnd();
     glLineWidth(1);
-
 								
     glPointSize(5);
     glBegin(GL_POINTS);
@@ -174,20 +173,20 @@ void CollisionDetectionColdet::copyTable(CPunctum * src, float * dest) const{
 void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
 	float biodro_3[16];
 	CPunctum m_noga1,tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", 7.71*0.254)*tmp.makeTransformMatrix("y", 18.12*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
 	copyTable(&m_noga1,biodro_3);
 	meshModel[15]->setTransform (biodro_3);
 
 	float udo_3[16];
 	glGetFloatv(GL_MODELVIEW_MATRIX, udo_3);
 	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", -2.15*0.254)*tmp.makeTransformMatrix("y", -0.49*0.254)*tmp.makeTransformMatrix("z", 0.92*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
 	copyTable(&m_noga2, udo_3);
 	meshModel[9]->setTransform (udo_3);
 
 	float lydka_3[16];
 	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", -6.28*0.254)*tmp.makeTransformMatrix("z", -1.69*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
 	copyTable(&m_noga3,lydka_3);
 	meshModel[3]->setTransform (lydka_3);
 }
@@ -195,19 +194,19 @@ void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, CPunctum
 void CollisionDetectionColdet::Leg4(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
 	float biodro_4[16];
 	CPunctum m_noga1, tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", -7.71*0.254)*tmp.makeTransformMatrix("y", 18.12*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", 3.14/1)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
 	copyTable(&m_noga1,biodro_4);
 	meshModel[16]->setTransform (biodro_4);
 								
 	float udo_4[16];
 	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", -2.15*0.254)*tmp.makeTransformMatrix("y", -0.49*0.254)*tmp.makeTransformMatrix("z", 0.92*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
 	copyTable(&m_noga2,udo_4);
 	meshModel[10]->setTransform (udo_4);
 
 	float lydka_4[16];
 	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", -6.28*0.254)*tmp.makeTransformMatrix("z", -1.69*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
 	copyTable(&m_noga3,lydka_4);
 	meshModel[4]->setTransform (lydka_4);
 }
@@ -215,19 +214,19 @@ void CollisionDetectionColdet::Leg4(float Qn_1, float Qn_2, float Qn_3, CPunctum
 void CollisionDetectionColdet::Leg2(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
 	float biodro_2[16];
 	CPunctum m_noga1,tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", 15.4*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
 	copyTable(&m_noga1,biodro_2);
 	meshModel[14]->setTransform (biodro_2);
 
 	float udo_2[16];
 	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", -2.15*0.254)*tmp.makeTransformMatrix("y", -0.49*0.254)*tmp.makeTransformMatrix("z", 0.92*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
 	copyTable(&m_noga2,udo_2);
 	meshModel[8]->setTransform (udo_2);
 										
 	float lydka_2[16];
 	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", -6.28*0.254)*tmp.makeTransformMatrix("z", -1.69*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
 	copyTable(&m_noga3,lydka_2);
 	meshModel[2]->setTransform (lydka_2);
 }
@@ -235,19 +234,19 @@ void CollisionDetectionColdet::Leg2(float Qn_1, float Qn_2, float Qn_3, CPunctum
 void CollisionDetectionColdet::Leg5(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
 	float biodro_5[16];
 	CPunctum m_noga1,tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", -15.4*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", 3.14/1)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
 	copyTable(&m_noga1,biodro_5);
 	meshModel[17]->setTransform (biodro_5);
 					
 	float udo_5[16];
 	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", -2.15*0.254)*tmp.makeTransformMatrix("y", -0.49*0.254)*tmp.makeTransformMatrix("z", 0.92*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
 	copyTable(&m_noga2,udo_5);
 	meshModel[11]->setTransform (udo_5);
 										
 	float lydka_5[16];
 	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", -6.28*0.254)*tmp.makeTransformMatrix("z", -1.69*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
 	copyTable(&m_noga3,lydka_5);
 	meshModel[5]->setTransform (lydka_5);
 }
@@ -255,19 +254,19 @@ void CollisionDetectionColdet::Leg5(float Qn_1, float Qn_2, float Qn_3, CPunctum
 void CollisionDetectionColdet::Leg1(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
 	float biodro_1[16];
 	CPunctum m_noga1,tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", 7.71*0.254)*tmp.makeTransformMatrix("y", -18.12*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
 	copyTable(&m_noga1,biodro_1);
 	meshModel[13]->setTransform (biodro_1);
 					
 	float udo_1[16];
 	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", -2.15*0.254)*tmp.makeTransformMatrix("y", -0.49*0.254)*tmp.makeTransformMatrix("z", 0.92*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
 	copyTable(&m_noga2,udo_1);
 	meshModel[7]->setTransform (udo_1);
 										
 	float lydka_1[16];
 	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", -6.28*0.254)*tmp.makeTransformMatrix("z", -1.69*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
 	copyTable(&m_noga3,lydka_1);
 	meshModel[1]->setTransform (lydka_1);
 }
@@ -275,19 +274,19 @@ void CollisionDetectionColdet::Leg1(float Qn_1, float Qn_2, float Qn_3, CPunctum
 void CollisionDetectionColdet::Leg6(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
 	float biodro_6[16];
 	CPunctum m_noga1,tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", -7.71*0.254)*tmp.makeTransformMatrix("y", -18.12*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", 3.14/1)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
 	copyTable(&m_noga1,biodro_6);
 	meshModel[18]->setTransform (biodro_6);
 					
 	float udo_6[16];
 	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", -2.15*0.254)*tmp.makeTransformMatrix("y", -0.49*0.254)*tmp.makeTransformMatrix("z", 0.92*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
 	copyTable(&m_noga2, udo_6);
 	meshModel[12]->setTransform (udo_6);
 										
 	float lydka_6[16];
 	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", -6.28*0.254)*tmp.makeTransformMatrix("z", -1.69*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
 	copyTable(&m_noga3, lydka_6);
 	meshModel[6]->setTransform (lydka_6);
 }
@@ -328,12 +327,6 @@ void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3) const 
 	glRotatef(Qn_2,0,0,1);	
 	glPushMatrix();
 		glCallList(GL_FEMUR);
-/*		glTranslatef(0,0,-1.91*0.254);
-		glTranslatef(-6.28*0.254,0,0.22*0.254);
-		glRotatef(Qn_3,0,0,1);
-		glPushMatrix();
-			glCallList(GL_VITULUS);
-		glPopMatrix(); */
 		glTranslatef(12.0*0.254, 0, 0.0*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
@@ -356,7 +349,6 @@ void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3) const 
 	glRotatef(Qn_2,0,0,1);
 	glPushMatrix();
 		glCallList(GL_FEMUR);
-
 		glTranslatef(12.0*0.254, 0, 0.0*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
@@ -380,12 +372,6 @@ void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3) const 
 	glRotatef(Qn_2,0,0,1);
 	glPushMatrix();
 		glCallList(GL_FEMUR);
-/*		glTranslatef(0,0,-1.91*0.254);
-		glTranslatef(-6.28*0.254,0,0.22*0.254);
-		glRotatef(Qn_3,0,0,1);
-		glPushMatrix();
-			glCallList(GL_VITULUS);
-		glPopMatrix(); */
 			glTranslatef(12.0*0.254, 0, 0.0*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
@@ -433,13 +419,7 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3) const 
 	glRotatef(Qn_2,0,0,1);
 	glPushMatrix();
 		glCallList(GL_FEMUR);
-/*		glTranslatef(0,0,-1.91*0.254);
-		glTranslatef(-6.28*0.254,0,0.22*0.254);
-		glRotatef(Qn_3,0,0,1);
-		glPushMatrix();
-			glCallList(GL_VITULUS);
-		glPopMatrix(); */
-			glTranslatef(12.0*0.254, 0, 0.0*0.254);
+		glTranslatef(12.0*0.254, 0, 0.0*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			glCallList(GL_VITULUS);
@@ -449,7 +429,7 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3) const 
 	glPopMatrix();
 }
 
-void CollisionDetectionColdet::DrawRobot(coldet::float_type* pos, coldet::float_type* rot, coldet::float_type * angles) const
+void CollisionDetectionColdet::DrawRobot(coldet::float_type* pos, coldet::float_type* rot, std::vector<coldet::float_type> config) const
 {
 	CPunctum m4,tmp;
 	m4.setEye();
@@ -461,28 +441,28 @@ void CollisionDetectionColdet::DrawRobot(coldet::float_type* pos, coldet::float_
 		
 //===============NOGA_3=================================
 	CPunctum m_noga;
-	m_noga = m4*tmp.makeTransformMatrix("x", -2.56*0.254)*tmp.makeTransformMatrix("y", -6.06*0.254)*tmp.makeTransformMatrix("z", 3.33*0.254);
-	Leg3(-angles[6]*180/3.14,-angles[7]*180/3.14,-angles[8]*180/3.14,&m_noga); 
+	m_noga = m4*tmp.makeTransformMatrix("x", -2.56*0.254)*tmp.makeTransformMatrix("y", -6.06*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	Leg3(-config[6]*180/3.14,-config[7]*180/3.14,-config[8]*180/3.14, &m_noga); 
 
 //===============NOGA_4=================================
-	m_noga = m4*tmp.makeTransformMatrix("x", 2.56*0.254)*tmp.makeTransformMatrix("y", -6.06*0.254)*tmp.makeTransformMatrix("z", 3.33*0.254)*tmp.makeTransformMatrix("gamma", 3.14);
-	Leg4(angles[9]*180/3.14,-angles[10]*180/3.14,-angles[11]*180/3.14,&m_noga);	
+	m_noga = m4*tmp.makeTransformMatrix("x", 2.56*0.254)*tmp.makeTransformMatrix("y", -6.06*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	Leg4(config[9]*180/3.14,-config[10]*180/3.14,-config[11]*180/3.14,&m_noga);	
 
 //===============NOGA_2=================================				
-	m_noga = m4*tmp.makeTransformMatrix("x", -5.1*0.254)*tmp.makeTransformMatrix("z", 3.33*0.254);
-	Leg2(-angles[3]*180/3.14,-angles[4]*180/3.14,-angles[5]*180/3.14,&m_noga); 
+	m_noga = m4*tmp.makeTransformMatrix("x", -5.1*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	Leg2(-config[3]*180/3.14,-config[4]*180/3.14,-config[5]*180/3.14,&m_noga); 
 
 //===============NOGA_5=================================
-	m_noga = m4*tmp.makeTransformMatrix("x", 5.1*0.254)*tmp.makeTransformMatrix("z", 3.33*0.254)*tmp.makeTransformMatrix("gamma", 3.14);
-	Leg5(angles[12]*180/3.14,-angles[13]*180/3.14,-angles[14]*180/3.14, &m_noga);	
+	m_noga = m4*tmp.makeTransformMatrix("x", 5.1*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	Leg5(config[12]*180/3.14,-config[13]*180/3.14,-config[14]*180/3.14, &m_noga);	
 
 //===============NOGA_1=================================
-	m_noga = m4*tmp.makeTransformMatrix("x", -2.56*0.254)*tmp.makeTransformMatrix("y", 6.06*0.254)*tmp.makeTransformMatrix("z", 3.33*0.254);
-	Leg1(-angles[0]*180/3.14,-angles[1]*180/3.14,-angles[2]*180/3.14,&m_noga);	
+	m_noga = m4*tmp.makeTransformMatrix("x", -2.56*0.254)*tmp.makeTransformMatrix("y", 6.06*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	Leg1(-config[0]*180/3.14,-config[1]*180/3.14,-config[2]*180/3.14,&m_noga);	
 
 //===============NOGA_6=================================
-	m_noga = m4*tmp.makeTransformMatrix("x", 2.56*0.254)*tmp.makeTransformMatrix("y", 6.06*0.254)*tmp.makeTransformMatrix("z", 3.33*0.254)*tmp.makeTransformMatrix("gamma", 3.14);
-	Leg6(angles[15]*180/3.14,-angles[16]*180/3.14,-angles[17]*180/3.14, &m_noga);	
+	m_noga = m4*tmp.makeTransformMatrix("x", 2.56*0.254)*tmp.makeTransformMatrix("y", 6.06*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	Leg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14, &m_noga);	
 }
 
 void CollisionDetectionColdet::GLDrawRobot(coldet::float_type *pos, coldet::float_type * rot, std::vector<coldet::float_type> config) const {
@@ -496,44 +476,40 @@ void CollisionDetectionColdet::GLDrawRobot(coldet::float_type *pos, coldet::floa
 		glPushMatrix();
 			glCallList(GL_PLATFORM);
 		glPopMatrix();
-		glTranslatef(0.0f,0.0f,-4.24*0.254);
-		glPushMatrix();
-//			glCallList(GL_PLATFORM_TOP);
-		glPopMatrix();
 					
 //===============LEG_3=================================
 		glPushMatrix();
-			glTranslatef(-2.56*0.254,-6.06*0.254,3.33*0.254);
+			glTranslatef(-2.56*0.254,-6.06*0.254,-0.91*0.254);
 			GLLeg3(-config[6]*180/3.14,-config[7]*180/3.14,-config[8]*180/3.14); 
 		glPopMatrix();
 
 //===============LEG_4=================================
 		glPushMatrix();
-			glTranslatef(2.56*0.254,-6.06*0.254,3.33*0.254);
+			glTranslatef(2.56*0.254, -6.06*0.254, -0.91*0.254);
 			GLLeg4(config[9]*180/3.14,-config[10]*180/3.14,-config[11]*180/3.14);	
 		glPopMatrix();
 
 //===============LEG_2=================================				
 		glPushMatrix();
-			glTranslatef(-5.1*0.254,0.0,3.33*0.254);
+			glTranslatef(-5.1*0.254, 0.0, -0.91*0.254);
 			GLLeg2(-config[3]*180/3.14,-config[4]*180/3.14,-config[5]*180/3.14); 
 		glPopMatrix(); 
 
 //===============LEG_5=================================
 		glPushMatrix();
-			glTranslatef(5.1*0.254,0,3.33*0.254);
+			glTranslatef(5.1*0.254, 0.0, -0.91*0.254);
 			GLLeg5(config[12]*180/3.14,-config[13]*180/3.14,-config[14]*180/3.14);	
 		glPopMatrix();
 
 //===============LEG_1=================================
 		glPushMatrix();
-			glTranslatef(-2.56*0.254,6.06*0.254,3.33*0.254);
+			glTranslatef(-2.56*0.254, 6.06*0.254, -0.91*0.254);
 			GLLeg1(-config[0]*180/3.14,-config[1]*180/3.14,-config[2]*180/3.14);	
 		glPopMatrix();
 
 //===============LEG_6=================================
 		glPushMatrix();
-			glTranslatef(2.56*0.254,6.06*0.254,3.33*0.254);
+			glTranslatef(2.56*0.254, 6.06*0.254, -0.91*0.254);
 //			glRotatef(180,0,0,1);
 			GLLeg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14);	
 		glPopMatrix();
@@ -542,14 +518,14 @@ void CollisionDetectionColdet::GLDrawRobot(coldet::float_type *pos, coldet::floa
 
 }
 
-bool CollisionDetectionColdet::checkCollision(coldet::float_type* pos, coldet::float_type* rot, coldet::float_type * angles, bool * collision_table) const {
+bool CollisionDetectionColdet::checkCollision(coldet::float_type* pos, coldet::float_type* rot, std::vector<coldet::float_type> config, bool * collision_table) const {
 
-	DrawRobot(pos, rot, angles);
+	DrawRobot(pos, rot, config);
 	for (int i=0;i<44;i++){
 		collision_table[i]=false;
 	}
 
-	//*******KOLIZJE KOÑCZYN ROBOTA******************************************************************
+	//*******KOLIZJE KONCZYN ROBOTA******************************************************************
 	//=========KOLIZJE pierwszym, a drugim ogniwem od korpusu  ========================
 	//collision_table[0-5] pierwszy czlon koliduje
 	//collision_table[6-11] drugi czlon koliduje
@@ -559,13 +535,13 @@ bool CollisionDetectionColdet::checkCollision(coldet::float_type* pos, coldet::f
 	//collision_table[25] korpus koliduje
 	//uproszczony sposob
 	for (int i=0;i<6;i++) {
-		if ((angles[i*3+1]>(24*3.14/180+1.1))){
+		if ((config[i*3+1]>(24*3.14/180+1.1))){
 			collision_table[i]=true;
 			collision_table[i+6]=true;
 		}
 	}
 	for (int i=0;i<6;i++) {
-		if (abs(angles[i*3])>1.57){
+		if (abs(config[i*3])>1.57){
 			collision_table[i]=true;
 		}
 	}
