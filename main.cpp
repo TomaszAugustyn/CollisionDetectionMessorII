@@ -38,7 +38,8 @@ int filling=0; //0=OFF 1=ON
 //Now the object is generic, the cube has annoyed us a little bit, or not?
 CollisionDetection* robot_structure;
 bool czy_jest_kolizja;
-bool* collision_table= new bool[44];
+//bool* collision_table= new bool[44];
+bool collision_table[44];
 obj_type object;
 
 /**********************************************************
@@ -214,6 +215,8 @@ void display(void)
 	config[14]=2.3;
 	config[17]=2.3;
 
+	config[0]=-0.7;
+
 	//konfiguracja dla serwonapedow ud
 	config[1]=-0.8;
 	config[4]=-0.8;
@@ -224,7 +227,10 @@ void display(void)
 
 	robot_structure->GLDrawRobot(pos, rot, config);
 	czy_jest_kolizja=robot_structure->checkCollision(pos, rotation, config, collision_table);
-//	robot_structure->checkCollision(pos, rotation, config, collision_table);
+
+	std::cout<<czy_jest_kolizja<<"\n";
+	for (int i=0; i<44; i++)
+	std::cout<<collision_table[i];
 	//glutWireTeapot(10);
 
     /*glBegin(GL_TRIANGLES); // glBegin and glEnd delimit the vertices that define a primitive (in our case triangles)
@@ -272,10 +278,12 @@ int main(int argc, char **argv)
     glutInitWindowPosition(400,200);
     glutCreateWindow("Model robota Messor II");    
 	robot_structure = createCollisionDetectionColdet();
-	std::cout<<czy_jest_kolizja<<"\n"<<collision_table;
 //	std::cout<<"\n"<<collision_table;
     glutDisplayFunc(display);
     glutIdleFunc(display);
+//	std::cout<<czy_jest_kolizja<<"\n";
+//	for (int i=0; i<44; i++)
+//	std::cout<<collision_table[i]);
     glutReshapeFunc (resize);
     glutKeyboardFunc (keyboard);
     glutSpecialFunc (keyboard_s);

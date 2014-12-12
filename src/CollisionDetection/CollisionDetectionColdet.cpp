@@ -65,23 +65,23 @@ void CollisionDetectionColdet::initCollisionModel(uint_fast8_t objectNo, Collisi
 
 void CollisionDetectionColdet::CollisionModels(void)
 {
-	initCollisionModel(0, *meshModel[PLATFORM]); // korpus
+	initCollisionModel(0, *meshModel[PLATFORM]); // korpus //0
 
-	initCollisionModel(1, *meshModel[COXA1]); // biodro_1
+	initCollisionModel(1, *meshModel[COXA1]); // biodro_1  //1
 	initCollisionModel(1, *meshModel[COXA2]); // biodro_2
 	initCollisionModel(1, *meshModel[COXA3]); // biodro_3
 	initCollisionModel(1, *meshModel[COXA4]); // biodro_4
 	initCollisionModel(1, *meshModel[COXA5]); // biodro_5
 	initCollisionModel(1, *meshModel[COXA6]); // biodro_6
 
-	initCollisionModel(2, *meshModel[FEMUR1]); // udo_1
+	initCollisionModel(2, *meshModel[FEMUR1]); // udo_1   //2
 	initCollisionModel(2, *meshModel[FEMUR2]); // udo_2
 	initCollisionModel(2, *meshModel[FEMUR3]); // udo_3
 	initCollisionModel(2, *meshModel[FEMUR4]); // udo_4
 	initCollisionModel(2, *meshModel[FEMUR5]); // udo_5
 	initCollisionModel(2, *meshModel[FEMUR6]); // udo_6
 
-	initCollisionModel(3, *meshModel[VITULUS1]); // lydka_1
+	initCollisionModel(3, *meshModel[VITULUS1]); // lydka_1   //3
 	initCollisionModel(3, *meshModel[VITULUS2]); // lydka_2
 	initCollisionModel(3, *meshModel[VITULUS3]); // lydka_3
 	initCollisionModel(3, *meshModel[VITULUS4]); // lydka_4
@@ -462,7 +462,7 @@ void CollisionDetectionColdet::DrawRobot(coldet::float_type* pos, coldet::float_
 
 //===============NOGA_6=================================
 	m_noga = m4*tmp.makeTransformMatrix("x", 2.56*0.254)*tmp.makeTransformMatrix("y", 6.06*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
-	Leg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14, &m_noga);	
+	Leg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14, &m_noga);
 }
 
 void CollisionDetectionColdet::GLDrawRobot(coldet::float_type *pos, coldet::float_type * rot, std::vector<coldet::float_type> config) const {
@@ -534,7 +534,8 @@ bool CollisionDetectionColdet::checkCollision(coldet::float_type* pos, coldet::f
 	//collision_table[24] teren koliduje
 	//collision_table[25] korpus koliduje
 	//uproszczony sposob
-	for (int i=0;i<6;i++) {
+
+	/*for (int i=0;i<6;i++) {
 		if ((config[i*3+1]>(24*3.14/180+1.1))){
 			collision_table[i]=true;
 			collision_table[i+6]=true;
@@ -544,7 +545,8 @@ bool CollisionDetectionColdet::checkCollision(coldet::float_type* pos, coldet::f
 		if (abs(config[i*3])>1.57){
 			collision_table[i]=true;
 		}
-	}
+	} */
+
 	/*
 	collision_table[0]=robot_model.segment_II_model_1->collision(robot_model.przegub_typu_C_1);
 	if (collision_table[0]) collision_table[6]=true;
