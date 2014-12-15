@@ -43,7 +43,7 @@ namespace coldet{
 			virtual void initStructures(void) = 0;
 
 			/// Draw robot using openGL
-			virtual void GLDrawRobot(coldet::float_type *pos, coldet::float_type * rot, std::vector<coldet::float_type> config) const = 0;
+			virtual void GLDrawRobot(coldet::float_type *pos, coldet::float_type * rot, std::vector<coldet::float_type> config, bool * collision_table=0) const = 0;
 
 			/// Check collisions
 			virtual bool checkCollision(coldet::float_type* pos, coldet::float_type* rot, std::vector<coldet::float_type> config, bool * collision_table) const = 0;

@@ -63,7 +63,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		~CollisionDetectionColdet (void);
 
 		/// Draw robot using openGL
-		void GLDrawRobot(coldet::float_type *pos, coldet::float_type * rot, std::vector<coldet::float_type> config) const;
+		void GLDrawRobot(coldet::float_type *pos, coldet::float_type * rot, std::vector<coldet::float_type> config, bool * collision_table=0) const;
 
 		/// Check collisions
 		bool checkCollision(coldet::float_type* pos, coldet::float_type* rot, std::vector<coldet::float_type> config, bool * collision_table) const;
@@ -88,12 +88,12 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void Leg4(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const;
 		void Leg5(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const;
 		void Leg6(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const;
-		void GLLeg1(float Qn_1, float Qn_2, float Qn_3) const;
-		void GLLeg2(float Qn_1, float Qn_2, float Qn_3) const;
-		void GLLeg3(float Qn_1, float Qn_2, float Qn_3) const;
-		void GLLeg4(float Qn_1, float Qn_2, float Qn_3) const;
-		void GLLeg5(float Qn_1, float Qn_2, float Qn_3) const;
-		void GLLeg6(float Qn_1, float Qn_2, float Qn_3) const;
+		void GLLeg1(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
+		void GLLeg2(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
+		void GLLeg3(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
+		void GLLeg4(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
+		void GLLeg5(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
+		void GLLeg6(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
 		void copyTable(CPunctum * src, float * dest) const;
 		void DrawRobot(coldet::float_type* pos, coldet::float_type* rot, std::vector<coldet::float_type> config) const;
 

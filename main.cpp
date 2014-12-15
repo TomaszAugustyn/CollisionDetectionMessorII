@@ -2,6 +2,7 @@
 
 #include "../Defs/defs.h"
 #include <thread>
+#include <vector>
 #include <iostream>
 #include <GL/glut.h>
 #include <string>
@@ -10,9 +11,8 @@
 #include "../include/CollisionDetection/CollisionDetectionColdet.h"
 #include "../include/CollisionDetection/functions.h"
 
-//using namespace std;
+using namespace std;
 /**********************************************************
- *
  * VARIABLES DECLARATION
  *
  *********************************************************/
@@ -39,8 +39,9 @@ int filling=0; //0=OFF 1=ON
 CollisionDetection* robot_structure;
 bool czy_jest_kolizja;
 //bool* collision_table= new bool[44];
-bool collision_table[44];
+bool collision_table[19];
 obj_type object;
+std::vector<coldet::float_type> config(18, 0.8);
 
 /**********************************************************
  * SUBROUTINE init()
@@ -68,6 +69,24 @@ void init(void)
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glEnable(GL_DITHER);
     
+	//konfiguracja dla serwonapedow lydek
+	config[2]=2.3;
+	config[5]=2.3;
+	config[8]=2.3;
+	config[11]=2.3;
+	config[14]=2.3;
+	config[17]=2.3;
+
+	config[0]=-0.7;
+	
+	//konfiguracja dla serwonapedow ud
+	config[1]=-0.8;
+	config[4]=-0.8;
+	config[7]=-0.8;
+	config[10]=-0.8;
+	config[13]=-0.8;
+	config[16]=-0.8;
+
     //glEnable(GL_TEXTURE_2D); // This Enable the Texture mapping
 	//Load3DS(&object, "C:/Users/dom/Desktop/3ds-Poprawione2/corpus.3ds");
 }
@@ -204,33 +223,15 @@ void display(void)
 
 	coldet::float_type pos[3]={0,0,0};
 	coldet::float_type rot[11]={1,0,0,0,0,1,0,0,0,0,1};
-	std::vector<coldet::float_type> config(18,0.8);
 	coldet::float_type rotation[3]={0,0,0};
 
-	//konfiguracja dla serwonapedow lydek
-	config[2]=2.3;
-	config[5]=2.3;
-	config[8]=2.3;
-	config[11]=2.3;
-	config[14]=2.3;
-	config[17]=2.3;
-
-	config[0]=-0.7;
-
-	//konfiguracja dla serwonapedow ud
-	config[1]=-0.8;
-	config[4]=-0.8;
-	config[7]=-0.8;
-	config[10]=-0.8;
-	config[13]=-0.8;
-	config[16]=-0.8;
-
-	robot_structure->GLDrawRobot(pos, rot, config);
+	robot_structure->GLDrawRobot(pos, rot, config, collision_table);
 	czy_jest_kolizja=robot_structure->checkCollision(pos, rotation, config, collision_table);
 
 	std::cout<<czy_jest_kolizja<<"\n";
-	for (int i=0; i<44; i++)
+	for (int i=0; i<19; i++)
 	std::cout<<collision_table[i];
+	std::cout<<"\n";
 	//glutWireTeapot(10);
 
     /*glBegin(GL_TRIANGLES); // glBegin and glEnd delimit the vertices that define a primitive (in our case triangles)
@@ -269,8 +270,6 @@ void display(void)
 
 int main(int argc, char **argv)
 {
-	//robot_structure = createCollisionDetectionColdet();
-	
     // We use the GLUT utility to initialize the window, to handle the input and to interact with the windows system
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
