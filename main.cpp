@@ -42,6 +42,7 @@ bool czy_jest_kolizja;
 bool collision_table[19];
 obj_type object;
 std::vector<coldet::float_type> config(18, 0.8);
+short int wybor_nogi=0;
 
 /**********************************************************
  * SUBROUTINE init()
@@ -160,6 +161,116 @@ void keyboard (unsigned char key, int x, int y)
 		break;
 		case 'l': case 'L':
 			translation_y = translation_y - 0.5;
+		break;
+		case '1':
+			wybor_nogi=1;
+		break;
+		case '2':
+			wybor_nogi=2;
+		break;
+		case '3':
+			wybor_nogi=3;
+		break;
+		case '4':
+			wybor_nogi=4;
+		break;
+		case '5':
+			wybor_nogi=5;
+		break;
+		case '6':
+			wybor_nogi=6;
+		break;
+		case '0':
+			wybor_nogi=0;
+		break;
+		case 'q': case 'Q':
+			if(wybor_nogi==1)
+				config[2]=config[2]+0.02;
+			else if(wybor_nogi==2)
+				config[5]=config[5]+0.02;
+			else if(wybor_nogi==3)
+				config[8]=config[8]+0.02;
+			else if(wybor_nogi==4)
+				config[11]=config[11]+0.02;
+			else if(wybor_nogi==5)
+				config[14]=config[14]+0.02;
+			else if(wybor_nogi==6)
+				config[17]=config[17]+0.02;
+		break;
+
+		case 'a': case 'A':
+			if(wybor_nogi==1)
+				config[2]=config[2]-0.02;
+			else if(wybor_nogi==2)
+				config[5]=config[5]-0.02;
+			else if(wybor_nogi==3)
+				config[8]=config[8]-0.02;
+			else if(wybor_nogi==4)
+				config[11]=config[11]-0.02;
+			else if(wybor_nogi==5)
+				config[14]=config[14]-0.02;
+			else if(wybor_nogi==6)
+				config[17]=config[17]-0.02;
+		break;
+
+		case 'w': case 'W':
+			if(wybor_nogi==1)
+				config[1]=config[1]+0.02;
+			else if(wybor_nogi==2)
+				config[4]=config[4]+0.02;
+			else if(wybor_nogi==3)
+				config[7]=config[7]+0.02;
+			else if(wybor_nogi==4)
+				config[10]=config[10]+0.02;
+			else if(wybor_nogi==5)
+				config[13]=config[13]+0.02;
+			else if(wybor_nogi==6)
+				config[16]=config[16]+0.02;
+		break;
+
+		case 's': case 'S':
+			if(wybor_nogi==1)
+				config[1]=config[1]-0.02;
+			else if(wybor_nogi==2)
+				config[4]=config[4]-0.02;
+			else if(wybor_nogi==3)
+				config[7]=config[7]-0.02;
+			else if(wybor_nogi==4)
+				config[10]=config[10]-0.02;
+			else if(wybor_nogi==5)
+				config[13]=config[13]-0.02;
+			else if(wybor_nogi==6)
+				config[16]=config[16]-0.02;
+		break;
+
+		case 'e': case 'E':
+			if(wybor_nogi==1)
+				config[0]=config[0]+0.02;
+			else if(wybor_nogi==2)
+				config[3]=config[3]+0.02;
+			else if(wybor_nogi==3)
+				config[6]=config[6]+0.02;
+			else if(wybor_nogi==4)
+				config[9]=config[9]+0.02;
+			else if(wybor_nogi==5)
+				config[12]=config[12]+0.02;
+			else if(wybor_nogi==6)
+				config[15]=config[15]+0.02;
+		break;
+
+		case 'd': case 'D':
+			if(wybor_nogi==1)
+				config[0]=config[0]-0.02;
+			else if(wybor_nogi==2)
+				config[3]=config[3]-0.02;
+			else if(wybor_nogi==3)
+				config[6]=config[6]-0.02;
+			else if(wybor_nogi==4)
+				config[9]=config[9]-0.02;
+			else if(wybor_nogi==5)
+				config[12]=config[12]-0.02;
+			else if(wybor_nogi==6)
+				config[15]=config[15]-0.02;
 		break;
     }
 }
