@@ -21,7 +21,6 @@ namespace coldet {
 	/// Homogeneous representation of SE(3) rigid body transformations
 	typedef Eigen::Transform <double, 3, Eigen::Affine> Mat34;
 
-
 	class CElevationMap{
 
 	public:

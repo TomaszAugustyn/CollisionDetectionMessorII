@@ -160,133 +160,152 @@ void CollisionDetectionColdet::drawCoordinateSystem(void)
 	glColor3f(1, 1, 1);
 }
 
-void CollisionDetectionColdet::copyTable(CPunctum * src, float * dest) const{
+void CollisionDetectionColdet::copyTable(coldet::Mat34 * src, float * dest) const{
 	for (int i=0;i<4;i++){
 		for (int j=0;j<4;j++){
-			dest[i+4*j]=src->getElement(i+1,j+1);
+			dest[i+4*j]=(*src)(i,j);
 		}
 	}
 }
 
-void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
+void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
+
+	Eigen::Vector3d wektor_biodro(7.71*0.254, 18.12*0.254, 0.720*0.254);
+	coldet::Mat34 m_noga1;
+	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	float biodro_3[16];
-	CPunctum m_noga1,tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", 7.71*0.254)*tmp.makeTransformMatrix("y", 18.12*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
 	copyTable(&m_noga1,biodro_3);
 	meshModel[15]->setTransform (biodro_3);
 
 	float udo_3[16];
 	glGetFloatv(GL_MODELVIEW_MATRIX, udo_3);
-	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	Eigen::Vector3d wektor_udo(4.865*0.254, 1.18*0.254, 0.075*0.254);
+	coldet::Mat34 m_noga2;
+	m_noga2 = m_noga1 * Eigen::AngleAxisd (-M_PI/2, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga2, udo_3);
 	meshModel[9]->setTransform (udo_3);
 
 	float lydka_3[16];
-	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	Eigen::Vector3d wektor_lydka(12.0*0.254, 0.0, 0.0);
+	coldet::Mat34 m_noga3;
+	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga3,lydka_3);
 	meshModel[3]->setTransform (lydka_3);
 }
 
-void CollisionDetectionColdet::Leg4(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
+void CollisionDetectionColdet::Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
 	float biodro_4[16];
-	CPunctum m_noga1, tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", -7.71*0.254)*tmp.makeTransformMatrix("y", 18.12*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", 3.14/1)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	Eigen::Vector3d wektor_biodro(-7.71*0.254, 18.12*0.254, 0.720*0.254);
+	coldet::Mat34 m_noga1;
+	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (M_PI/1, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga1,biodro_4);
 	meshModel[16]->setTransform (biodro_4);
 								
 	float udo_4[16];
-	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	Eigen::Vector3d wektor_udo(4.865*0.254, 1.18*0.254, 0.075*0.254);
+	coldet::Mat34 m_noga2;
+	m_noga2 = m_noga1 * Eigen::AngleAxisd (-M_PI/2, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga2,udo_4);
 	meshModel[10]->setTransform (udo_4);
 
 	float lydka_4[16];
-	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	Eigen::Vector3d wektor_lydka(12.0*0.254, 0.0, 0.0);
+	coldet::Mat34 m_noga3;
+	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga3,lydka_4);
 	meshModel[4]->setTransform (lydka_4);
 }
 
-void CollisionDetectionColdet::Leg2(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
+void CollisionDetectionColdet::Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
 	float biodro_2[16];
-	CPunctum m_noga1,tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", 15.4*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	Eigen::Vector3d wektor_biodro(15.4*0.254, 0.0, 0.720*0.254);
+	coldet::Mat34 m_noga1;
+	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga1,biodro_2);
 	meshModel[14]->setTransform (biodro_2);
 
 	float udo_2[16];
-	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	Eigen::Vector3d wektor_udo(4.865*0.254, 1.18*0.254, 0.075*0.254);
+	coldet::Mat34 m_noga2;
+	m_noga2 = m_noga1 * Eigen::AngleAxisd (-M_PI/2, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga2,udo_2);
 	meshModel[8]->setTransform (udo_2);
 										
 	float lydka_2[16];
-	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	Eigen::Vector3d wektor_lydka(12.0*0.254, 0.0, 0.0);
+	coldet::Mat34 m_noga3;
+	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga3,lydka_2);
 	meshModel[2]->setTransform (lydka_2);
 }
 
-void CollisionDetectionColdet::Leg5(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
+void CollisionDetectionColdet::Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
 	float biodro_5[16];
-	CPunctum m_noga1,tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", -15.4*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", 3.14/1)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	Eigen::Vector3d wektor_biodro(-15.4*0.254, 0.0, 0.720*0.254);
+	coldet::Mat34 m_noga1;
+	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (M_PI/1, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga1,biodro_5);
 	meshModel[17]->setTransform (biodro_5);
 					
 	float udo_5[16];
-	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	Eigen::Vector3d wektor_udo(4.865*0.254, 1.18*0.254, 0.075*0.254);
+	coldet::Mat34 m_noga2;
+	m_noga2 = m_noga1 * Eigen::AngleAxisd (-M_PI/2, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga2,udo_5);
 	meshModel[11]->setTransform (udo_5);
 										
 	float lydka_5[16];
-	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	Eigen::Vector3d wektor_lydka(12.0*0.254, 0.0, 0.0);
+	coldet::Mat34 m_noga3;
+	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga3,lydka_5);
 	meshModel[5]->setTransform (lydka_5);
 }
 
-void CollisionDetectionColdet::Leg1(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
+void CollisionDetectionColdet::Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
 	float biodro_1[16];
-	CPunctum m_noga1,tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", 7.71*0.254)*tmp.makeTransformMatrix("y", -18.12*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	Eigen::Vector3d wektor_biodro(7.71*0.254, -18.12*0.254, 0.720*0.254);
+	coldet::Mat34 m_noga1;
+	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga1,biodro_1);
 	meshModel[13]->setTransform (biodro_1);
 					
 	float udo_1[16];
-	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	Eigen::Vector3d wektor_udo(4.865*0.254, 1.18*0.254, 0.075*0.254);
+	coldet::Mat34 m_noga2;
+	m_noga2 = m_noga1 * Eigen::AngleAxisd (-M_PI/2, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga2,udo_1);
 	meshModel[7]->setTransform (udo_1);
 										
 	float lydka_1[16];
-	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	Eigen::Vector3d wektor_lydka(12.0*0.254, 0.0, 0.0);
+	coldet::Mat34 m_noga3;
+	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga3,lydka_1);
 	meshModel[1]->setTransform (lydka_1);
 }
 
-void CollisionDetectionColdet::Leg6(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const {
+void CollisionDetectionColdet::Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
 	float biodro_6[16];
-	CPunctum m_noga1,tmp;
-	m_noga1 = (*m_noga)*tmp.makeTransformMatrix("x", -7.71*0.254)*tmp.makeTransformMatrix("y", -18.12*0.254)*tmp.makeTransformMatrix("z", 0.720*0.254)*tmp.makeTransformMatrix("gamma", 3.14/1)*tmp.makeTransformMatrix("gamma", Qn_1*3.14/180);
+	Eigen::Vector3d wektor_biodro(-7.71*0.254, -18.12*0.254, 0.720*0.254);
+	coldet::Mat34 m_noga1;
+	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (M_PI/1, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga1,biodro_6);
 	meshModel[18]->setTransform (biodro_6);
 					
 	float udo_6[16];
-	CPunctum m_noga2;
-	m_noga2 = m_noga1 * tmp.makeTransformMatrix("alpha", -3.14/2)*tmp.makeTransformMatrix("x", 4.865*0.254)*tmp.makeTransformMatrix("y", 1.18*0.254)*tmp.makeTransformMatrix("z", 0.075*0.254)*tmp.makeTransformMatrix("gamma", Qn_2*3.14/180);
+	Eigen::Vector3d wektor_udo(4.865*0.254, 1.18*0.254, 0.075*0.254);
+	coldet::Mat34 m_noga2;
+	m_noga2 = m_noga1 * Eigen::AngleAxisd (-M_PI/2, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga2, udo_6);
 	meshModel[12]->setTransform (udo_6);
 										
 	float lydka_6[16];
-	CPunctum m_noga3;
-	m_noga3 = m_noga2 * tmp.makeTransformMatrix("x", 12.0*0.254)*tmp.makeTransformMatrix("gamma", Qn_3*3.14/180);
+	Eigen::Vector3d wektor_lydka(12.0*0.254, 0.0, 0.0);
+	coldet::Mat34 m_noga3;
+	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(&m_noga3, lydka_6);
-	meshModel[6]->setTransform (lydka_6);
+	meshModel[6]->setTransform (lydka_6); 
 }
 
 void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, bool * collision_table) const {
@@ -500,37 +519,43 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3, bool *
 
 void CollisionDetectionColdet::DrawRobot(coldet::float_type* pos, coldet::float_type* rot, std::vector<coldet::float_type> config) const
 {
-	CPunctum m4,tmp;
-	m4.setEye();
-	m4=tmp.makeTransformMatrix("x", pos[0]*10)*tmp.makeTransformMatrix("y", pos[2]*10-0.1)*tmp.makeTransformMatrix("z", -pos[1]*10)*tmp.makeTransformMatrix("alpha", 3.14/2+rot[0])*tmp.makeTransformMatrix("beta", -rot[1])*tmp.makeTransformMatrix("gamma", 3.14-rot[2]);
+	Eigen::Vector3d wektor_korpus(pos[0]*10, pos[2]*10-0.1, -pos[1]*10);
+	coldet::Mat34 m4;
+	m4 = Eigen::Translation3d(wektor_korpus)* Eigen::AngleAxisd (M_PI/2+rot[0], Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (-rot[1], Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd (M_PI-rot[2], Eigen::Vector3d::UnitZ());
 	float korpus[16];
 	copyTable(&m4,korpus);
 	meshModel[0]->setTransform (korpus);
 	
 		
 //===============NOGA_3=================================
-	CPunctum m_noga;
-	m_noga = m4*tmp.makeTransformMatrix("x", -2.56*0.254)*tmp.makeTransformMatrix("y", -6.06*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	coldet::Mat34 m_noga;
+	Eigen::Vector3d wektor_nogi3(-2.56*0.254, -6.06*0.254, -0.91*0.254);
+	m_noga = m4*Eigen::Translation3d(wektor_nogi3);
 	Leg3(-config[6]*180/3.14,-config[7]*180/3.14,-config[8]*180/3.14, &m_noga); 
 
 //===============NOGA_4=================================
-	m_noga = m4*tmp.makeTransformMatrix("x", 2.56*0.254)*tmp.makeTransformMatrix("y", -6.06*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	Eigen::Vector3d wektor_nogi4(2.56*0.254, -6.06*0.254, -0.91*0.254);
+	m_noga = m4*Eigen::Translation3d(wektor_nogi4);
 	Leg4(config[9]*180/3.14,-config[10]*180/3.14,-config[11]*180/3.14,&m_noga);	
 
-//===============NOGA_2=================================				
-	m_noga = m4*tmp.makeTransformMatrix("x", -5.1*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+//===============NOGA_2=================================
+	Eigen::Vector3d wektor_nogi2(-5.1*0.254, 0.0, -0.91*0.254);
+	m_noga = m4*Eigen::Translation3d(wektor_nogi2);
 	Leg2(-config[3]*180/3.14,-config[4]*180/3.14,-config[5]*180/3.14,&m_noga); 
 
 //===============NOGA_5=================================
-	m_noga = m4*tmp.makeTransformMatrix("x", 5.1*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	Eigen::Vector3d wektor_nogi5(5.1*0.254, 0.0, -0.91*0.254);
+	m_noga = m4*Eigen::Translation3d(wektor_nogi5);
 	Leg5(config[12]*180/3.14,-config[13]*180/3.14,-config[14]*180/3.14, &m_noga);	
 
 //===============NOGA_1=================================
-	m_noga = m4*tmp.makeTransformMatrix("x", -2.56*0.254)*tmp.makeTransformMatrix("y", 6.06*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	Eigen::Vector3d wektor_nogi1(-2.56*0.254, 6.06*0.254, -0.91*0.254);
+	m_noga = m4*Eigen::Translation3d(wektor_nogi1);
 	Leg1(-config[0]*180/3.14,-config[1]*180/3.14,-config[2]*180/3.14,&m_noga);	
 
 //===============NOGA_6=================================
-	m_noga = m4*tmp.makeTransformMatrix("x", 2.56*0.254)*tmp.makeTransformMatrix("y", 6.06*0.254)*tmp.makeTransformMatrix("z", -0.91*0.254);
+	Eigen::Vector3d wektor_nogi6(2.56*0.254, 6.06*0.254, -0.91*0.254);
+	m_noga = m4*Eigen::Translation3d(wektor_nogi6);
 	Leg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14, &m_noga);
 }
 

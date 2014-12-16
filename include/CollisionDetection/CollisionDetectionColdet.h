@@ -82,19 +82,19 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void structFemur(void);
 		void structVitulus(void);
 		void drawCoordinateSystem(void);
-		void Leg1(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const;
-		void Leg2(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const;
-		void Leg3(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const;
-		void Leg4(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const;
-		void Leg5(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const;
-		void Leg6(float Qn_1, float Qn_2, float Qn_3, CPunctum * m_noga) const;
+		void Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
+		void Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
+		void Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
+		void Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
+		void Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
+		void Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
 		void GLLeg1(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
 		void GLLeg2(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
 		void GLLeg3(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
 		void GLLeg4(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
 		void GLLeg5(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
 		void GLLeg6(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
-		void copyTable(CPunctum * src, float * dest) const;
+		void copyTable(coldet::Mat34 * src, float * dest) const;
 		void DrawRobot(coldet::float_type* pos, coldet::float_type* rot, std::vector<coldet::float_type> config) const;
 
 		std::vector<CollisionModel3D*> meshModel;

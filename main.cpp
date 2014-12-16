@@ -4,6 +4,7 @@
 #include <thread>
 #include <vector>
 #include <iostream>
+#include <ostream>
 #include <GL/glut.h>
 #include <string>
 #include <stdio.h>
@@ -21,14 +22,9 @@ using namespace std;
 int screen_width=1024;
 int screen_height=640;
 
-// Absolute rotation values (0-359 degrees) and rotation increments for each frame
-//double rotation_x=0, rotation_x_increment=0.1;
-//double rotation_y=0, rotation_y_increment=0.05;
-//double rotation_z=0, rotation_z_increment=0.03;
- 
-double rotation_x=0, rotation_x_increment=0.0;
-double rotation_y=0, rotation_y_increment=0.0;
-double rotation_z=0, rotation_z_increment=0.0;
+double rotation_x=0;
+double rotation_y=0;
+double rotation_z=0;
 double translation_x=0;
 double translation_y=0;
 double translation_z=0;
@@ -40,7 +36,6 @@ CollisionDetection* robot_structure;
 bool czy_jest_kolizja;
 //bool* collision_table= new bool[44];
 bool collision_table[19];
-obj_type object;
 std::vector<coldet::float_type> config(18, 0.8);
 short int wybor_nogi=0;
 
@@ -88,8 +83,6 @@ void init(void)
 	config[13]=-0.8;
 	config[16]=-0.8;
 
-    //glEnable(GL_TEXTURE_2D); // This Enable the Texture mapping
-	//Load3DS(&object, "C:/Users/dom/Desktop/3ds-Poprawione2/corpus.3ds");
 }
 
 /**********************************************************
@@ -127,11 +120,6 @@ void keyboard (unsigned char key, int x, int y)
 {    
     switch (key)
     {
-        case ' ':
-            rotation_x_increment=0;
-            rotation_y_increment=0;
-            rotation_z_increment=0;
-        break;
         case 'r': case 'R':
             if (filling==0)
             {
@@ -318,7 +306,6 @@ void display(void)
     glMatrixMode(GL_MODELVIEW); // Modeling transformation
     glLoadIdentity(); // Initialize the model matrix as identity
     
-    //glTranslatef(0.0,0.0,-300); // We move the object forward (the model matrix is multiplied by the translation matrix)
 	glTranslatef(0,0,-18.0); // We move the object forward (the model matrix is multiplied by the translation matrix)
 
  // if (rotation_x > 359) rotation_x = 0;
@@ -345,30 +332,6 @@ void display(void)
 	std::cout<<"\n";
 	//glutWireTeapot(10);
 
-    /*glBegin(GL_TRIANGLES); // glBegin and glEnd delimit the vertices that define a primitive (in our case triangles)
-    for (l_index=0;l_index<object.polygons_qty;l_index++)
-    {
-        //----------------- FIRST VERTEX -----------------
-   
-        // Coordinates of the first vertex
-        glVertex3f( object.vertex[ object.polygon[l_index].a ].x,
-                    object.vertex[ object.polygon[l_index].a ].y,
-                    object.vertex[ object.polygon[l_index].a ].z); //Vertex definition
-
-        //----------------- SECOND VERTEX -----------------
-        // Coordinates of the second vertex
-        glVertex3f( object.vertex[ object.polygon[l_index].b ].x,
-                    object.vertex[ object.polygon[l_index].b ].y,
-                    object.vertex[ object.polygon[l_index].b ].z);
-        
-        //----------------- THIRD VERTEX -----------------
-        // Coordinates of the Third vertex
-        glVertex3f( object.vertex[ object.polygon[l_index].c ].x,
-                    object.vertex[ object.polygon[l_index].c ].y,
-                    object.vertex[ object.polygon[l_index].c ].z);
-    }
-    glEnd();*/
-
     glFlush(); // This force the execution of OpenGL commands
     glutSwapBuffers(); // In double buffered mode we invert the positions of the visible buffer and the writing buffer
 }
@@ -388,12 +351,15 @@ int main(int argc, char **argv)
     glutInitWindowPosition(400,200);
     glutCreateWindow("Model robota Messor II");    
 	robot_structure = createCollisionDetectionColdet();
-//	std::cout<<"\n"<<collision_table;
     glutDisplayFunc(display);
     glutIdleFunc(display);
 //	std::cout<<czy_jest_kolizja<<"\n";
 //	for (int i=0; i<44; i++)
 //	std::cout<<collision_table[i]);
+
+/*	for(int i=0; i<4; i++)
+		for(int j=0; j<4; j++)
+	cout << combined(i,j)<< endl; */
     glutReshapeFunc (resize);
     glutKeyboardFunc (keyboard);
     glutSpecialFunc (keyboard_s);
@@ -403,21 +369,3 @@ int main(int argc, char **argv)
 	delete [] collision_table;
     return(0);    
 }
-
-/*int main()
-{
-	//char Load3DS (obj_type_ptr p_object, const char *p_filename);
-	//obj_type_ptr p_object;
-	obj_type p_object;
-	char a;
-	//const char *p_filename;
-	//p_filename="C:/Users/dom/Desktop/3ds-nowe2/coxa2.3ds";
-	//Load3DS(&p_object, p_filename);
-	a=Load3DS(&p_object, "C:/Users/dom/Desktop/3ds-nowe2/coxa2.3ds");
-	//p_object.vertices_qty;
-	//Load3DS(&p_object, "coxa2.3ds");
-	cout<<int(a)<<"\n";
-	cout<<p_object.vertices_qty<<"\n";
-	system("pause");
-	return 0;
-}*/
