@@ -1668,14 +1668,13 @@ XMLError XMLDocument::LoadFile( const char* filename )
 {
     Clear();
     FILE* fp = 0;
-	std::cout<<filename;
-//#if defined(_MSC_VER) && (_MSC_VER >= 1400 )
-//    errno_t err = fopen_s(&fp, filename, "rb" );
-//    if ( !fp || err) {
-//#else
+#if defined(_MSC_VER) && (_MSC_VER >= 1400 )
+    errno_t err = fopen_s(&fp, filename, "rb" );
+    if ( !fp || err) {
+#else
     fp = fopen( filename, "rb" );
     if ( !fp) {
-//#endif
+#endif
         SetError( XML_ERROR_FILE_NOT_FOUND, filename, 0 );
         return _errorID;
     }

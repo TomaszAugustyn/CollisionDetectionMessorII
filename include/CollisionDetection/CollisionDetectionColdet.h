@@ -42,10 +42,10 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
         CollisionDetectionColdet (void);
 
         /// Overloaded Constructor
-        CollisionDetectionColdet(std::string configFilename) : CollisionDetection("CollisionDetectionColdet", TYPE_COLDET){
+		CollisionDetectionColdet(std::string configFilename) : CollisionDetection("CollisionDetectionColdet", TYPE_COLDET), joint1(6,0){
             tinyxml2::XMLDocument config;
-            std::string filename = configFilename;
-			std::cout << filename << "\n";
+            std::string filename = "../../resources/" + configFilename;
+			//std::string filename =  configFilename;
 			//std::string filename = "C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources" + configFilename;
             config.LoadFile(filename.c_str());
             if (config.ErrorID())
@@ -193,7 +193,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		coldet::float_type links_lengths[3];  // [0] - Link0 (Coxa),  [1] - Link1 (Femur),  [2] - Link2 (Vitulus)
 		coldet::float_type platform_length;
 		coldet::float_type platform_width;
-		//std::vector<coldet::float_type> joint1(6);
+		std::vector<coldet::float_type> joint1;
 		coldet::float_type Joint0[6];
 		coldet::float_type Joint1[6];
 		coldet::float_type Joint2[6];

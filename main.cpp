@@ -352,7 +352,7 @@ int main(int argc, char **argv)
     glutInitWindowSize(screen_width,screen_height);
     glutInitWindowPosition(400,200);
     glutCreateWindow("Model robota Messor II");    
-	robot_structure = createCollisionDetectionColdet("MessorIIModel.xml");
+	robot_structure = createCollisionDetectionColdet("Messor_II_Model.xml");
     glutDisplayFunc(display);
     glutIdleFunc(display);
 //	std::cout<<czy_jest_kolizja<<"\n";
