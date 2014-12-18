@@ -319,12 +319,14 @@ void display(void)
     glTranslatef(0.0, translation_y, 0.0);
 	glTranslatef(0.0, 0.0, translation_z);
 
-	coldet::float_type pos[3]={0,0,0};
-	coldet::float_type rot[11]={1,0,0,0,0,1,0,0,0,0,1};
-	coldet::float_type rotation[3]={0,0,0};
+	//coldet::float_type pos[3]={0,0,0};
+	//coldet::float_type rot[11]={1,0,0,0,0,1,0,0,0,0,1};
+	//coldet::float_type rotation[3]={0,0,0};
 
-	robot_structure->GLDrawRobot(pos, rot, config, collision_table);
-	czy_jest_kolizja=robot_structure->checkCollision(pos, rotation, config, collision_table);
+	//robot_structure->GLDrawRobot(pos, rot, config, collision_table);
+	//czy_jest_kolizja=robot_structure->checkCollision(pos, rotation, config, collision_table);
+	robot_structure->GLDrawRobot( config, collision_table);
+	czy_jest_kolizja=robot_structure->checkCollision(config, collision_table);
 
 	std::cout<<czy_jest_kolizja<<"\n";
 	for (int i=0; i<19; i++)
@@ -350,7 +352,7 @@ int main(int argc, char **argv)
     glutInitWindowSize(screen_width,screen_height);
     glutInitWindowPosition(400,200);
     glutCreateWindow("Model robota Messor II");    
-	robot_structure = createCollisionDetectionColdet();
+	robot_structure = createCollisionDetectionColdet("MessorIIModel.xml");
     glutDisplayFunc(display);
     glutIdleFunc(display);
 //	std::cout<<czy_jest_kolizja<<"\n";

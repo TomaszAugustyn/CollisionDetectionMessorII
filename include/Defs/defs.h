@@ -21,6 +21,9 @@ namespace coldet {
 	/// Homogeneous representation of SE(3) rigid body transformations
 	typedef Eigen::Transform <double, 3, Eigen::Affine> Mat34;
 
+	/// Quaternion representation of SO(3) group of rotations
+    typedef Eigen::Quaternion<float_type> Quaternion;
+
 	class CElevationMap{
 
 	public:
