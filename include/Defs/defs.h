@@ -3,7 +3,6 @@
 
 #include <cstdint>
 #include <vector>
-#include "../include/CollisionDetection/vector.h"
 #include <memory>
 #include <cmath>
 #include "../../3rdParty/Eigen/Core"

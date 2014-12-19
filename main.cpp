@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/CollisionDetection/CollisionDetectionColdet.h"
-#include "../include/CollisionDetection/functions.h"
 
 using namespace std;
 /**********************************************************
@@ -260,6 +259,14 @@ void keyboard (unsigned char key, int x, int y)
 			else if(wybor_nogi==6)
 				config[15]=config[15]-0.02;
 		break;
+
+		case 'z': case 'Z':
+			std::cout<<czy_jest_kolizja<<"\n";
+			for (int i=0; i<19; i++)
+			std::cout<<collision_table[i];
+			std::cout<<"\n";
+		break;
+
     }
 }
 
@@ -327,11 +334,6 @@ void display(void)
 	//czy_jest_kolizja=robot_structure->checkCollision(pos, rotation, config, collision_table);
 	robot_structure->GLDrawRobot( config, collision_table);
 	czy_jest_kolizja=robot_structure->checkCollision(config, collision_table);
-
-	std::cout<<czy_jest_kolizja<<"\n";
-	for (int i=0; i<19; i++)
-	std::cout<<collision_table[i];
-	std::cout<<"\n";
 	//glutWireTeapot(10);
 
     glFlush(); // This force the execution of OpenGL commands
@@ -352,13 +354,10 @@ int main(int argc, char **argv)
     glutInitWindowSize(screen_width,screen_height);
     glutInitWindowPosition(400,200);
     glutCreateWindow("Model robota Messor II");    
+	//robot_structure = createCollisionDetectionColdet("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model.xml");
 	robot_structure = createCollisionDetectionColdet("Messor_II_Model.xml");
     glutDisplayFunc(display);
     glutIdleFunc(display);
-//	std::cout<<czy_jest_kolizja<<"\n";
-//	for (int i=0; i<44; i++)
-//	std::cout<<collision_table[i]);
-
 /*	for(int i=0; i<4; i++)
 		for(int j=0; j<4; j++)
 	cout << combined(i,j)<< endl; */

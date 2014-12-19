@@ -41,12 +41,12 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
         /// Constructor
         CollisionDetectionColdet (void);
 
-        /// Overloaded Constructor
-		CollisionDetectionColdet(std::string configFilename) : CollisionDetection("CollisionDetectionColdet", TYPE_COLDET), joint1(6,0){
+        /// Overloaded Constructor with vectors initialization
+		CollisionDetectionColdet(std::string configFilename) : CollisionDetection("CollisionDetectionColdet", TYPE_COLDET), joint0(6,0), joint1(6,0), joint2(6,0), links_lengths(3,0), nazwy_czesci(4){
             tinyxml2::XMLDocument config;
             std::string filename = "../../resources/" + configFilename;
-			//std::string filename =  configFilename;
-			//std::string filename = "C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources" + configFilename;
+			//Ladowanie z pelnej sciezki - niweluje problem ze program mozna zalaczyc tylko poprzez uruchomienie pliku "Demo.exe"
+			//std::string filename = "C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/" + configFilename;
             config.LoadFile(filename.c_str());
             if (config.ErrorID())
 			{
@@ -91,26 +91,26 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				element->QueryDoubleAttribute("beta", &param); platform_orientation[4] = param;
 				element->QueryDoubleAttribute("gamma", &param); platform_orientation[5] = param;
 
-				Joint0[0]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("x")->GetText());
-				Joint0[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("y")->GetText());
-				Joint0[2]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("z")->GetText());
-				Joint0[3]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("alfa")->GetText());
-				Joint0[4]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("beta")->GetText());
-				Joint0[5]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("gamma")->GetText());
+				joint0[0]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("x")->GetText());
+				joint0[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("y")->GetText());
+				joint0[2]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("z")->GetText());
+				joint0[3]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("alfa")->GetText());
+				joint0[4]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("beta")->GetText());
+				joint0[5]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("gamma")->GetText());
 
-				Joint1[0]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("x")->GetText());
-				Joint1[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("y")->GetText());
-				Joint1[2]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("z")->GetText());
-				Joint1[3]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("alfa")->GetText());
-				Joint1[4]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("beta")->GetText());
-				Joint1[5]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("gamma")->GetText());
+				joint1[0]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("x")->GetText());
+				joint1[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("y")->GetText());
+				joint1[2]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("z")->GetText());
+				joint1[3]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("alfa")->GetText());
+				joint1[4]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("beta")->GetText());
+				joint1[5]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("gamma")->GetText());
 
-				Joint2[0]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("x")->GetText());
-				Joint2[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("y")->GetText());
-				Joint2[2]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("z")->GetText());
-				Joint2[3]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("alfa")->GetText());
-				Joint2[4]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("beta")->GetText());
-				Joint2[5]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("gamma")->GetText());
+				joint2[0]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("x")->GetText());
+				joint2[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("y")->GetText());
+				joint2[2]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("z")->GetText());
+				joint2[3]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("alfa")->GetText());
+				joint2[4]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("beta")->GetText());
+				joint2[5]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("gamma")->GetText());
 
 				std::cout << nazwy_czesci[0] << " length is: " << platform_length << " and width is: " << platform_width <<"\n";
 				for(int i=1; i<4; i++)
@@ -118,11 +118,12 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 
 			}
 
-
-			robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
-			robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/coxa.3ds");
-			robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/femur.3ds");
-			robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/vitulus.3ds");
+			robot_model.ObjLoad("../../resources/Messor_II_Model/corpus.3ds");
+			robot_model.ObjLoad("../../resources/Messor_II_Model/coxa.3ds");
+			robot_model.ObjLoad("../../resources/Messor_II_Model/femur.3ds");
+			robot_model.ObjLoad("../../resources/Messor_II_Model/vitulus.3ds");
+			/// Ladowanie z pelnej sciezki - niweluje problem ze program mozna zalaczyc tylko poprzez uruchomienie pliku "Demo.exe"
+			/// robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
 
 			for (int i=0;i<19;i++) {
 				CollisionModel3D* tmp = newCollisionModel3D();
@@ -133,7 +134,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 			//	robot_model.TerrainCollisionModels();	// Init Collision Models
 			initStructures();
 			for (int j=0;j<4;j++){
-				cout<<"Number of "<<nazwy_czesci[j]<<" verticies is: "<<robot_model.object[j].vertices_qty<<"\n";
+				std::cout<<"Number of "<<nazwy_czesci[j]<<" verticies is: "<<robot_model.object[j].vertices_qty<<"\n";
 			}
 
 		}
@@ -152,7 +153,6 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 
 		//Position of the robot
 		coldet::Mat34 pose;
-
        
     private:
 		/// Initialize robot structure
@@ -184,19 +184,16 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 
 		//zadane katy dla serwomechanizmow
 		//float angles[18];
-		///model 3DS
-		std::vector<CollisionModel3D*> meshModel;
+		std::vector<CollisionModel3D*> meshModel;  /// model 3DS
 		CObjects3DS robot_model;
 
-		std::string nazwy_czesci[4];   // [0]- Platform,  [1]- Link0,  [2]- Link1,  [3]- Link2
-		//std::vector<coldet::float_type> links_lengths(size_t size=3);
-		coldet::float_type links_lengths[3];  // [0] - Link0 (Coxa),  [1] - Link1 (Femur),  [2] - Link2 (Vitulus)
+		std::vector<std::string> nazwy_czesci;   /// [0]- Platform,  [1]- Link0,  [2]- Link1,  [3]- Link2
 		coldet::float_type platform_length;
 		coldet::float_type platform_width;
+		std::vector<coldet::float_type> links_lengths;  /// [0] - Link0 (Coxa),  [1] - Link1 (Femur),  [2] - Link2 (Vitulus)
+		std::vector<coldet::float_type> joint0;
 		std::vector<coldet::float_type> joint1;
-		coldet::float_type Joint0[6];
-		coldet::float_type Joint1[6];
-		coldet::float_type Joint2[6];
+		std::vector<coldet::float_type> joint2;
 		coldet::float_type platform_orientation[6];
 
 
