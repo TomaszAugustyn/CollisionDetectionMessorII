@@ -54,13 +54,6 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 			}
 			else
 			{
-				tinyxml2::XMLElement * posXML = config.FirstChildElement( "pose" );
-				double query[4];
-				posXML->QueryDoubleAttribute("qw", &query[0]); posXML->QueryDoubleAttribute("qx", &query[1]); posXML->QueryDoubleAttribute("qy", &query[2]); posXML->QueryDoubleAttribute("qz", &query[3]);
-				double queryPos[4];
-				posXML->QueryDoubleAttribute("x", &queryPos[0]); posXML->QueryDoubleAttribute("y", &queryPos[1]); posXML->QueryDoubleAttribute("z", &queryPos[2]);
-				pose = Quaternion (query[0], query[1], query[2], query[3])*Vec3(queryPos[0], queryPos[1], queryPos[2]);
-
 				nazwy_czesci[0]=config.FirstChildElement("Platform")->FirstChildElement("name")->GetText();
 				nazwy_czesci[1]=config.FirstChildElement("Link0")->FirstChildElement("name")->GetText();
 				nazwy_czesci[2]=config.FirstChildElement("Link1")->FirstChildElement("name")->GetText();
@@ -82,14 +75,6 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				element = config.FirstChildElement( "Link2" );
 				element = element->FirstChildElement( "parameters" );
 				element->QueryDoubleAttribute("length", &param); links_lengths[2] = param;
-
-				element = config.FirstChildElement( "platform_orientation" );
-				element->QueryDoubleAttribute("x", &param); platform_orientation[0] = param;
-				element->QueryDoubleAttribute("y", &param); platform_orientation[1] = param;
-				element->QueryDoubleAttribute("z", &param); platform_orientation[2] = param;
-				element->QueryDoubleAttribute("alfa", &param); platform_orientation[3] = param;
-				element->QueryDoubleAttribute("beta", &param); platform_orientation[4] = param;
-				element->QueryDoubleAttribute("gamma", &param); platform_orientation[5] = param;
 
 				joint0[0]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("x")->GetText());
 				joint0[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("y")->GetText());
@@ -146,13 +131,11 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		~CollisionDetectionColdet (void);
 
 		/// Draw robot using openGL
-		void GLDrawRobot( std::vector<coldet::float_type> config, bool * collision_table=0) const;
+		void GLDrawRobot(coldet::Mat34* pose, std::vector<coldet::float_type> config, bool * collision_table=0) const;
 
 		/// Check collisions
-		bool checkCollision( std::vector<coldet::float_type> config, bool * collision_table) const;
+		bool checkCollision(coldet::Mat34* pose, std::vector<coldet::float_type> config, bool * collision_table) const;
 
-		//Position of the robot
-		coldet::Mat34 pose;
        
     private:
 		/// Initialize robot structure
@@ -180,10 +163,8 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void GLLeg5(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
 		void GLLeg6(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
 		void copyTable(coldet::Mat34 * src, float * dest) const;
-		void DrawRobot(std::vector<coldet::float_type> config) const;
+		void DrawRobot(coldet::Mat34* pose, std::vector<coldet::float_type> config) const;
 
-		//zadane katy dla serwomechanizmow
-		//float angles[18];
 		std::vector<CollisionModel3D*> meshModel;  /// model 3DS
 		CObjects3DS robot_model;
 
@@ -194,8 +175,6 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		std::vector<coldet::float_type> joint0;
 		std::vector<coldet::float_type> joint1;
 		std::vector<coldet::float_type> joint2;
-		coldet::float_type platform_orientation[6];
-
 
 };
 

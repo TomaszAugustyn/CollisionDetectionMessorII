@@ -37,6 +37,9 @@ bool czy_jest_kolizja;
 bool collision_table[19];
 std::vector<coldet::float_type> config(18, 0.8);
 short int wybor_nogi=0;
+coldet::Mat34 pose;
+std::vector<coldet::float_type> set_pose(6); // x="0" y="0" z="0.0" alfa="0.0" beta="0.0" gamma="0.0"
+
 
 /**********************************************************
  * SUBROUTINE init()
@@ -82,6 +85,13 @@ void init(void)
 	config[13]=-0.8;
 	config[16]=-0.8;
 
+	//Konfiguracja pozycji robota
+	set_pose[0]=0.0;				//x
+	set_pose[1]=0.0;				//y
+	set_pose[2]=0.0;				//z
+	set_pose[3]=90;					//alfa
+	set_pose[4]=45;					//beta
+	set_pose[5]=0;				//gamma
 }
 
 /**********************************************************
@@ -266,7 +276,6 @@ void keyboard (unsigned char key, int x, int y)
 			std::cout<<collision_table[i];
 			std::cout<<"\n";
 		break;
-
     }
 }
 
@@ -326,14 +335,10 @@ void display(void)
     glTranslatef(0.0, translation_y, 0.0);
 	glTranslatef(0.0, 0.0, translation_z);
 
-	//coldet::float_type pos[3]={0,0,0};
-	//coldet::float_type rot[11]={1,0,0,0,0,1,0,0,0,0,1};
-	//coldet::float_type rotation[3]={0,0,0};
-
-	//robot_structure->GLDrawRobot(pos, rot, config, collision_table);
-	//czy_jest_kolizja=robot_structure->checkCollision(pos, rotation, config, collision_table);
-	robot_structure->GLDrawRobot( config, collision_table);
-	czy_jest_kolizja=robot_structure->checkCollision(config, collision_table);
+	//pose = coldet::Quaternion(set_pose[0], set_pose[1], set_pose[2], set_pose[3])* coldet::Vec3(set_pose[4], set_pose[5], set_pose[6]);
+	pose = coldet::Vec3(set_pose[0], set_pose[1], set_pose[2])* Eigen::AngleAxisd (set_pose[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (set_pose[4]*M_PI/180, Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd (set_pose[5]*M_PI/180, Eigen::Vector3d::UnitZ());
+	robot_structure->GLDrawRobot (&pose, config, collision_table);
+	czy_jest_kolizja=robot_structure->checkCollision (&pose, config, collision_table);
 	//glutWireTeapot(10);
 
     glFlush(); // This force the execution of OpenGL commands
@@ -354,13 +359,9 @@ int main(int argc, char **argv)
     glutInitWindowSize(screen_width,screen_height);
     glutInitWindowPosition(400,200);
     glutCreateWindow("Model robota Messor II");    
-	//robot_structure = createCollisionDetectionColdet("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model.xml");
 	robot_structure = createCollisionDetectionColdet("Messor_II_Model.xml");
     glutDisplayFunc(display);
     glutIdleFunc(display);
-/*	for(int i=0; i<4; i++)
-		for(int j=0; j<4; j++)
-	cout << combined(i,j)<< endl; */
     glutReshapeFunc (resize);
     glutKeyboardFunc (keyboard);
     glutSpecialFunc (keyboard_s);

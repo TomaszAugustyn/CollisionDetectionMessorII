@@ -14,13 +14,7 @@ CollisionDetectionColdet::Ptr collisionDetectionColdet;
 
 CollisionDetectionColdet::CollisionDetectionColdet(void) : CollisionDetection("CollisionDetectionColdet", TYPE_COLDET) {
 
-//	for (int i=0;i<18;i++)
-//	angles[i]=0;
-//	angles[0]=45*3.14/180;
-//	angles[1]=-45*3.14/180;
-
 	char a,b,c,d,e;
-
 	a=robot_model.ObjLoad("../../resources/Messor_II_Model/corpus.3ds");
 	b=robot_model.ObjLoad("../../resources/Messor_II_Model/coxa.3ds");
 	c=robot_model.ObjLoad("../../resources/Messor_II_Model/femur.3ds");
@@ -509,22 +503,11 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3, bool *
 	glPopMatrix();
 }
 
-void CollisionDetectionColdet::DrawRobot ( std::vector<coldet::float_type> config ) const
+void CollisionDetectionColdet::DrawRobot (coldet::Mat34* pose, std::vector<coldet::float_type> config ) const
 {
-	std::vector<coldet::float_type> rot(3);
-	std::vector<coldet::float_type> pos(3);
-	
-	rot[0] = (pose(2,1)-pose(1,2))/(2*sqrt(pow(pose(0,0) + pose(1,1) + pose(2,2) - 1, 2)/4 - 1));
-	rot[1] = (pose(0,2)-pose(2,0))/(2*sqrt(pow(pose(0,0) + pose(1,1) + pose(2,2) - 1, 2)/4 - 1));
-	rot[2] = (pose(1,0)-pose(0,1))/(2*sqrt(pow(pose(0,0) + pose(1,1) + pose(2,2) - 1, 2)/4 - 1));
-
-	pos[0] = pose(0,3);
-	pos[1] = pose(1,3);
-	pos[2] = pose(2,3);
-
-	Eigen::Vector3d wektor_korpus(pos[0]*10, pos[2]*10-0.1, -pos[1]*10);
 	coldet::Mat34 m4;
-	m4 = Eigen::Translation3d(wektor_korpus)* Eigen::AngleAxisd (platform_orientation[3]*M_PI/180 +rot[0], Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (-rot[1], Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd (platform_orientation[5]*M_PI/180-rot[2], Eigen::Vector3d::UnitZ());
+	m4 = Eigen::AngleAxisd (M_PI/2, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (M_PI, Eigen::Vector3d::UnitZ());
+	m4 = m4 * (*pose);
 	float korpus[16];
 	copyTable(&m4,korpus);
 	meshModel[0]->setTransform (korpus);	
@@ -555,14 +538,14 @@ void CollisionDetectionColdet::DrawRobot ( std::vector<coldet::float_type> confi
 
 }
 
-void CollisionDetectionColdet::GLDrawRobot( std::vector<coldet::float_type> config, bool * collision_table) const {
+void CollisionDetectionColdet::GLDrawRobot(coldet::Mat34* pose, std::vector<coldet::float_type> config, bool * collision_table) const {
 
-	float GLmat[16]={pose(0,0), pose(1,0), pose(2,0), pose(3,0), pose(0,1), pose(1,1), pose(2,1), pose(3,1), pose(0,2), pose(1,2), pose(2,2), pose(3,2), pose(0,3), pose(1,3), pose(2,3), pose(3,3)}; //macierz do przeksztalcen
+	float GLmat[16]={(*pose)(0,0), (*pose)(1,0), (*pose)(2,0), (*pose)(3,0), (*pose)(0,1), (*pose)(1,1), (*pose)(2,1), (*pose)(3,1), (*pose)(0,2), (*pose)(1,2), (*pose)(2,2), (*pose)(3,2), (*pose)(0,3), (*pose)(1,3), (*pose)(2,3), (*pose)(3,3)}; //macierz do przeksztalcen
 
 	glPushMatrix();
 		glMultMatrixf(GLmat);
-		glRotatef(platform_orientation[3],1,0,0);
-		glRotatef(platform_orientation[5],0,0,1);
+		glRotatef(90,1,0,0);
+		glRotatef(180,0,0,1);
 		glPushMatrix();
 		if(collision_table[0]==false)
 		glColor3f(0.0, 1.0, 0.0);
@@ -605,9 +588,9 @@ void CollisionDetectionColdet::GLDrawRobot( std::vector<coldet::float_type> conf
 
 }
 
-bool CollisionDetectionColdet::checkCollision( std::vector<coldet::float_type> config, bool * collision_table) const {
+bool CollisionDetectionColdet::checkCollision(coldet::Mat34* pose, std::vector<coldet::float_type> config, bool * collision_table) const {
 
-	DrawRobot(config);
+	DrawRobot(pose, config);
 	for (int i=0;i<19;i++){
 		collision_table[i]=false;
 	}
