@@ -146,21 +146,21 @@ void CollisionDetectionColdet::drawCoordinateSystem(void)
 	glColor3f(1, 1, 1);
 }
 
-void CollisionDetectionColdet::copyTable(coldet::Mat34 * src, float * dest) const{
+void CollisionDetectionColdet::copyTable(coldet::Mat34& src, float * dest) const{
 	for (int i=0;i<4;i++){
 		for (int j=0;j<4;j++){
-			dest[i+4*j]=(*src)(i,j);
+			dest[i+4*j]=src(i,j);
 		}
 	}
 }
 
-void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
+void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 
 	Eigen::Vector3d wektor_biodro(joint0[0]*0.254, joint0[1]*0.254, joint0[2]*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	float biodro_3[16];
-	copyTable(&m_noga1,biodro_3);
+	copyTable(m_noga1,biodro_3);
 	meshModel[15]->setTransform (biodro_3);
 
 	float udo_3[16];
@@ -168,133 +168,133 @@ void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::
 	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
 	coldet::Mat34 m_noga2;
 	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga2, udo_3);
+	copyTable(m_noga2, udo_3);
 	meshModel[9]->setTransform (udo_3);
 
 	float lydka_3[16];
 	Eigen::Vector3d wektor_lydka(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 	coldet::Mat34 m_noga3;
 	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga3,lydka_3);
+	copyTable(m_noga3,lydka_3);
 	meshModel[3]->setTransform (lydka_3);
 }
 
-void CollisionDetectionColdet::Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
+void CollisionDetectionColdet::Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 	float biodro_4[16];
 	Eigen::Vector3d wektor_biodro(-joint0[0]*0.254, joint0[1]*0.254, joint0[2]*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (joint0[5]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga1,biodro_4);
+	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (joint0[5]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	copyTable(m_noga1,biodro_4);
 	meshModel[16]->setTransform (biodro_4);
 								
 	float udo_4[16];
 	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
 	coldet::Mat34 m_noga2;
 	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga2,udo_4);
+	copyTable(m_noga2,udo_4);
 	meshModel[10]->setTransform (udo_4);
 
 	float lydka_4[16];
 	Eigen::Vector3d wektor_lydka(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 	coldet::Mat34 m_noga3;
 	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga3,lydka_4);
+	copyTable(m_noga3,lydka_4);
 	meshModel[4]->setTransform (lydka_4);
 }
 
-void CollisionDetectionColdet::Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
+void CollisionDetectionColdet::Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 	float biodro_2[16];
 	Eigen::Vector3d wektor_biodro(2*joint0[0]*0.254, 0.0, joint0[2]*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga1,biodro_2);
+	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	copyTable(m_noga1,biodro_2);
 	meshModel[14]->setTransform (biodro_2);
 
 	float udo_2[16];
 	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
 	coldet::Mat34 m_noga2;
 	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga2,udo_2);
+	copyTable(m_noga2,udo_2);
 	meshModel[8]->setTransform (udo_2);
 										
 	float lydka_2[16];
 	Eigen::Vector3d wektor_lydka(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 	coldet::Mat34 m_noga3;
 	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga3,lydka_2);
+	copyTable(m_noga3,lydka_2);
 	meshModel[2]->setTransform (lydka_2);
 }
 
-void CollisionDetectionColdet::Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
+void CollisionDetectionColdet::Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 	float biodro_5[16];
 	Eigen::Vector3d wektor_biodro(-2*joint0[0]*0.254, 0.0, joint0[2]*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (joint0[5]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga1,biodro_5);
+	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (joint0[5]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	copyTable(m_noga1,biodro_5);
 	meshModel[17]->setTransform (biodro_5);
 					
 	float udo_5[16];
 	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
 	coldet::Mat34 m_noga2;
 	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga2,udo_5);
+	copyTable(m_noga2,udo_5);
 	meshModel[11]->setTransform (udo_5);
 										
 	float lydka_5[16];
 	Eigen::Vector3d wektor_lydka(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 	coldet::Mat34 m_noga3;
 	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga3,lydka_5);
+	copyTable(m_noga3,lydka_5);
 	meshModel[5]->setTransform (lydka_5);
 }
 
-void CollisionDetectionColdet::Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
+void CollisionDetectionColdet::Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 	float biodro_1[16];
 	Eigen::Vector3d wektor_biodro(joint0[0]*0.254, -joint0[1]*0.254, joint0[2]*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga1,biodro_1);
+	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	copyTable(m_noga1,biodro_1);
 	meshModel[13]->setTransform (biodro_1);
 					
 	float udo_1[16];
 	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
 	coldet::Mat34 m_noga2;
 	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga2,udo_1);
+	copyTable(m_noga2,udo_1);
 	meshModel[7]->setTransform (udo_1);
 										
 	float lydka_1[16];
 	Eigen::Vector3d wektor_lydka(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 	coldet::Mat34 m_noga3;
 	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga3,lydka_1);
+	copyTable(m_noga3,lydka_1);
 	meshModel[1]->setTransform (lydka_1);
 }
 
-void CollisionDetectionColdet::Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const {
+void CollisionDetectionColdet::Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 	float biodro_6[16];
 	Eigen::Vector3d wektor_biodro(-joint0[0]*0.254, -joint0[1]*0.254, joint0[2]*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = (*m_noga)*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (joint0[5]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga1,biodro_6);
+	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (joint0[5]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	copyTable(m_noga1,biodro_6);
 	meshModel[18]->setTransform (biodro_6);
 					
 	float udo_6[16];
 	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
 	coldet::Mat34 m_noga2;
 	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga2, udo_6);
+	copyTable(m_noga2, udo_6);
 	meshModel[12]->setTransform (udo_6);
 										
 	float lydka_6[16];
 	Eigen::Vector3d wektor_lydka(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 	coldet::Mat34 m_noga3;
 	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
-	copyTable(&m_noga3, lydka_6);
+	copyTable(m_noga3, lydka_6);
 	meshModel[6]->setTransform (lydka_6); 
 }
 
-void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, bool * collision_table) const {
+void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
 		glTranslatef(joint0[0]*0.254, joint0[1]*0.254, joint0[2]*0.254);
@@ -329,7 +329,7 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, bool *
 
 }
 
-void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3, bool * collision_table) const {
+void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3,  std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
 		glTranslatef(-joint0[0]*0.254, joint0[1]*0.254, joint0[2]*0.254);
@@ -364,7 +364,7 @@ void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3, bool *
 	glPopMatrix(); 
 }
 
-void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3, bool * collision_table) const {
+void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3,  std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
 		glTranslatef(2*joint0[0]*0.254, 0.0, joint0[2]*0.254);
@@ -398,7 +398,7 @@ void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3, bool *
 	glPopMatrix(); 
 }
 
-void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3, bool * collision_table) const {
+void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3,  std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
 		glTranslatef(-2*joint0[0]*0.254, 0.0, joint0[2]*0.254);
@@ -433,7 +433,7 @@ void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3, bool *
 	glPopMatrix();
 }
 
-void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3, bool * collision_table) const {
+void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3,  std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
 		glTranslatef(joint0[0]*0.254, -joint0[1]*0.254, joint0[2]*0.254);
@@ -468,7 +468,7 @@ void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3, bool *
 	glPopMatrix();
 }
 
-void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3, bool * collision_table) const {
+void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3,  std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
 		glTranslatef(-joint0[0]*0.254, -joint0[1]*0.254, joint0[2]*0.254);
@@ -503,49 +503,49 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3, bool *
 	glPopMatrix();
 }
 
-void CollisionDetectionColdet::DrawRobot (coldet::Mat34* pose, std::vector<coldet::float_type> config ) const
+void CollisionDetectionColdet::DrawRobot (const coldet::Mat34& pose, const std::vector<coldet::float_type>& config) const
 {
 	coldet::Mat34 m4;
-	m4 = Eigen::AngleAxisd (M_PI/2, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (M_PI, Eigen::Vector3d::UnitZ());
-	m4 = m4 * (*pose);
+	m4 = Eigen::AngleAxisd (-M_PI/2, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (0, Eigen::Vector3d::UnitZ());
+	m4 = m4 * pose;
 	float korpus[16];
-	copyTable(&m4,korpus);
+	copyTable(m4,korpus);
 	meshModel[0]->setTransform (korpus);	
 		
 //===============NOGA_3=================================
 
-	Leg3(-config[6]*180/3.14,-config[7]*180/3.14,-config[8]*180/3.14, &m4); 
+	Leg3(-config[6]*180/3.14,-config[7]*180/3.14,-config[8]*180/3.14, m4); 
 
 //===============NOGA_4=================================
 
-	Leg4(config[9]*180/3.14,-config[10]*180/3.14,-config[11]*180/3.14,&m4);	
+	Leg4(config[9]*180/3.14,-config[10]*180/3.14,-config[11]*180/3.14, m4);	
 
 //===============NOGA_2=================================
 
-	Leg2(-config[3]*180/3.14,-config[4]*180/3.14,-config[5]*180/3.14,&m4); 
+	Leg2(-config[3]*180/3.14,-config[4]*180/3.14,-config[5]*180/3.14, m4); 
 
 //===============NOGA_5=================================
 
-	Leg5(config[12]*180/3.14,-config[13]*180/3.14,-config[14]*180/3.14, &m4);	
+	Leg5(config[12]*180/3.14,-config[13]*180/3.14,-config[14]*180/3.14, m4);	
 
 //===============NOGA_1=================================
 
-	Leg1(-config[0]*180/3.14,-config[1]*180/3.14,-config[2]*180/3.14,&m4);	
+	Leg1(-config[0]*180/3.14,-config[1]*180/3.14,-config[2]*180/3.14, m4);	
 
 //===============NOGA_6=================================
 
-	Leg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14, &m4);
+	Leg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14, m4);
 
 }
 
-void CollisionDetectionColdet::GLDrawRobot(coldet::Mat34* pose, std::vector<coldet::float_type> config, bool * collision_table) const {
+void CollisionDetectionColdet::GLDrawRobot(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config,  std::vector<bool>& collision_table) const {
 
-	float GLmat[16]={(*pose)(0,0), (*pose)(1,0), (*pose)(2,0), (*pose)(3,0), (*pose)(0,1), (*pose)(1,1), (*pose)(2,1), (*pose)(3,1), (*pose)(0,2), (*pose)(1,2), (*pose)(2,2), (*pose)(3,2), (*pose)(0,3), (*pose)(1,3), (*pose)(2,3), (*pose)(3,3)}; //macierz do przeksztalcen
+	float GLmat[16]={pose(0,0), pose(1,0), pose(2,0), pose(3,0), pose(0,1), pose(1,1), pose(2,1), pose(3,1), pose(0,2), pose(1,2), pose(2,2), pose(3,2), pose(0,3), pose(1,3), pose(2,3), pose(3,3)}; //macierz do przeksztalcen
 
 	glPushMatrix();
 		glMultMatrixf(GLmat);
-		glRotatef(90,1,0,0);
-		glRotatef(180,0,0,1);
+		glRotatef(-90,1,0,0);
+		glRotatef(0,0,0,1);
 		glPushMatrix();
 		if(collision_table[0]==false)
 		glColor3f(0.0, 1.0, 0.0);
@@ -588,7 +588,7 @@ void CollisionDetectionColdet::GLDrawRobot(coldet::Mat34* pose, std::vector<cold
 
 }
 
-bool CollisionDetectionColdet::checkCollision(coldet::Mat34* pose, std::vector<coldet::float_type> config, bool * collision_table) const {
+bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config, std::vector<bool>& collision_table) const{
 
 	DrawRobot(pose, config);
 	for (int i=0;i<19;i++){
@@ -780,7 +780,28 @@ bool CollisionDetectionColdet::checkCollision(coldet::Mat34* pose, std::vector<c
 	if (meshModel[VITULUS6]->collision(meshModel[COXA1])) {
 		collision_table[18]=true; collision_table[1]=true;
 	}
-	//=========KOLIZJE miedzy korpusem, a pierwszymi ogniwami od niego
+
+	//=========KOLIZJE miedzy pierwszymi, a trzecimi ogniwami od korpusu miedzy roznymi nogami (s¹siednie Vitulus, a Coxa)
+	/*for (int i=1; i<6; i++)
+	{
+		if (meshModel[MechParts(i+1)]->collision(meshModel[MechParts(i+12)]))
+		collision_table[13+i]=true; collision_table[i]=true;
+
+	}*/
+	/*for (int i=1; i<6; i++)
+	{
+		if (meshModel[MechParts(i)]->collision(meshModel[MechParts(i+13)]))
+		collision_table[12+i]=true; collision_table[i+1]=true;
+	}*/
+
+	/*	if (meshModel[VITULUS6]->collision(meshModel[COXA1]))
+		collision_table[18]=true; collision_table[1]=true;
+		if (meshModel[VITULUS1]->collision(meshModel[COXA6]))
+		collision_table[13]=true; collision_table[6]=true;  */
+
+
+	//=========KOLIZJE miedzy korpusem, a pierwszymi ogniwami od niego (Miêdzy Coxa1-6, a Corpus)
+
 	if (meshModel[COXA1]->collision(meshModel[PLATFORM])) {
 		collision_table[1]=true; collision_table[0]=true;
 	}
@@ -798,6 +819,48 @@ bool CollisionDetectionColdet::checkCollision(coldet::Mat34* pose, std::vector<c
 	}
 	if (meshModel[COXA6]->collision(meshModel[PLATFORM])) {
 		collision_table[6]=true; collision_table[0]=true;
+	}
+
+	//=========KOLIZJE miedzy korpusem, a drugimi ogniwami od niego (Miêdzy Femur1-6, a Corpus)
+
+		if (meshModel[FEMUR1]->collision(meshModel[PLATFORM])) {
+		collision_table[7]=true; collision_table[0]=true;
+	}
+	if (meshModel[FEMUR2]->collision(meshModel[PLATFORM])) {
+		collision_table[8]=true; collision_table[0]=true;
+	}
+	if (meshModel[FEMUR3]->collision(meshModel[PLATFORM])) {
+		collision_table[9]=true; collision_table[0]=true;
+	}
+	if (meshModel[FEMUR4]->collision(meshModel[PLATFORM])) {
+		collision_table[10]=true; collision_table[0]=true;
+	}
+	if (meshModel[FEMUR5]->collision(meshModel[PLATFORM])) {
+		collision_table[11]=true; collision_table[0]=true;
+	}
+	if (meshModel[FEMUR6]->collision(meshModel[PLATFORM])) {
+		collision_table[12]=true; collision_table[0]=true;
+	}
+
+	//=========KOLIZJE miedzy korpusem, a trzecimi ogniwami od niego (Miêdzy Vitulus1-6, a Corpus)
+
+	if (meshModel[VITULUS1]->collision(meshModel[PLATFORM])) {
+		collision_table[13]=true; collision_table[0]=true;
+	}
+	if (meshModel[VITULUS2]->collision(meshModel[PLATFORM])) {
+		collision_table[14]=true; collision_table[0]=true;
+	}
+	if (meshModel[VITULUS3]->collision(meshModel[PLATFORM])) {
+		collision_table[15]=true; collision_table[0]=true;
+	}
+	if (meshModel[VITULUS4]->collision(meshModel[PLATFORM])) {
+		collision_table[16]=true; collision_table[0]=true;
+	}
+	if (meshModel[VITULUS5]->collision(meshModel[PLATFORM])) {
+		collision_table[17]=true; collision_table[0]=true;
+	}
+	if (meshModel[VITULUS6]->collision(meshModel[PLATFORM])) {
+		collision_table[18]=true; collision_table[0]=true;
 	}
 
 

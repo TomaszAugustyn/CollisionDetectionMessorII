@@ -14,7 +14,6 @@
 using namespace std;
 /**********************************************************
  * VARIABLES DECLARATION
- *
  *********************************************************/
 
 // The width and height of your window, change them as you like
@@ -33,9 +32,9 @@ int filling=0; //0=OFF 1=ON
 //Now the object is generic, the cube has annoyed us a little bit, or not?
 CollisionDetection* robot_structure;
 bool czy_jest_kolizja;
-//bool* collision_table= new bool[44];
-bool collision_table[19];
 std::vector<coldet::float_type> config(18, 0.8);
+std::vector<bool> collision_table(19);
+//bool collision_table[19];
 short int wybor_nogi=0;
 coldet::Mat34 pose;
 std::vector<coldet::float_type> set_pose(6); // x="0" y="0" z="0.0" alfa="0.0" beta="0.0" gamma="0.0"
@@ -68,30 +67,31 @@ void init(void)
 	glEnable(GL_DITHER);
     
 	//konfiguracja dla serwonapedow lydek
-	config[2]=2.3;
-	config[5]=2.3;
-	config[8]=2.3;
-	config[11]=2.3;
-	config[14]=2.3;
-	config[17]=2.3;
+	config[2]=-2.3;
+	config[5]=-2.3;
+	config[8]=-2.3;
+	config[11]=-2.3;
+	config[14]=-2.3;
+	config[17]=-2.3;
 
 	config[0]=-0.7;
 	
 	//konfiguracja dla serwonapedow ud
-	config[1]=-0.8;
-	config[4]=-0.8;
-	config[7]=-0.8;
-	config[10]=-0.8;
-	config[13]=-0.8;
-	config[16]=-0.8;
+	config[1]=0.8;
+	config[4]=0.8;
+	config[7]=0.8;
+	config[10]=0.8;
+	config[13]=0.8;
+	config[16]=0.8;
 
 	//Konfiguracja pozycji robota
 	set_pose[0]=0.0;				//x
 	set_pose[1]=0.0;				//y
 	set_pose[2]=0.0;				//z
-	set_pose[3]=90;					//alfa
-	set_pose[4]=45;					//beta
+	set_pose[3]=45;					//alfa 90
+	set_pose[4]=0;					//beta 45
 	set_pose[5]=0;				//gamma
+
 }
 
 /**********************************************************
@@ -273,7 +273,7 @@ void keyboard (unsigned char key, int x, int y)
 		case 'z': case 'Z':
 			std::cout<<czy_jest_kolizja<<"\n";
 			for (int i=0; i<19; i++)
-			std::cout<<collision_table[i];
+				std::cout <<collision_table[i];
 			std::cout<<"\n";
 		break;
     }
@@ -337,8 +337,8 @@ void display(void)
 
 	//pose = coldet::Quaternion(set_pose[0], set_pose[1], set_pose[2], set_pose[3])* coldet::Vec3(set_pose[4], set_pose[5], set_pose[6]);
 	pose = coldet::Vec3(set_pose[0], set_pose[1], set_pose[2])* Eigen::AngleAxisd (set_pose[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (set_pose[4]*M_PI/180, Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd (set_pose[5]*M_PI/180, Eigen::Vector3d::UnitZ());
-	robot_structure->GLDrawRobot (&pose, config, collision_table);
-	czy_jest_kolizja=robot_structure->checkCollision (&pose, config, collision_table);
+	czy_jest_kolizja=robot_structure->checkCollision (pose, config, collision_table);
+	robot_structure->GLDrawRobot (pose, config, collision_table);
 	//glutWireTeapot(10);
 
     glFlush(); // This force the execution of OpenGL commands
@@ -367,7 +367,5 @@ int main(int argc, char **argv)
     glutSpecialFunc (keyboard_s);
     init();
     glutMainLoop();
-
-	delete [] collision_table;
     return(0);    
 }

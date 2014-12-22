@@ -131,11 +131,11 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		~CollisionDetectionColdet (void);
 
 		/// Draw robot using openGL
-		void GLDrawRobot(coldet::Mat34* pose, std::vector<coldet::float_type> config, bool * collision_table=0) const;
+		void GLDrawRobot(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config, std::vector<bool>& collision_table) const;
 
 		/// Check collisions
-		bool checkCollision(coldet::Mat34* pose, std::vector<coldet::float_type> config, bool * collision_table) const;
-
+		bool checkCollision(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config, std::vector<bool>& collision_table) const;
+		
        
     private:
 		/// Initialize robot structure
@@ -150,20 +150,21 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void structFemur(void);
 		void structVitulus(void);
 		void drawCoordinateSystem(void);
-		void Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
-		void Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
-		void Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
-		void Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
-		void Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
-		void Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34 * m_noga) const;
-		void GLLeg1(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
-		void GLLeg2(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
-		void GLLeg3(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
-		void GLLeg4(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
-		void GLLeg5(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
-		void GLLeg6(float Qn_1, float Qn_2, float Qn_3, bool * collision_table=0) const;
-		void copyTable(coldet::Mat34 * src, float * dest) const;
-		void DrawRobot(coldet::Mat34* pose, std::vector<coldet::float_type> config) const;
+		void Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
+		void Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
+		void Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
+		void Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
+		void Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
+		void Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
+		void GLLeg1(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
+		void GLLeg2(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
+		void GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
+		void GLLeg4(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
+		void GLLeg5(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
+		void GLLeg6(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
+		void copyTable(coldet::Mat34& src, float * dest) const;
+		void DrawRobot(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config) const;
+
 
 		std::vector<CollisionModel3D*> meshModel;  /// model 3DS
 		CObjects3DS robot_model;
