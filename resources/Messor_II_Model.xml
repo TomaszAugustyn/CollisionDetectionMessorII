@@ -7,22 +7,22 @@
   </conf>
 
   <Platform>
-    <name>Corpus</name>
+    <name>PLATFORM</name>
     <parameters length="0.299" width="0.205"></parameters>
   </Platform>
 
   <Link0>
-    <name>Coxa</name>
+    <name>COXA</name>
     <parameters length="0.049"></parameters>
   </Link0>
 
   <Link1>
-    <name>Femur</name>
+    <name>FEMUR</name>
     <parameters length="0.12"></parameters>
   </Link1>
 
   <Link2>
-    <name>Vitulus</name>
+    <name>VITULUS</name>
     <parameters length="0.174"></parameters>
   </Link2>
 

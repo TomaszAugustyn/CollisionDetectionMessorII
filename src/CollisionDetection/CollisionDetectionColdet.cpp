@@ -300,9 +300,10 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::v
 		glTranslatef(joint0[0]*0.254, joint0[1]*0.254, joint0[2]*0.254);
 		glRotatef(Qn_1,0,0,1);
 		if(collision_table[3]==false)
-		glColor3f(0.0, 0.75, 0.0);
+		glColor3f(0.0, 0.75, 0.0); 	
 		else
 			glColor3f(0.75, 0.0, 0.0);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
 	glRotatef(joint1[3],1,0,0);
@@ -310,9 +311,10 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::v
 	glRotatef(Qn_2,0,0,1);	
 	glPushMatrix();
 	if(collision_table[9]==false)
-		glColor3f(0.0, 0.5, 0.0);
+	glColor3f(0.0, 0.5, 0.0);
 		else
 			glColor3f(0.5, 0.0, 0.0);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
 			glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 		glRotatef(Qn_3,0,0,1);
@@ -321,6 +323,7 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::v
 			glColor3f(0.0, 0.3, 0.0);
 			else
 				glColor3f(0.3, 0.0, 0.0);
+				glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 			glCallList(GL_VITULUS);
 		glPopMatrix();
 	glPopMatrix();
@@ -339,6 +342,7 @@ void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColor3f(0.0, 0.75, 0.0);
 		else
 			glColor3f(0.75, 0.0, 0.0);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
 	glRotatef(joint1[3],1,0,0);
@@ -349,6 +353,7 @@ void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColor3f(0.0, 0.5, 0.0);
 		else
 			glColor3f(0.5, 0.0, 0.0);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
 		glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 		glRotatef(Qn_3,0,0,1);
@@ -357,6 +362,7 @@ void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColor3f(0.0, 0.3, 0.0);
 			else
 				glColor3f(0.3, 0.0, 0.0);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 			glCallList(GL_VITULUS);
 		glPopMatrix();
 	glPopMatrix(); 
@@ -373,6 +379,7 @@ void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColor3f(0.0, 0.75, 0.0);
 		else
 			glColor3f(0.75, 0.0, 0.0);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
 	glRotatef(joint1[3],1,0,0);
@@ -383,6 +390,7 @@ void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColor3f(0.0, 0.5, 0.0);
 		else
 			glColor3f(0.5, 0.0, 0.0);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
 		glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 		glRotatef(Qn_3,0,0,1);
@@ -391,6 +399,7 @@ void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColor3f(0.0, 0.3, 0.0);
 			else
 				glColor3f(0.3, 0.0, 0.0);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 			glCallList(GL_VITULUS);
 		glPopMatrix();
 	glPopMatrix(); 
@@ -408,6 +417,7 @@ void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColor3f(0.0, 0.75, 0.0);
 		else
 			glColor3f(0.75, 0.0, 0.0);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
 	glRotatef(joint1[3],1,0,0);
@@ -418,6 +428,7 @@ void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColor3f(0.0, 0.5, 0.0);
 		else
 			glColor3f(0.5, 0.0, 0.0);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
 			glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 		glRotatef(Qn_3,0,0,1);
@@ -426,6 +437,7 @@ void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColor3f(0.0, 0.3, 0.0);
 			else
 				glColor3f(0.3, 0.0, 0.0);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 			glCallList(GL_VITULUS);
 		glPopMatrix();
 	glPopMatrix();
@@ -442,6 +454,7 @@ void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColor3f(0.0, 0.75, 0.0);
 		else
 			glColor3f(0.75, 0.0, 0.0);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
 	glRotatef(joint1[3],1,0,0);
@@ -452,6 +465,7 @@ void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColor3f(0.0, 0.5, 0.0);
 		else
 			glColor3f(0.5, 0.0, 0.0);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
 		glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 		glRotatef(Qn_3,0,0,1);
@@ -460,6 +474,7 @@ void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColor3f(0.0, 0.3, 0.0);
 			else
 				glColor3f(0.3, 0.0, 0.0);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 			glCallList(GL_VITULUS);
 		glPopMatrix();
 
@@ -478,6 +493,7 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColor3f(0.0, 0.75, 0.0);
 		else
 			glColor3f(0.75, 0.0, 0.0);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
 	glRotatef(joint1[3],1,0,0);
@@ -488,6 +504,7 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColor3f(0.0, 0.5, 0.0);
 		else
 			glColor3f(0.5, 0.0, 0.0);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
 		glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 		glRotatef(Qn_3,0,0,1);
@@ -496,6 +513,7 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColor3f(0.0, 0.3, 0.0);
 			else
 				glColor3f(0.3, 0.0, 0.0);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 			glCallList(GL_VITULUS);
 		glPopMatrix();
 	glPopMatrix();
@@ -551,6 +569,7 @@ void CollisionDetectionColdet::GLDrawRobot(const coldet::Mat34& pose, const std:
 		glColor3f(0.0, 1.0, 0.0);
 		else
 			glColor3f(1.0, 0.0, 0.0);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 			glCallList(GL_PLATFORM);
 		glPopMatrix();
 					
@@ -589,6 +608,15 @@ void CollisionDetectionColdet::GLDrawRobot(const coldet::Mat34& pose, const std:
 }
 
 bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config, std::vector<bool>& collision_table) const{
+
+	/*std::vector<std::string> nazwy_temp(19);
+	nazwy_temp[0]=nazwy_czesci[0];
+	for (int i=1; i<7; i++)
+		nazwy_temp[i]=nazwy_czesci[1] + std::to_string(i);
+	for (int i=1; i<7; i++)
+		nazwy_temp[i+6]=nazwy_czesci[2] + std::to_string(i);
+	for (int i=1; i<7; i++)
+		nazwy_temp[i+12]=nazwy_czesci[3] + std::to_string(i); */
 
 	DrawRobot(pose, config);
 	for (int i=0;i<19;i++){

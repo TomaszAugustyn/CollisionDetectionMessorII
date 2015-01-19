@@ -27,7 +27,7 @@ double translation_x=0;
 double translation_y=0;
 double translation_z=0;
 // Flag for rendering as lines or filled polygons
-int filling=0; //0=OFF 1=ON
+int filling=1; //0=OFF 1=ON
 
 //Now the object is generic, the cube has annoyed us a little bit, or not?
 CollisionDetection* robot_structure;
@@ -39,6 +39,29 @@ short int wybor_nogi=0;
 coldet::Mat34 pose;
 std::vector<coldet::float_type> set_pose(6); // x="0" y="0" z="0.0" alfa="0.0" beta="0.0" gamma="0.0"
 
+/*#ifdef near
+#undef near
+#endif
+#ifdef far
+#undef far
+#endif
+const GLdouble left = - 2.0;
+const GLdouble right = 2.0;
+const GLdouble bottom = - 2.0;
+const GLdouble top = 2.0;
+const GLdouble near = 3.0;
+const GLdouble far = 7.0;
+
+GLfloat rotatex = 45.0;
+GLfloat rotatey = 0.0; */
+
+GLfloat light_position[ 4 ] =
+{
+    0.0, 5.0, 2.0, 0.0
+};
+
+GLfloat light_rotatex = 0.0;
+GLfloat light_rotatey = 0.0; 
 
 /**********************************************************
  * SUBROUTINE init()
@@ -61,11 +84,16 @@ void init(void)
     gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,10.0f,10000.0f); // We define the "viewing volume"
    
     glEnable(GL_DEPTH_TEST); // We enable the depth test (also called z buffer)
-    glPolygonMode (GL_FRONT_AND_BACK, GL_LINE); // GL_FILL-> Polygon rasterization mode (polygon filled),  GL_LINE-> (not filled) filling=0;
+    glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // GL_FILL-> Polygon rasterization mode (polygon filled),  GL_LINE-> (not filled) filling=0;
 	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glEnable(GL_DITHER);
-    
+
+
+	glEnable(GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	//glLightf(GL_LIGHT0, GL_DIFFUSE, 0.8);
+
 	//konfiguracja dla serwonapedow lydek
 	config[2]=-2.3;
 	config[5]=-2.3;
@@ -116,6 +144,7 @@ void resize (int width, int height)
 
     glutPostRedisplay (); // This command redraw the scene (it calls the same routine of glutDisplayFunc)
 }
+
 
 /**********************************************************
  *
@@ -324,9 +353,9 @@ void display(void)
     
 	glTranslatef(0,0,-18.0); // We move the object forward (the model matrix is multiplied by the translation matrix)
 
- // if (rotation_x > 359) rotation_x = 0;
- // if (rotation_y > 359) rotation_y = 0;
- // if (rotation_z > 359) rotation_z = 0;
+	if (rotation_x > 359) rotation_x = 0;
+	if (rotation_y > 359) rotation_y = 0;
+	if (rotation_z > 359) rotation_z = 0;
 
     glRotatef(rotation_x,1.0,0.0,0.0); // Rotations of the object (the model matrix is multiplied by the rotation matrices)
     glRotatef(rotation_y,0.0,1.0,0.0);
@@ -335,11 +364,30 @@ void display(void)
     glTranslatef(0.0, translation_y, 0.0);
 	glTranslatef(0.0, 0.0, translation_z);
 
+	glEnable(GL_NORMALIZE);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
+	glPushMatrix();
+
+    // macierz modelowania = macierz jednostkowa
+    glLoadIdentity();
+    
+    // obroty kierunku Ÿród³a œwiat³a - klawisze kursora
+    glRotatef(light_rotatex, 1.0, 0, 0 );
+    glRotatef(light_rotatey, 0, 1.0, 0 );
+    
+    // ustalenie kierunku Ÿród³a œwiat³a
+    glLightfv( GL_LIGHT0, GL_POSITION, light_position );
+    
+    // przywrócenie pierwotnej macierzy modelowania
+    glPopMatrix(); 
+
 	//pose = coldet::Quaternion(set_pose[0], set_pose[1], set_pose[2], set_pose[3])* coldet::Vec3(set_pose[4], set_pose[5], set_pose[6]);
+
 	pose = coldet::Vec3(set_pose[0], set_pose[1], set_pose[2])* Eigen::AngleAxisd (set_pose[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (set_pose[4]*M_PI/180, Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd (set_pose[5]*M_PI/180, Eigen::Vector3d::UnitZ());
 	czy_jest_kolizja=robot_structure->checkCollision (pose, config, collision_table);
 	robot_structure->GLDrawRobot (pose, config, collision_table);
-	//glutWireTeapot(10);
+
 
     glFlush(); // This force the execution of OpenGL commands
     glutSwapBuffers(); // In double buffered mode we invert the positions of the visible buffer and the writing buffer
@@ -360,12 +408,13 @@ int main(int argc, char **argv)
     glutInitWindowPosition(400,200);
     glutCreateWindow("Model robota Messor II");    
 	robot_structure = createCollisionDetectionColdet("Messor_II_Model.xml");
+	init();
     glutDisplayFunc(display);
     glutIdleFunc(display);
     glutReshapeFunc (resize);
     glutKeyboardFunc (keyboard);
     glutSpecialFunc (keyboard_s);
-    init();
+
     glutMainLoop();
     return(0);    
 }
