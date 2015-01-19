@@ -11,10 +11,11 @@
 #include <stdlib.h>
 #include "../include/CollisionDetection/CollisionDetectionColdet.h"
 
-using namespace std;
+//using namespace std;
 /**********************************************************
  * VARIABLES DECLARATION
  *********************************************************/
+
 
 // The width and height of your window, change them as you like
 int screen_width=1024;
@@ -39,29 +40,34 @@ short int wybor_nogi=0;
 coldet::Mat34 pose;
 std::vector<coldet::float_type> set_pose(6); // x="0" y="0" z="0.0" alfa="0.0" beta="0.0" gamma="0.0"
 
-/*#ifdef near
-#undef near
-#endif
-#ifdef far
-#undef far
-#endif
-const GLdouble left = - 2.0;
-const GLdouble right = 2.0;
-const GLdouble bottom = - 2.0;
+GLfloat light_position[ 4 ] =
+{
+    0.0, 5.0, 2.0, 0.0   // 0.0, 5.0, 2.0, 0.0
+};
+
+GLfloat light_rotatex = -10.0;  //-10
+GLfloat light_rotatey = 90.0;    //0, 90
+
+// k¹ty obrotu obiektu
+GLfloat rotatex = 0.0;
+GLfloat rotatey = 0.0;
+
+// rozmiary bry³y obcinania
+const GLdouble left1 = -2.0;
+const GLdouble right1 = 2.0;
+const GLdouble bottom = -2.0;
 const GLdouble top = 2.0;
 const GLdouble near = 3.0;
 const GLdouble far = 7.0;
 
-GLfloat rotatex = 45.0;
-GLfloat rotatey = 0.0; */
+// wskaŸnik naciœniêcia lewego przycisku myszki
+int button_state = GLUT_UP;
 
-GLfloat light_position[ 4 ] =
-{
-    0.0, 5.0, 2.0, 0.0
-};
+// po³o¿enie kursora myszki
+int button_x, button_y;
 
-GLfloat light_rotatex = 0.0;
-GLfloat light_rotatey = 0.0; 
+// wspó³czynnik skalowania
+GLfloat scale = 1.0;
 
 /**********************************************************
  * SUBROUTINE init()
@@ -144,7 +150,6 @@ void resize (int width, int height)
 
     glutPostRedisplay (); // This command redraw the scene (it calls the same routine of glutDisplayFunc)
 }
-
 
 /**********************************************************
  *
@@ -305,6 +310,22 @@ void keyboard (unsigned char key, int x, int y)
 				std::cout <<collision_table[i];
 			std::cout<<"\n";
 		break;
+
+		case 't': case 'T':
+			light_rotatex = light_rotatex + 5.0;
+		break;
+
+		case 'f': case 'F':
+			light_rotatex = light_rotatex - 5.0;
+		break;
+
+		case 'y': case 'Y':
+			light_rotatey = light_rotatey + 5.0;
+		break;
+
+		case 'g': case 'G':
+			light_rotatey = light_rotatey - 5.0;
+		break;
     }
 }
 
@@ -318,9 +339,9 @@ void keyboard (unsigned char key, int x, int y)
 
 void keyboard_s (int key, int x, int y)
 {  
-    switch (key)
+     switch (key)
     {
-        case GLUT_KEY_UP:
+       case GLUT_KEY_UP:
             rotation_x = rotation_x  +1;
         break;
         case GLUT_KEY_DOWN:
@@ -331,7 +352,36 @@ void keyboard_s (int key, int x, int y)
         break;
         case GLUT_KEY_RIGHT:
             rotation_y = rotation_y -1;
-        break;
+        break; 
+    }
+}
+void MouseButton( int button, int state, int x, int y )
+{
+    if( button == GLUT_LEFT_BUTTON )
+    {
+        // zapamiêtanie stanu lewego przycisku myszki
+        button_state = state;
+        
+        // zapamiêtanie po³o¿enia kursora myszki
+        if( state == GLUT_DOWN )
+        {
+            button_x = x;
+            button_y = y;
+        }
+    }
+}
+
+// obs³uga ruchu kursora myszki
+
+void MouseMotion( int x, int y )
+{
+    if( button_state == GLUT_DOWN )
+    {
+        rotatey += 30 *(right1 - left1) / glutGet( GLUT_WINDOW_WIDTH ) *( x - button_x );
+        button_x = x;
+        rotatex -= 30 *( top - bottom ) / glutGet( GLUT_WINDOW_HEIGHT ) *( button_y - y );
+        button_y = y;
+        glutPostRedisplay();
     }
 }
 
@@ -365,10 +415,15 @@ void display(void)
 	glTranslatef(0.0, 0.0, translation_z);
 
 	glEnable(GL_NORMALIZE);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
+	// przesuniêcie uk³adu wspó³rzêdnych obiektu do œrodka bry³y odcinania
+	glTranslatef( 0, 0, -( near + far ) / 2 );
+
+	// obroty obiektu
+    glRotatef( rotatex, 1.0, 0, 0 );
+    glRotatef( rotatey, 0, 1.0, 0 );
 
 	glPushMatrix();
-
     // macierz modelowania = macierz jednostkowa
     glLoadIdentity();
     
@@ -378,16 +433,13 @@ void display(void)
     
     // ustalenie kierunku Ÿród³a œwiat³a
     glLightfv( GL_LIGHT0, GL_POSITION, light_position );
-    
     // przywrócenie pierwotnej macierzy modelowania
     glPopMatrix(); 
 
 	//pose = coldet::Quaternion(set_pose[0], set_pose[1], set_pose[2], set_pose[3])* coldet::Vec3(set_pose[4], set_pose[5], set_pose[6]);
-
 	pose = coldet::Vec3(set_pose[0], set_pose[1], set_pose[2])* Eigen::AngleAxisd (set_pose[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (set_pose[4]*M_PI/180, Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd (set_pose[5]*M_PI/180, Eigen::Vector3d::UnitZ());
 	czy_jest_kolizja=robot_structure->checkCollision (pose, config, collision_table);
 	robot_structure->GLDrawRobot (pose, config, collision_table);
-
 
     glFlush(); // This force the execution of OpenGL commands
     glutSwapBuffers(); // In double buffered mode we invert the positions of the visible buffer and the writing buffer
@@ -414,6 +466,8 @@ int main(int argc, char **argv)
     glutReshapeFunc (resize);
     glutKeyboardFunc (keyboard);
     glutSpecialFunc (keyboard_s);
+    glutMouseFunc( MouseButton );
+    glutMotionFunc( MouseMotion );
 
     glutMainLoop();
     return(0);    
