@@ -165,9 +165,9 @@ void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::
 
 	float udo_3[16];
 	glGetFloatv(GL_MODELVIEW_MATRIX, udo_3);
-	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	Eigen::Vector3d wektor_udo(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
 	coldet::Mat34 m_noga2;
-	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga2 = m_noga1 * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (joint1[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga2, udo_3);
 	meshModel[9]->setTransform (udo_3);
 
@@ -188,9 +188,9 @@ void CollisionDetectionColdet::Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::
 	meshModel[16]->setTransform (biodro_4);
 								
 	float udo_4[16];
-	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	Eigen::Vector3d wektor_udo(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
 	coldet::Mat34 m_noga2;
-	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga2 = m_noga1 * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (joint1[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga2,udo_4);
 	meshModel[10]->setTransform (udo_4);
 
@@ -211,9 +211,9 @@ void CollisionDetectionColdet::Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::
 	meshModel[14]->setTransform (biodro_2);
 
 	float udo_2[16];
-	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	Eigen::Vector3d wektor_udo(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
 	coldet::Mat34 m_noga2;
-	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga2 = m_noga1 * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (joint1[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga2,udo_2);
 	meshModel[8]->setTransform (udo_2);
 										
@@ -234,9 +234,9 @@ void CollisionDetectionColdet::Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::
 	meshModel[17]->setTransform (biodro_5);
 					
 	float udo_5[16];
-	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	Eigen::Vector3d wektor_udo(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
 	coldet::Mat34 m_noga2;
-	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga2 = m_noga1 * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (joint1[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga2,udo_5);
 	meshModel[11]->setTransform (udo_5);
 										
@@ -257,9 +257,9 @@ void CollisionDetectionColdet::Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::
 	meshModel[13]->setTransform (biodro_1);
 					
 	float udo_1[16];
-	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	Eigen::Vector3d wektor_udo(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
 	coldet::Mat34 m_noga2;
-	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga2 = m_noga1 * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (joint1[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga2,udo_1);
 	meshModel[7]->setTransform (udo_1);
 										
@@ -280,9 +280,9 @@ void CollisionDetectionColdet::Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::
 	meshModel[18]->setTransform (biodro_6);
 					
 	float udo_6[16];
-	Eigen::Vector3d wektor_udo(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	Eigen::Vector3d wektor_udo(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
 	coldet::Mat34 m_noga2;
-	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga2 = m_noga1 * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (joint1[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga2, udo_6);
 	meshModel[12]->setTransform (udo_6);
 										
@@ -306,8 +306,8 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::v
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
-	glRotatef(joint1[3],1,0,0);
-	glTranslatef(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	glTranslatef(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
+	glRotatef(joint1[2],1,0,0);
 	glRotatef(Qn_2,0,0,1);	
 	glPushMatrix();
 	if(collision_table[9]==false)
@@ -316,7 +316,7 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::v
 			glColor3f(0.5, 0.0, 0.0);
 			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
-			glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
+			glTranslatef(joint2[0]*0.254, 0.0*0.254, joint2[1]*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			if(collision_table[15]==false)
@@ -345,8 +345,8 @@ void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
-	glRotatef(joint1[3],1,0,0);
-	glTranslatef(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	glTranslatef(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
+	glRotatef(joint1[2],1,0,0);
 	glRotatef(Qn_2,0,0,1);	
 	glPushMatrix();
 		if(collision_table[10]==false)
@@ -355,7 +355,7 @@ void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColor3f(0.5, 0.0, 0.0);
 			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
-		glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
+			glTranslatef(joint2[0]*0.254, 0.0*0.254, joint2[1]*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			if(collision_table[16]==false)
@@ -382,8 +382,8 @@ void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
-	glRotatef(joint1[3],1,0,0);
-	glTranslatef(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	glTranslatef(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
+	glRotatef(joint1[2],1,0,0);
 	glRotatef(Qn_2,0,0,1);
 	glPushMatrix();
 		if(collision_table[8]==false)
@@ -392,7 +392,7 @@ void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColor3f(0.5, 0.0, 0.0);
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
-		glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
+		glTranslatef(joint2[0]*0.254, 0.0*0.254, joint2[1]*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			if(collision_table[14]==false)
@@ -420,8 +420,8 @@ void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
-	glRotatef(joint1[3],1,0,0);
-	glTranslatef(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	glTranslatef(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
+	glRotatef(joint1[2],1,0,0);
 	glRotatef(Qn_2,0,0,1);
 	glPushMatrix();
 		if(collision_table[11]==false)
@@ -430,7 +430,7 @@ void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColor3f(0.5, 0.0, 0.0);
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
-			glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
+			glTranslatef(joint2[0]*0.254, 0.0*0.254, joint2[1]*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			if(collision_table[17]==false)
@@ -457,8 +457,8 @@ void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
-	glRotatef(joint1[3],1,0,0);
-	glTranslatef(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	glTranslatef(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
+	glRotatef(joint1[2],1,0,0);
 	glRotatef(Qn_2,0,0,1);
 	glPushMatrix();
 		if(collision_table[7]==false)
@@ -467,7 +467,7 @@ void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColor3f(0.5, 0.0, 0.0);
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
-		glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
+		glTranslatef(joint2[0]*0.254, 0.0*0.254, joint2[1]*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			if(collision_table[13]==false)
@@ -496,8 +496,8 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3,  std::
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
-	glRotatef(joint1[3],1,0,0);
-	glTranslatef(joint1[0]*0.254, joint1[1]*0.254, joint1[2]*0.254);
+	glTranslatef(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
+	glRotatef(joint1[2],1,0,0);
 	glRotatef(Qn_2,0,0,1);
 	glPushMatrix();
 		if(collision_table[12]==false)
@@ -506,7 +506,7 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3,  std::
 			glColor3f(0.5, 0.0, 0.0);
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
-		glTranslatef(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
+		glTranslatef(joint2[0]*0.254, 0.0*0.254, joint2[1]*0.254);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			if(collision_table[18]==false)

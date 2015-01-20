@@ -101,22 +101,22 @@ void init(void)
 	//glLightf(GL_LIGHT0, GL_DIFFUSE, 0.8);
 
 	//konfiguracja dla serwonapedow lydek
-	config[2]=-2.3;
-	config[5]=-2.3;
-	config[8]=-2.3;
-	config[11]=-2.3;
-	config[14]=-2.3;
-	config[17]=-2.3;
+	config[2]=2.3;
+	config[5]=2.3;
+	config[8]=2.3;
+	config[11]=2.3;
+	config[14]=2.3;
+	config[17]=2.3;
 
 	config[0]=-0.7;
 	
 	//konfiguracja dla serwonapedow ud
-	config[1]=0.8;
-	config[4]=0.8;
-	config[7]=0.8;
-	config[10]=0.8;
-	config[13]=0.8;
-	config[16]=0.8;
+	config[1]=-0.8;
+	config[4]=-0.8;
+	config[7]=-0.8;
+	config[10]=-0.8;
+	config[13]=-0.8;
+	config[16]=-0.8;
 
 	//Konfiguracja pozycji robota
 	set_pose[0]=0.0;				//x

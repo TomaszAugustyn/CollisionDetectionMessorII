@@ -3,52 +3,49 @@
 
   <conf> 
 	<linksNo>3</linksNo> 
-	<jointsNo>3</jointsNo> 
+	<jointsNo>3</jointsNo>
+	<legsNo>6</legsNo>
   </conf>
 
-  <Platform>
+  <Part0>
     <name>PLATFORM</name>
     <parameters length="0.299" width="0.205"></parameters>
-  </Platform>
+  </Part0>
 
-  <Link0>
+  <Part1>
     <name>COXA</name>
     <parameters length="0.049"></parameters>
-  </Link0>
+  </Part1>
 
-  <Link1>
+  <Part2>
     <name>FEMUR</name>
     <parameters length="0.12"></parameters>
-  </Link1>
+  </Part2>
 
-  <Link2>
+  <Part3>
     <name>VITULUS</name>
     <parameters length="0.174"></parameters>
-  </Link2>
+  </Part3>
 
   <parameters>
 	  <Joint0>
 			<x>5.15</x>
 			<y>12.06</y>
-			<z>-0.19</z>
+			<z>-0.1</z>
 			<alfa>0</alfa>
 			<beta>0</beta>
 			<gamma>180</gamma>
 	  </Joint0>
 	  <Joint1> 
 			<x>4.865</x>
-			<y>1.18</y>
-			<z>0.075</z>
-			<alfa>-90</alfa>
-			<beta>0</beta>
+			<z>-1.27</z>
+			<alfa>90</alfa>
 			<gamma>0</gamma>
 	  </Joint1>
 	  <Joint2>  
 			<x>12.0</x>
-			<y>0</y>
 			<z>0</z>
 			<alfa>0</alfa>
-			<beta>0</beta>
 			<gamma>0</gamma>
 	  </Joint2>
  </parameters>

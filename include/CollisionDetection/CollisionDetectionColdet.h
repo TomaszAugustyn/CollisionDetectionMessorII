@@ -42,7 +42,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
         CollisionDetectionColdet (void);
 
         /// Overloaded Constructor with vectors initialization
-		CollisionDetectionColdet(std::string configFilename) : CollisionDetection("CollisionDetectionColdet", TYPE_COLDET), joint0(6,0), joint1(6,0), joint2(6,0), links_lengths(3,0), nazwy_czesci(4){
+		CollisionDetectionColdet(std::string configFilename) : CollisionDetection("CollisionDetectionColdet", TYPE_COLDET){
             tinyxml2::XMLDocument config;
             std::string filename = "../../resources/" + configFilename;
 			//Ladowanie z pelnej sciezki - niweluje problem ze program mozna zalaczyc tylko poprzez uruchomienie pliku "Demo.exe"
@@ -54,27 +54,25 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 			}
 			else
 			{
-				nazwy_czesci[0]=config.FirstChildElement("Platform")->FirstChildElement("name")->GetText();
-				nazwy_czesci[1]=config.FirstChildElement("Link0")->FirstChildElement("name")->GetText();
-				nazwy_czesci[2]=config.FirstChildElement("Link1")->FirstChildElement("name")->GetText();
-				nazwy_czesci[3]=config.FirstChildElement("Link2")->FirstChildElement("name")->GetText();
+				jointsNo=std::stoi(config.FirstChildElement("conf")->FirstChildElement("jointsNo")->GetText());
+				legsNo=std::stoi(config.FirstChildElement("conf")->FirstChildElement("legsNo")->GetText());
+
+				for(int i=0; i<jointsNo+1; i++){
+					nazwy_czesci.reserve(jointsNo+1);
+					nazwy_czesci[i]=config.FirstChildElement("Part" + std::to_string(i))->FirstChildElement("name")->GetText();}
 
 				coldet::float_type param;
-				tinyxml2::XMLElement * element = config.FirstChildElement( "Platform" );
+				tinyxml2::XMLElement * element;
+				element = config.FirstChildElement( "Part0" );
 				element = element->FirstChildElement( "parameters" );
 				element->QueryDoubleAttribute("length", &param); platform_length = param; element->QueryDoubleAttribute("width", &param); platform_width = param;
 
-				element = config.FirstChildElement( "Link0" );
+				for(int i=1; i<jointsNo+1; i++){
+				links_lengths.reserve(jointsNo);
+				element = config.FirstChildElement("Part"+ std::to_string(i));
 				element = element->FirstChildElement( "parameters" );
-				element->QueryDoubleAttribute("length", &param); links_lengths[0] = param;
+				element->QueryDoubleAttribute("length", &param); links_lengths[i-1] = param;}
 
-				element = config.FirstChildElement( "Link1" );
-				element = element->FirstChildElement( "parameters" );
-				element->QueryDoubleAttribute("length", &param); links_lengths[1] = param;
-
-				element = config.FirstChildElement( "Link2" );
-				element = element->FirstChildElement( "parameters" );
-				element->QueryDoubleAttribute("length", &param); links_lengths[2] = param;
 
 				joint0[0]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("x")->GetText());
 				joint0[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("y")->GetText());
@@ -84,18 +82,14 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				joint0[5]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("gamma")->GetText());
 
 				joint1[0]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("x")->GetText());
-				joint1[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("y")->GetText());
-				joint1[2]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("z")->GetText());
-				joint1[3]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("alfa")->GetText());
-				joint1[4]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("beta")->GetText());
-				joint1[5]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("gamma")->GetText());
+				joint1[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("z")->GetText());
+				joint1[2]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("alfa")->GetText());
+				joint1[3]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("gamma")->GetText());
 
 				joint2[0]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("x")->GetText());
-				joint2[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("y")->GetText());
-				joint2[2]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("z")->GetText());
-				joint2[3]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("alfa")->GetText());
-				joint2[4]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("beta")->GetText());
-				joint2[5]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("gamma")->GetText());
+				joint2[1]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("z")->GetText());
+				joint2[2]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("alfa")->GetText());
+				joint2[3]=std::stof(config.FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("gamma")->GetText());
 
 				std::cout << nazwy_czesci[0] << " length is: " << platform_length << " and width is: " << platform_width <<"\n";
 				for(int i=1; i<4; i++)
@@ -176,6 +170,8 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		std::vector<coldet::float_type> joint0;
 		std::vector<coldet::float_type> joint1;
 		std::vector<coldet::float_type> joint2;
+		int jointsNo;
+		int legsNo;
 
 };
 
