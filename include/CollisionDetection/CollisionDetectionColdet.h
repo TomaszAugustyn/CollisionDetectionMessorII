@@ -59,7 +59,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 
 				for(int i=0; i<jointsNo+1; i++){
 					nazwy_czesci.reserve(jointsNo+1);
-					nazwy_czesci[i]=config.FirstChildElement("Part" + std::to_string(i))->FirstChildElement("name")->GetText();}
+					nazwy_czesci[i]=(config.FirstChildElement("Part" + std::to_string(i)))->FirstChildElement("name")->GetText();}
 
 				coldet::float_type param;
 				tinyxml2::XMLElement * element;
@@ -69,7 +69,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 
 				for(int i=1; i<jointsNo+1; i++){
 				links_lengths.reserve(jointsNo);
-				element = config.FirstChildElement("Part"+ std::to_string(i));
+				element = (config.FirstChildElement("Part"+ std::to_string(i)));
 				element = element->FirstChildElement( "parameters" );
 				element->QueryDoubleAttribute("length", &param); links_lengths[i-1] = param;}
 
