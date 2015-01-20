@@ -809,7 +809,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 		collision_table[18]=true; collision_table[1]=true;
 	}
 
-	//=========KOLIZJE miedzy pierwszymi, a trzecimi ogniwami od korpusu miedzy roznymi nogami (s¹siednie Vitulus, a Coxa)
+	//=========KOLIZJE miedzy pierwszymi, a trzecimi ogniwami od korpusu miedzy roznymi nogami (sasiednie Vitulus, a Coxa)
 	/*for (int i=1; i<6; i++)
 	{
 		if (meshModel[MechParts(i+1)]->collision(meshModel[MechParts(i+12)]))
@@ -828,7 +828,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 		collision_table[13]=true; collision_table[6]=true;  */
 
 
-	//=========KOLIZJE miedzy korpusem, a pierwszymi ogniwami od niego (Miêdzy Coxa1-6, a Corpus)
+	//=========KOLIZJE miedzy korpusem, a pierwszymi ogniwami od niego (Miedzy Coxa1-6, a Corpus)
 
 	if (meshModel[COXA1]->collision(meshModel[PLATFORM])) {
 		collision_table[1]=true; collision_table[0]=true;
@@ -849,7 +849,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 		collision_table[6]=true; collision_table[0]=true;
 	}
 
-	//=========KOLIZJE miedzy korpusem, a drugimi ogniwami od niego (Miêdzy Femur1-6, a Corpus)
+	//=========KOLIZJE miedzy korpusem, a drugimi ogniwami od niego (Miedzy Femur1-6, a Corpus)
 
 		if (meshModel[FEMUR1]->collision(meshModel[PLATFORM])) {
 		collision_table[7]=true; collision_table[0]=true;
@@ -870,7 +870,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 		collision_table[12]=true; collision_table[0]=true;
 	}
 
-	//=========KOLIZJE miedzy korpusem, a trzecimi ogniwami od niego (Miêdzy Vitulus1-6, a Corpus)
+	//=========KOLIZJE miedzy korpusem, a trzecimi ogniwami od niego (Miedzy Vitulus1-6, a Corpus)
 
 	if (meshModel[VITULUS1]->collision(meshModel[PLATFORM])) {
 		collision_table[13]=true; collision_table[0]=true;

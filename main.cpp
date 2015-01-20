@@ -48,11 +48,11 @@ GLfloat light_position[ 4 ] =
 GLfloat light_rotatex = -10.0;  //-10
 GLfloat light_rotatey = 90.0;    //0, 90
 
-// k¹ty obrotu obiektu
+// katy obrotu obiektu
 GLfloat rotatex = 0.0;
 GLfloat rotatey = 0.0;
 
-// rozmiary bry³y obcinania
+// rozmiary bryly obcinania
 const GLdouble left1 = -2.0;
 const GLdouble right1 = 2.0;
 const GLdouble bottom = -2.0;
@@ -60,13 +60,13 @@ const GLdouble top = 2.0;
 const GLdouble near = 3.0;
 const GLdouble far = 7.0;
 
-// wskaŸnik naciœniêcia lewego przycisku myszki
+// wskaznik nacisniecia lewego przycisku myszki
 int button_state = GLUT_UP;
 
-// po³o¿enie kursora myszki
+// polozenie kursora myszki
 int button_x, button_y;
 
-// wspó³czynnik skalowania
+// wspolczynnik skalowania
 GLfloat scale = 1.0;
 
 /**********************************************************
@@ -359,10 +359,10 @@ void MouseButton( int button, int state, int x, int y )
 {
     if( button == GLUT_LEFT_BUTTON )
     {
-        // zapamiêtanie stanu lewego przycisku myszki
+        // zapamietanie stanu lewego przycisku myszki
         button_state = state;
         
-        // zapamiêtanie po³o¿enia kursora myszki
+        // zapamietanie polozenia kursora myszki
         if( state == GLUT_DOWN )
         {
             button_x = x;
@@ -371,7 +371,7 @@ void MouseButton( int button, int state, int x, int y )
     }
 }
 
-// obs³uga ruchu kursora myszki
+// obsluga ruchu kursora myszki
 
 void MouseMotion( int x, int y )
 {
@@ -416,7 +416,7 @@ void display(void)
 
 	glEnable(GL_NORMALIZE);
 
-	// przesuniêcie uk³adu wspó³rzêdnych obiektu do œrodka bry³y odcinania
+	// przesuniecie ukladu wspolrzednych obiektu do srodka bryly odcinania
 	glTranslatef( 0, 0, -( near + far ) / 2 );
 
 	// obroty obiektu
@@ -427,13 +427,13 @@ void display(void)
     // macierz modelowania = macierz jednostkowa
     glLoadIdentity();
     
-    // obroty kierunku Ÿród³a œwiat³a - klawisze kursora
+    // obroty kierunku zrodla swiatla - klawisze kursora
     glRotatef(light_rotatex, 1.0, 0, 0 );
     glRotatef(light_rotatey, 0, 1.0, 0 );
     
-    // ustalenie kierunku Ÿród³a œwiat³a
+    // ustalenie kierunku zrodla swiatla
     glLightfv( GL_LIGHT0, GL_POSITION, light_position );
-    // przywrócenie pierwotnej macierzy modelowania
+    // przywrocenie pierwotnej macierzy modelowania
     glPopMatrix(); 
 
 	//pose = coldet::Quaternion(set_pose[0], set_pose[1], set_pose[2], set_pose[3])* coldet::Vec3(set_pose[4], set_pose[5], set_pose[6]);
