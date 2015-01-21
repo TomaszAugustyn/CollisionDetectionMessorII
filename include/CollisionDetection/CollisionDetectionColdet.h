@@ -195,6 +195,8 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
 		void Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
 		void Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
+
+		//void GLLeg(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table, ) const;
 		void GLLeg1(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
 		void GLLeg2(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
 		void GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;

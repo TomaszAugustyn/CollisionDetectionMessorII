@@ -157,8 +157,9 @@ void CollisionDetectionColdet::copyTable(coldet::Mat34& src, float * dest) const
 void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 
 	Eigen::Vector3d wektor_biodro(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d translacja(Leg[0][0]*0.254, Leg[0][1]*0.254, 0.0*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga1 = m_noga * Eigen::Translation3d(wektor_biodro) * Eigen::Translation3d(translacja) * Eigen::AngleAxisd (Leg[0][2]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	float biodro_3[16];
 	copyTable(m_noga1,biodro_3);
 	meshModel[15]->setTransform (biodro_3);
@@ -181,9 +182,10 @@ void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::
 
 void CollisionDetectionColdet::Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 	float biodro_4[16];
-	Eigen::Vector3d wektor_biodro(-polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d wektor_biodro(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d translacja(Leg[1][0]*0.254, Leg[1][1]*0.254, 0.0*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (180*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga1 = m_noga * Eigen::Translation3d(wektor_biodro) * Eigen::Translation3d(translacja) * Eigen::AngleAxisd (Leg[1][2]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga1,biodro_4);
 	meshModel[16]->setTransform (biodro_4);
 								
@@ -204,9 +206,10 @@ void CollisionDetectionColdet::Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::
 
 void CollisionDetectionColdet::Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 	float biodro_2[16];
-	Eigen::Vector3d wektor_biodro(2*polozenie_pocz[0]*0.254, 0.0, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d wektor_biodro(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d translacja(Leg[2][0]*0.254, Leg[2][1]*0.254, 0.0*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga1 = m_noga * Eigen::Translation3d(wektor_biodro) * Eigen::Translation3d(translacja) * Eigen::AngleAxisd (Leg[2][2]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga1,biodro_2);
 	meshModel[14]->setTransform (biodro_2);
 
@@ -227,9 +230,10 @@ void CollisionDetectionColdet::Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::
 
 void CollisionDetectionColdet::Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 	float biodro_5[16];
-	Eigen::Vector3d wektor_biodro(-2*polozenie_pocz[0]*0.254, 0.0, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d wektor_biodro(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d translacja(Leg[3][0]*0.254, Leg[3][1]*0.254, 0.0*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (180*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga1 = m_noga * Eigen::Translation3d(wektor_biodro) * Eigen::Translation3d(translacja) * Eigen::AngleAxisd (Leg[3][2]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga1,biodro_5);
 	meshModel[17]->setTransform (biodro_5);
 					
@@ -250,9 +254,10 @@ void CollisionDetectionColdet::Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::
 
 void CollisionDetectionColdet::Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 	float biodro_1[16];
-	Eigen::Vector3d wektor_biodro(polozenie_pocz[0]*0.254, -polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d wektor_biodro(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d translacja(Leg[4][0]*0.254, Leg[4][1]*0.254, 0.0*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga1 = m_noga * Eigen::Translation3d(wektor_biodro) * Eigen::Translation3d(translacja) * Eigen::AngleAxisd (Leg[4][2]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga1,biodro_1);
 	meshModel[13]->setTransform (biodro_1);
 					
@@ -273,9 +278,10 @@ void CollisionDetectionColdet::Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::
 
 void CollisionDetectionColdet::Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 	float biodro_6[16];
-	Eigen::Vector3d wektor_biodro(-polozenie_pocz[0]*0.254, -polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d wektor_biodro(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d translacja(Leg[5][0]*0.254, Leg[5][1]*0.254, 0.0*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = m_noga*Eigen::Translation3d(wektor_biodro) * Eigen::AngleAxisd (180*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga1 = m_noga * Eigen::Translation3d(wektor_biodro) * Eigen::Translation3d(translacja) * Eigen::AngleAxisd (Leg[5][2]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga1,biodro_6);
 	meshModel[18]->setTransform (biodro_6);
 					
@@ -298,6 +304,8 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::v
 
 	glPushMatrix();
 	glTranslatef(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	glTranslatef(Leg[0][0]*0.254, Leg[0][1]*0.254, 0.0*0.254);
+		glRotatef(Leg[0][2],0,0,1);
 		glRotatef(Qn_1,0,0,1);
 		if(collision_table[3]==false)
 		glColor3f(0.0, 0.75, 0.0); 	
@@ -335,8 +343,9 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::v
 void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3,  std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
-		glTranslatef(-polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
-		glRotatef(180,0,0,1);
+		glTranslatef(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+		glTranslatef(Leg[1][0]*0.254, Leg[1][1]*0.254, 0.0*0.254);
+		glRotatef(Leg[1][2],0,0,1);
 		glRotatef(Qn_1,0,0,1);
 		if(collision_table[4]==false)
 		glColor3f(0.0, 0.75, 0.0);
@@ -373,7 +382,9 @@ void CollisionDetectionColdet::GLLeg4(float Qn_1, float Qn_2, float Qn_3,  std::
 void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3,  std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
-		glTranslatef(2*polozenie_pocz[0]*0.254, 0.0, polozenie_pocz[2]*0.254);
+		glTranslatef(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+		glTranslatef(Leg[2][0]*0.254, Leg[2][1]*0.254, 0.0*0.254);
+		glRotatef(Leg[2][2],0,0,1);
 		glRotatef(Qn_1,0,0,1);
 		if(collision_table[2]==false)
 		glColor3f(0.0, 0.75, 0.0);
@@ -410,8 +421,9 @@ void CollisionDetectionColdet::GLLeg2(float Qn_1, float Qn_2, float Qn_3,  std::
 void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3,  std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
-		glTranslatef(-2*polozenie_pocz[0]*0.254, 0.0, polozenie_pocz[2]*0.254);
-		glRotatef(180,0,0,1);
+		glTranslatef(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+		glTranslatef(Leg[3][0]*0.254, Leg[3][1]*0.254, 0.0*0.254);
+		glRotatef(Leg[3][2],0,0,1);
 		glRotatef(Qn_1,0,0,1);
 		if(collision_table[5]==false)
 		glColor3f(0.0, 0.75, 0.0);
@@ -448,7 +460,9 @@ void CollisionDetectionColdet::GLLeg5(float Qn_1, float Qn_2, float Qn_3,  std::
 void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3,  std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
-		glTranslatef(polozenie_pocz[0]*0.254, -polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+		glTranslatef(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+		glTranslatef(Leg[4][0]*0.254, Leg[4][1]*0.254, 0.0*0.254);
+		glRotatef(Leg[4][2],0,0,1);
 		glRotatef(Qn_1,0,0,1);
 		if(collision_table[1]==false)
 		glColor3f(0.0, 0.75, 0.0);
@@ -486,8 +500,9 @@ void CollisionDetectionColdet::GLLeg1(float Qn_1, float Qn_2, float Qn_3,  std::
 void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3,  std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
-		glTranslatef(-polozenie_pocz[0]*0.254, -polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
-		glRotatef(180,0,0,1);
+		glTranslatef(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+		glTranslatef(Leg[5][0]*0.254, Leg[5][1]*0.254, 0.0*0.254);
+		glRotatef(Leg[5][2],0,0,1);
 		glRotatef(Qn_1,0,0,1);
 		if(collision_table[6]==false)
 		glColor3f(0.0, 0.75, 0.0);
