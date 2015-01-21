@@ -9,6 +9,7 @@
 #include "../../3rdParty/tinyXML/tinyxml2.h"
 #include <memory>
 #include <iostream>
+#include <array>
 
 using namespace coldet;
 
@@ -62,19 +63,21 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				std::string param_str;
 				tinyxml2::XMLElement * element;
 
-					//rezerwacja pamieci dla konkretnej liczby elementow wektora
-					nazwy_czesci.reserve(jointsNo+1);
-					links_lengths.reserve(jointsNo);
-					polozenie_pocz.reserve(3);
-					joint0.reserve(4);
-					joint1.reserve(4);
-					joint2.reserve(4);
+				//rezerwacja pamieci dla konkretnej liczby elementow wektora
+				nazwy_czesci.reserve(jointsNo+1);
+				links_lengths.reserve(jointsNo);
+				polozenie_pocz.reserve(3);
+				joint0.reserve(4);
+				joint1.reserve(4);
+				joint2.reserve(4);
+				Leg.reserve(legsNo);
 
-					std::string parName = "Part0";
-					element =(config.FirstChildElement("document")->FirstChildElement(parName.c_str()));
-					nazwy_czesci[0]=element->Attribute("name");
-					element->QueryDoubleAttribute("length", &param); platform_length = param;
-					element->QueryDoubleAttribute("width", &param); platform_width = param;
+
+				std::string parName = "Part0";
+				element =(config.FirstChildElement("document")->FirstChildElement(parName.c_str()));
+				nazwy_czesci[0]=element->Attribute("name");
+				element->QueryDoubleAttribute("length", &param); platform_length = param;
+				element->QueryDoubleAttribute("width", &param); platform_width = param;
 
 				for(int i=1; i<jointsNo+1; i++){
 					parName = "Part" + std::to_string(i);
@@ -106,6 +109,15 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				element->QueryDoubleAttribute("z", &param);  joint2[1] = param;
 				element->QueryDoubleAttribute("alfa", &param);  joint2[2] = param;
 				element->QueryDoubleAttribute("gamma", &param);  joint2[3] = param;
+
+				for(int i=0; i<legsNo; i++){
+
+					parName = "Leg" + std::to_string(i+1);
+					element=(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement(parName.c_str()));
+					element->QueryDoubleAttribute("x", &param);  Leg[i][0] = param;
+					element->QueryDoubleAttribute("y", &param);  Leg[i][1] = param;
+					element->QueryDoubleAttribute("gamma", &param);  Leg[i][2] = param;
+				}
 
 				/*joint0[0]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("x")->GetText());
 				joint0[1]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("y")->GetText());
@@ -195,6 +207,8 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		std::vector<CollisionModel3D*> meshModel;  /// model 3DS
 		CObjects3DS robot_model;
 
+		int jointsNo;
+		int legsNo;
 		std::vector<std::string> nazwy_czesci;   /// [0]- Platform,  [1]- Link0,  [2]- Link1,  [3]- Link2
 		coldet::float_type platform_length;
 		coldet::float_type platform_width;
@@ -203,9 +217,8 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		std::vector<coldet::float_type> joint0;
 		std::vector<coldet::float_type> joint1;
 		std::vector<coldet::float_type> joint2;
-		int jointsNo;
-		int legsNo;
-
+		//std::vector< std::vector<coldet::float_type> > Leg;
+		std::vector< std::array<coldet::float_type, 3> > Leg;
 };
 
 #endif // COLLISIONDETECTIONCOLDET_H_INCLUDED

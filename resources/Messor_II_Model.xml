@@ -21,8 +21,13 @@
     <Joint0 x="0" z="0" alfa="0" gamma="0"></Joint0>
     <Joint1 x="4.865" z="-1.27" alfa="90" gamma="0"></Joint1>
     <Joint2 x="12.0" z="0" alfa="0" gamma="0"></Joint2>
+    <Leg1 x="0" y="0" gamma="0"></Leg1>
+    <Leg2 x="0" y="0" gamma="0"></Leg2>
+    <Leg3 x="0" y="0" gamma="0"></Leg3>
+    <Leg4 x="0" y="0" gamma="0"></Leg4>
+    <Leg5 x="0" y="0" gamma="0"></Leg5>
+    <Leg6 x="0" y="0" gamma="0"></Leg6>
   </parameters>
-  
   
 
 </document>
