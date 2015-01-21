@@ -8,6 +8,7 @@
 #include "../include/CollisionDetection/CollisionDetection.h"
 #include "../../3rdParty/tinyXML/tinyxml2.h"
 #include <memory>
+#include <iostream>
 
 using namespace coldet;
 
@@ -57,33 +58,56 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				jointsNo=std::stoi(config.FirstChildElement("document")->FirstChildElement("conf")->FirstChildElement("jointsNo")->GetText());
 				legsNo=std::stoi(config.FirstChildElement("document")->FirstChildElement("conf")->FirstChildElement("legsNo")->GetText());
 
-				for(int i=0; i<jointsNo+1; i++){
-					nazwy_czesci.reserve(jointsNo+1);
-					std::string parName = "Part" + std::to_string(i);
-					nazwy_czesci[i]=(config.FirstChildElement("document")->FirstChildElement(parName.c_str()))->FirstChildElement("name")->GetText();}
-
-
 				coldet::float_type param;
+				std::string param_str;
 				tinyxml2::XMLElement * element;
-				element = config.FirstChildElement("document")->FirstChildElement( "Part0" );
-				element = element->FirstChildElement( "parameters" );
-				element->QueryDoubleAttribute("length", &param); platform_length = param; element->QueryDoubleAttribute("width", &param); platform_width = param;
+
+					nazwy_czesci.reserve(jointsNo+1);
+					links_lengths.reserve(jointsNo);
+					joint0.reserve(6);
+					joint1.reserve(4);
+					joint2.reserve(4);
+
+					std::string parName = "Part0";
+					element =(config.FirstChildElement("document")->FirstChildElement(parName.c_str()));
+					nazwy_czesci[0]=element->Attribute("name");
+					element->QueryDoubleAttribute("length", &param); platform_length = param;
+					element->QueryDoubleAttribute("width", &param); platform_width = param;
 
 				for(int i=1; i<jointsNo+1; i++){
-				links_lengths.reserve(jointsNo);
-				std::string parName = "Part" + std::to_string(i);
-				element = (config.FirstChildElement("document")->FirstChildElement(parName.c_str()));
-				element = element->FirstChildElement( "parameters" );
-				element->QueryDoubleAttribute("length", &param); links_lengths[i-1] = param;}
+					parName = "Part" + std::to_string(i);
+					element =(config.FirstChildElement("document")->FirstChildElement(parName.c_str()));
+					nazwy_czesci[i]=element->Attribute("name");
+					element->QueryDoubleAttribute("length", &param);  links_lengths[i-1] = param;
+				}
+				
+				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0");
+				element->QueryDoubleAttribute("x", &param);  joint0[0] = param;
+				element->QueryDoubleAttribute("y", &param);  joint0[1] = param;
+				element->QueryDoubleAttribute("z", &param);  joint0[2] = param;
+				element->QueryDoubleAttribute("alfa", &param);  joint0[3] = param;
+				element->QueryDoubleAttribute("beta", &param);  joint0[4] = param;
+				element->QueryDoubleAttribute("gamma", &param);  joint0[5] = param;
 
+				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1");
+				element->QueryDoubleAttribute("x", &param);  joint1[0] = param;
+				element->QueryDoubleAttribute("z", &param);  joint1[1] = param;
+				element->QueryDoubleAttribute("alfa", &param);  joint1[2] = param;
+				element->QueryDoubleAttribute("gamma", &param);  joint1[3] = param;
 
-				joint0[0]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("x")->GetText());
+				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2");
+				element->QueryDoubleAttribute("x", &param);  joint2[0] = param;
+				element->QueryDoubleAttribute("z", &param);  joint2[1] = param;
+				element->QueryDoubleAttribute("alfa", &param);  joint2[2] = param;
+				element->QueryDoubleAttribute("gamma", &param);  joint2[3] = param;
+
+				/*joint0[0]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("x")->GetText());
 				joint0[1]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("y")->GetText());
 				joint0[2]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("z")->GetText());
 				joint0[3]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("alfa")->GetText());
 				joint0[4]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("beta")->GetText());
 				joint0[5]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("gamma")->GetText());
-
+				
 				joint1[0]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("x")->GetText());
 				joint1[1]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("z")->GetText());
 				joint1[2]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("alfa")->GetText());
@@ -92,10 +116,10 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				joint2[0]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("x")->GetText());
 				joint2[1]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("z")->GetText());
 				joint2[2]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("alfa")->GetText());
-				joint2[3]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("gamma")->GetText());
+				joint2[3]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("gamma")->GetText()); */
 
 				std::cout << nazwy_czesci[0] << " length is: " << platform_length << " and width is: " << platform_width <<"\n";
-				for(int i=1; i<4; i++)
+				for(int i=1; i<jointsNo+1; i++)
 				std::cout << nazwy_czesci[i] << " length is: " << links_lengths[i-1] <<"\n";
 
 			}

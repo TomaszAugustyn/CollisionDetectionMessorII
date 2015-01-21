@@ -8,47 +8,18 @@
 	<legsNo>6</legsNo>
   </conf>
 
-  <Part0>
-    <name>PLATFORM</name>
-    <parameters length="0.299" width="0.205"></parameters>
-  </Part0>
+ <Part0 name="PLATFORM" length="0.299" width="0.205"></Part0>
 
-  <Part1>
-    <name>COXA</name>
-    <parameters length="0.049"></parameters>
-  </Part1>
-
-  <Part2>
-    <name>FEMUR</name>
-    <parameters length="0.12"></parameters>
-  </Part2>
-
-  <Part3>
-    <name>VITULUS</name>
-    <parameters length="0.174"></parameters>
-  </Part3>
-
+ <Part1 name="COXA" length="0.049"></Part1>
+ 
+ <Part2 name="FEMUR" length="0.12"></Part2>
+ 
+ <Part3 name="VITULUS" length="0.174"></Part3>
+ 
   <parameters>
-	  <Joint0>
-			<x>5.15</x>
-			<y>12.06</y>
-			<z>-0.1</z>
-			<alfa>0</alfa>
-			<beta>0</beta>
-			<gamma>180</gamma>
-	  </Joint0>
-	  <Joint1> 
-			<x>4.865</x>
-			<z>-1.27</z>
-			<alfa>90</alfa>
-			<gamma>0</gamma>
-	  </Joint1>
-	  <Joint2>  
-			<x>12.0</x>
-			<z>0</z>
-			<alfa>0</alfa>
-			<gamma>0</gamma>
-	  </Joint2>
- </parameters>
+    <Joint0 x="5.15" y="12.06" z="-0.1" alfa="0" beta="0" gamma="180"></Joint0>
+    <Joint1 x="4.865" z="-1.27" alfa="90" gamma="0"></Joint1>
+    <Joint2 x="12.0" z="0" alfa="0" gamma="0"></Joint2>
+  </parameters>
 
 </document>
