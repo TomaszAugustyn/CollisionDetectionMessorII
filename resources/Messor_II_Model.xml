@@ -17,9 +17,12 @@
  <Part3 name="VITULUS" length="0.174"></Part3>
  
   <parameters>
-    <Joint0 x="5.15" y="12.06" z="-0.1" alfa="0" beta="0" gamma="180"></Joint0>
+    <Poczatkowe x="5.15" y="12.06" z="-0.1"></Poczatkowe>
+    <Joint0 x="0" z="0" alfa="0" gamma="0"></Joint0>
     <Joint1 x="4.865" z="-1.27" alfa="90" gamma="0"></Joint1>
     <Joint2 x="12.0" z="0" alfa="0" gamma="0"></Joint2>
   </parameters>
+  
+  
 
 </document>

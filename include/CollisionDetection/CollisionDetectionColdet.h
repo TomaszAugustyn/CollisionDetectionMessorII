@@ -62,9 +62,11 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				std::string param_str;
 				tinyxml2::XMLElement * element;
 
+					//rezerwacja pamieci dla konkretnej liczby elementow wektora
 					nazwy_czesci.reserve(jointsNo+1);
 					links_lengths.reserve(jointsNo);
-					joint0.reserve(6);
+					polozenie_pocz.reserve(3);
+					joint0.reserve(4);
 					joint1.reserve(4);
 					joint2.reserve(4);
 
@@ -81,13 +83,17 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 					element->QueryDoubleAttribute("length", &param);  links_lengths[i-1] = param;
 				}
 				
+				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Poczatkowe");
+				element->QueryDoubleAttribute("x", &param);  polozenie_pocz[0] = param;
+				element->QueryDoubleAttribute("y", &param);  polozenie_pocz[1] = param;
+				element->QueryDoubleAttribute("z", &param);  polozenie_pocz[2] = param;
+				//nazwa 'PolozeniePocz' nie dziala, nie wiadomo dlaczego
+
 				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0");
 				element->QueryDoubleAttribute("x", &param);  joint0[0] = param;
-				element->QueryDoubleAttribute("y", &param);  joint0[1] = param;
-				element->QueryDoubleAttribute("z", &param);  joint0[2] = param;
-				element->QueryDoubleAttribute("alfa", &param);  joint0[3] = param;
-				element->QueryDoubleAttribute("beta", &param);  joint0[4] = param;
-				element->QueryDoubleAttribute("gamma", &param);  joint0[5] = param;
+				element->QueryDoubleAttribute("z", &param);  joint0[1] = param;
+				element->QueryDoubleAttribute("alfa", &param);  joint0[2] = param;
+				element->QueryDoubleAttribute("gamma", &param);  joint0[3] = param;
 
 				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1");
 				element->QueryDoubleAttribute("x", &param);  joint1[0] = param;
@@ -186,7 +192,6 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void copyTable(coldet::Mat34& src, float * dest) const;
 		void DrawRobot(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config) const;
 
-
 		std::vector<CollisionModel3D*> meshModel;  /// model 3DS
 		CObjects3DS robot_model;
 
@@ -194,6 +199,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		coldet::float_type platform_length;
 		coldet::float_type platform_width;
 		std::vector<coldet::float_type> links_lengths;  /// [0] - Link0 (Coxa),  [1] - Link1 (Femur),  [2] - Link2 (Vitulus)
+		std::vector<coldet::float_type> polozenie_pocz;
 		std::vector<coldet::float_type> joint0;
 		std::vector<coldet::float_type> joint1;
 		std::vector<coldet::float_type> joint2;
