@@ -51,8 +51,7 @@ namespace coldet{
 			void CheckCollisions (const Mat34 RobotPose, const RobotConfiguration config, const CElevationMap& map, CollisionTable& collisionTable);
 
 			bool CheckCollisions(const RobotConfiguration& config, CollisionTable& collisionTable);
-			bool CheckCollisions (const Mat34 RobotPose, const RobotConfiguration config, const CElevationMap& map, CollisionTable& collisionTable);
-			void drawGL (const Mat34 RobotPose, const RobotConfiguration config); */
+			bool CheckCollisions (const Mat34 RobotPose, const RobotConfiguration config, const CElevationMap& map, CollisionTable& collisionTable);*/
 
             /// Virtual descrutor
             virtual ~CollisionDetection() {}

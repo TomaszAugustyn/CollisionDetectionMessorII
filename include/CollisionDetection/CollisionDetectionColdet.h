@@ -72,7 +72,6 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				joint2.reserve(4);
 				Leg.reserve(legsNo);
 
-
 				std::string parName = "Part0";
 				element =(config.FirstChildElement("document")->FirstChildElement(parName.c_str()));
 				nazwy_czesci[0]=element->Attribute("name");
@@ -189,6 +188,8 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void structFemur(void);
 		void structVitulus(void);
 		void drawCoordinateSystem(void);
+
+		void Leg_All(int legNo, float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga, std::array<coldet::float_type, 3> Leg) const;
 		void Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
 		void Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
 		void Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
@@ -196,13 +197,14 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
 		void Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
 
-		//void GLLeg(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table, ) const;
+		void GLLeg_All(int legNo, float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table, std::array<coldet::float_type, 3> Leg) const;
 		void GLLeg1(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
 		void GLLeg2(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
 		void GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
 		void GLLeg4(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
 		void GLLeg5(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
 		void GLLeg6(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
+
 		void copyTable(coldet::Mat34& src, float * dest) const;
 		void DrawRobot(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config) const;
 

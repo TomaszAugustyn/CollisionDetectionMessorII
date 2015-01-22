@@ -154,12 +154,41 @@ void CollisionDetectionColdet::copyTable(coldet::Mat34& src, float * dest) const
 	}
 }
 
+void CollisionDetectionColdet::Leg_All(int legNo, float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga, std::array<coldet::float_type, 3> Leg)const {
+
+	Eigen::Vector3d wektor_biodro(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	Eigen::Vector3d translacja(Leg[0]*0.254, Leg[1]*0.254, 0.0*0.254);
+	Eigen::Vector3d trans_joint0(joint0[0]*0.254, 0.0, joint0[1]*0.254);
+	coldet::Mat34 m_noga1;
+	m_noga1 = m_noga * Eigen::Translation3d(wektor_biodro) * Eigen::Translation3d(translacja) * Eigen::AngleAxisd ((Leg[2]+joint0[3])*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::Translation3d(trans_joint0) * Eigen::AngleAxisd (joint0[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	float biodro[16];
+	copyTable(m_noga1,biodro);
+	meshModel[legNo+2*legsNo]->setTransform (biodro);
+
+	float udo[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, udo);
+	Eigen::Vector3d wektor_udo(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
+	coldet::Mat34 m_noga2;
+	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (joint1[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
+	copyTable(m_noga2, udo);
+	meshModel[legNo+legsNo]->setTransform (udo);
+
+	float lydka[16];
+	Eigen::Vector3d wektor_lydka(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
+	coldet::Mat34 m_noga3;
+	m_noga3 = m_noga2 * Eigen::AngleAxisd (joint2[3]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (joint2[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
+	copyTable(m_noga3,lydka);
+	meshModel[legNo]->setTransform (lydka);
+}
+
+
 void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const {
 
 	Eigen::Vector3d wektor_biodro(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
 	Eigen::Vector3d translacja(Leg[0][0]*0.254, Leg[0][1]*0.254, 0.0*0.254);
+	Eigen::Vector3d trans_joint0(joint0[0]*0.254, 0.0, joint0[1]*0.254);
 	coldet::Mat34 m_noga1;
-	m_noga1 = m_noga * Eigen::Translation3d(wektor_biodro) * Eigen::Translation3d(translacja) * Eigen::AngleAxisd (Leg[0][2]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga1 = m_noga * Eigen::Translation3d(wektor_biodro) * Eigen::Translation3d(translacja) * Eigen::AngleAxisd ((Leg[0][2]+joint0[3])*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::Translation3d(trans_joint0) * Eigen::AngleAxisd (joint0[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	float biodro_3[16];
 	copyTable(m_noga1,biodro_3);
 	meshModel[15]->setTransform (biodro_3);
@@ -168,14 +197,14 @@ void CollisionDetectionColdet::Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::
 	glGetFloatv(GL_MODELVIEW_MATRIX, udo_3);
 	Eigen::Vector3d wektor_udo(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
 	coldet::Mat34 m_noga2;
-	m_noga2 = m_noga1 * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (joint1[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga2 = m_noga1 * Eigen::AngleAxisd (joint1[3]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::Translation3d(wektor_udo) * Eigen::AngleAxisd (joint1[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_2*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga2, udo_3);
 	meshModel[9]->setTransform (udo_3);
 
 	float lydka_3[16];
 	Eigen::Vector3d wektor_lydka(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
 	coldet::Mat34 m_noga3;
-	m_noga3 = m_noga2 *Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
+	m_noga3 = m_noga2 * Eigen::AngleAxisd (joint2[3]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (joint2[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga3,lydka_3);
 	meshModel[3]->setTransform (lydka_3);
 }
@@ -300,12 +329,61 @@ void CollisionDetectionColdet::Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::
 	meshModel[6]->setTransform (lydka_6); 
 }
 
+void CollisionDetectionColdet::GLLeg_All(int legNo, float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table, std::array<coldet::float_type, 3> Leg) const{
+
+	glPushMatrix();
+	glTranslatef(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
+	glTranslatef(Leg[0]*0.254, Leg[1]*0.254, 0.0*0.254);
+		glRotatef(Leg[2],0,0,1);
+		glRotatef(joint0[3],0,0,1);
+		glTranslatef(joint0[0]*0.254, 0.0*0.254, joint0[1]*0.254);
+		glRotatef(joint0[2],1,0,0);
+		glRotatef(Qn_1,0,0,1);
+		if(collision_table[legNo]==false)
+		glColor3f(0.0, 0.75, 0.0); 	
+		else
+			glColor3f(0.75, 0.0, 0.0);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+		glCallList(GL_COXA);
+	glPushMatrix();
+	glRotatef(joint1[3],0,0,1);
+	glTranslatef(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
+	glRotatef(joint1[2],1,0,0);
+	glRotatef(Qn_2,0,0,1);	
+	glPushMatrix();
+	if(collision_table[legNo+legsNo]==false)
+	glColor3f(0.0, 0.5, 0.0);
+		else
+			glColor3f(0.5, 0.0, 0.0);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+		glCallList(GL_FEMUR);
+			glRotatef(joint2[3],0,0,1);
+			glTranslatef(joint2[0]*0.254, 0.0*0.254, joint2[1]*0.254);
+			glRotatef(joint2[2],1,0,0);
+		glRotatef(Qn_3,0,0,1);
+		glPushMatrix();
+			if(collision_table[legNo+2*legsNo]==false)
+			glColor3f(0.0, 0.3, 0.0);
+			else
+				glColor3f(0.3, 0.0, 0.0);
+				glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+			glCallList(GL_VITULUS);
+		glPopMatrix();
+	glPopMatrix();
+	glPopMatrix();
+	glPopMatrix();
+
+}
+
 void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const {
 
 	glPushMatrix();
 	glTranslatef(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
 	glTranslatef(Leg[0][0]*0.254, Leg[0][1]*0.254, 0.0*0.254);
 		glRotatef(Leg[0][2],0,0,1);
+		glRotatef(joint0[3],0,0,1);
+		glTranslatef(joint0[0]*0.254, 0.0*0.254, joint0[1]*0.254);
+		glRotatef(joint0[2],1,0,0);
 		glRotatef(Qn_1,0,0,1);
 		if(collision_table[3]==false)
 		glColor3f(0.0, 0.75, 0.0); 	
@@ -314,6 +392,7 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::v
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_COXA);
 	glPushMatrix();
+	glRotatef(joint1[3],0,0,1);
 	glTranslatef(joint1[0]*0.254, 0.0*0.254, joint1[1]*0.254);
 	glRotatef(joint1[2],1,0,0);
 	glRotatef(Qn_2,0,0,1);	
@@ -324,7 +403,9 @@ void CollisionDetectionColdet::GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::v
 			glColor3f(0.5, 0.0, 0.0);
 			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		glCallList(GL_FEMUR);
+			glRotatef(joint2[3],0,0,1);
 			glTranslatef(joint2[0]*0.254, 0.0*0.254, joint2[1]*0.254);
+			glRotatef(joint2[2],1,0,0);
 		glRotatef(Qn_3,0,0,1);
 		glPushMatrix();
 			if(collision_table[15]==false)
@@ -539,13 +620,22 @@ void CollisionDetectionColdet::GLLeg6(float Qn_1, float Qn_2, float Qn_3,  std::
 void CollisionDetectionColdet::DrawRobot (const coldet::Mat34& pose, const std::vector<coldet::float_type>& config) const
 {
 	coldet::Mat34 m4;
-	m4 = Eigen::AngleAxisd (-M_PI/2, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (0, Eigen::Vector3d::UnitZ());
+	m4 = Eigen::AngleAxisd (0, Eigen::Vector3d::UnitZ());
 	m4 = m4 * pose;
 	float korpus[16];
 	copyTable(m4,korpus);
 	meshModel[0]->setTransform (korpus);	
-		
-//===============NOGA_3=================================
+
+	for(int i=1; i<legsNo+1; i++){
+		int b;
+		if(i % 2 == 0)
+			b=1;
+		else
+			b=-1;
+	Leg_All(i, b*config[(i-1)*jointsNo]*180/3.14,-config[(i-1)*jointsNo +1]*180/3.14,-config[(i-1)*jointsNo +2]*180/3.14, m4, Leg[i-1]);
+		}
+
+/*//===============NOGA_3=================================
 
 	Leg3(-config[6]*180/3.14,-config[7]*180/3.14,-config[8]*180/3.14, m4); 
 
@@ -567,7 +657,7 @@ void CollisionDetectionColdet::DrawRobot (const coldet::Mat34& pose, const std::
 
 //===============NOGA_6=================================
 
-	Leg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14, m4);
+	Leg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14, m4);*/
 
 }
 
@@ -587,36 +677,46 @@ void CollisionDetectionColdet::GLDrawRobot(const coldet::Mat34& pose, const std:
 			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 			glCallList(GL_PLATFORM);
 		glPopMatrix();
-					
-//===============LEG_3=================================
+	
+		for(int i=1; i<legsNo+1; i++){
+			glPushMatrix();
+			int a;
+			if(i % 2 == 0)
+				a=1;
+			else
+				a=-1;
+			GLLeg_All(i, a*config[(i-1)*jointsNo]*180/3.14,-config[(i-1)*jointsNo +1]*180/3.14,-config[(i-1)*jointsNo +2]*180/3.14, collision_table, Leg[i-1]);
+			glPopMatrix();
+		}
+ /*//===============LEG_3================================= Nowa noga -> 1
 		glPushMatrix();
 			GLLeg3(-config[6]*180/3.14,-config[7]*180/3.14,-config[8]*180/3.14, collision_table); 
 		glPopMatrix();
 
-//===============LEG_4=================================
+//===============LEG_4=================================  Nowa noga -> 2
 		glPushMatrix();
 			GLLeg4(config[9]*180/3.14,-config[10]*180/3.14,-config[11]*180/3.14, collision_table);	
 		glPopMatrix();
 
-//===============LEG_2=================================				
+//===============LEG_2=================================		Nowa noga -> 3		
 		glPushMatrix();
 			GLLeg2(-config[3]*180/3.14,-config[4]*180/3.14,-config[5]*180/3.14, collision_table); 
 		glPopMatrix(); 
 
-//===============LEG_5=================================
+//===============LEG_5================================= Nowa noga -> 4
 		glPushMatrix();
 			GLLeg5(config[12]*180/3.14,-config[13]*180/3.14,-config[14]*180/3.14, collision_table);	
 		glPopMatrix();
 
-//===============LEG_1=================================
+//===============LEG_1================================= Nowa noga -> 5
 		glPushMatrix();
 			GLLeg1(-config[0]*180/3.14,-config[1]*180/3.14,-config[2]*180/3.14, collision_table);	
 		glPopMatrix();
 
-//===============LEG_6=================================
+//===============LEG_6================================= Nowa noga -> 6
 		glPushMatrix();
 			GLLeg6(config[15]*180/3.14,-config[16]*180/3.14,-config[17]*180/3.14, collision_table);	
-		glPopMatrix();
+		glPopMatrix(); */
 
 	glPopMatrix(); 
 
@@ -634,7 +734,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 		nazwy_temp[i+12]=nazwy_czesci[3] + std::to_string(i); */
 
 	DrawRobot(pose, config);
-	for (int i=0;i<19;i++){
+	for (int i=0; i<3*legsNo+1; i++){
 		collision_table[i]=false;
 	}
 
@@ -675,153 +775,153 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 	if (collision_table[5]) collision_table[11]=true;
 	*/
 	//=========KOLIZJE miedzy drugimi ogniwami od korpusu roznymi nogami
-	if (meshModel[FEMUR1]->collision(meshModel[FEMUR6])) {
-		collision_table[7]=true; collision_table[12]=true;
+	if (meshModel[FEMUR5]->collision(meshModel[FEMUR6])) {
+		collision_table[11]=true; collision_table[12]=true;
+	}
+	if (meshModel[FEMUR5]->collision(meshModel[FEMUR3])) {
+		collision_table[11]=true; collision_table[9]=true;
+	}
+	if (meshModel[FEMUR3]->collision(meshModel[FEMUR1])) {
+		collision_table[9]=true; collision_table[7]=true;
 	}
 	if (meshModel[FEMUR1]->collision(meshModel[FEMUR2])) {
 		collision_table[7]=true; collision_table[8]=true;
 	}
-	if (meshModel[FEMUR2]->collision(meshModel[FEMUR3])) {
-		collision_table[8]=true; collision_table[9]=true;
+	if (meshModel[FEMUR2]->collision(meshModel[FEMUR4])) {
+		collision_table[8]=true; collision_table[10]=true;
 	}
-	if (meshModel[FEMUR3]->collision(meshModel[FEMUR4])) {
-		collision_table[9]=true; collision_table[10]=true;
-	}
-	if (meshModel[FEMUR4]->collision(meshModel[FEMUR5])) {
-		collision_table[10]=true; collision_table[11]=true;
-	}
-	if (meshModel[FEMUR5]->collision(meshModel[FEMUR6])) {
-		collision_table[11]=true; collision_table[12]=true;
+	if (meshModel[FEMUR4]->collision(meshModel[FEMUR6])) {
+		collision_table[10]=true; collision_table[12]=true;
 	}
 	//=========KOLIZJE miedzy trzecimi ogniwami od korpusu roznymi nogami
-	if (meshModel[VITULUS1]->collision(meshModel[VITULUS6])) {
-		collision_table[13]=true; collision_table[18]=true;
+	if (meshModel[VITULUS5]->collision(meshModel[VITULUS6])) {
+		collision_table[17]=true; collision_table[18]=true;
+	}
+	if (meshModel[VITULUS5]->collision(meshModel[VITULUS3])) {
+		collision_table[17]=true; collision_table[15]=true;
+	}
+	if (meshModel[VITULUS3]->collision(meshModel[VITULUS1])) {
+		collision_table[15]=true; collision_table[13]=true;
 	}
 	if (meshModel[VITULUS1]->collision(meshModel[VITULUS2])) {
 		collision_table[13]=true; collision_table[14]=true;
 	}
-	if (meshModel[VITULUS2]->collision(meshModel[VITULUS3])) {
-		collision_table[14]=true; collision_table[15]=true;
+	if (meshModel[VITULUS2]->collision(meshModel[VITULUS4])) {
+		collision_table[14]=true; collision_table[16]=true;
 	}
-	if (meshModel[VITULUS3]->collision(meshModel[VITULUS4])) {
-		collision_table[15]=true; collision_table[16]=true;
-	}
-	if (meshModel[VITULUS4]->collision(meshModel[VITULUS5])) {
-		collision_table[16]=true; collision_table[17]=true;
-	}
-	if (meshModel[VITULUS5]->collision(meshModel[VITULUS6])) {
-		collision_table[17]=true; collision_table[18]=true;
+	if (meshModel[VITULUS4]->collision(meshModel[VITULUS6])) {
+		collision_table[16]=true; collision_table[18]=true;
 	}
 	//=========KOLIZJE miedzy drugimi, a trzecimi ogniwami od korpusu miedzy roznymi nogami
-	if (meshModel[VITULUS1]->collision(meshModel[FEMUR2])) {
-		collision_table[13]=true; collision_table[8]=true;
-	}
-	if (meshModel[VITULUS1]->collision(meshModel[FEMUR6])) {
-		collision_table[13]=true; collision_table[12]=true;
-	}
-	if (meshModel[VITULUS2]->collision(meshModel[FEMUR1])) {
-		collision_table[14]=true; collision_table[7]=true;
-	}
-	if (meshModel[VITULUS2]->collision(meshModel[FEMUR3])) {
-		collision_table[14]=true; collision_table[9]=true;
-	}
-	if (meshModel[VITULUS3]->collision(meshModel[FEMUR2])) {
-		collision_table[15]=true; collision_table[8]=true;
-	}
-	if (meshModel[VITULUS3]->collision(meshModel[FEMUR4])) {
-		collision_table[15]=true; collision_table[10]=true;
-	}
-	if (meshModel[VITULUS4]->collision(meshModel[FEMUR3])) {
-		collision_table[16]=true; collision_table[9]=true;
-	}
-	if (meshModel[VITULUS4]->collision(meshModel[FEMUR5])) {
-		collision_table[16]=true; collision_table[11]=true;
-	}
-	if (meshModel[VITULUS5]->collision(meshModel[FEMUR4])) {
-		collision_table[17]=true; collision_table[10]=true;
+	if (meshModel[VITULUS5]->collision(meshModel[FEMUR3])) {
+		collision_table[17]=true; collision_table[9]=true;
 	}
 	if (meshModel[VITULUS5]->collision(meshModel[FEMUR6])) {
 		collision_table[17]=true; collision_table[12]=true;
 	}
+	if (meshModel[VITULUS3]->collision(meshModel[FEMUR5])) {
+		collision_table[15]=true; collision_table[11]=true;
+	}
+	if (meshModel[VITULUS3]->collision(meshModel[FEMUR1])) {
+		collision_table[15]=true; collision_table[7]=true;
+	}
+	if (meshModel[VITULUS1]->collision(meshModel[FEMUR3])) {
+		collision_table[13]=true; collision_table[9]=true;
+	}
+	if (meshModel[VITULUS1]->collision(meshModel[FEMUR2])) {
+		collision_table[13]=true; collision_table[8]=true;
+	}
+	if (meshModel[VITULUS2]->collision(meshModel[FEMUR1])) {
+		collision_table[14]=true; collision_table[7]=true;
+	}
+	if (meshModel[VITULUS2]->collision(meshModel[FEMUR4])) {
+		collision_table[14]=true; collision_table[10]=true;
+	}
+	if (meshModel[VITULUS4]->collision(meshModel[FEMUR2])) {
+		collision_table[16]=true; collision_table[8]=true;
+	}
+	if (meshModel[VITULUS4]->collision(meshModel[FEMUR6])) {
+		collision_table[16]=true; collision_table[12]=true;
+	}
+	if (meshModel[VITULUS6]->collision(meshModel[FEMUR4])) {
+		collision_table[18]=true; collision_table[10]=true;
+	}
 	if (meshModel[VITULUS6]->collision(meshModel[FEMUR5])) {
 		collision_table[18]=true; collision_table[11]=true;
 	}
-	if (meshModel[VITULUS6]->collision(meshModel[FEMUR1])) {
-		collision_table[18]=true; collision_table[7]=true;
-	}
 	//=========KOLIZJE miedzy pierwszymi, a drugimi ogniwami od korpusu miedzy roznymi nogami
-	if (meshModel[FEMUR1]->collision(meshModel[COXA2])) {
-		collision_table[7]=true; collision_table[2]=true;
-	}
-	if (meshModel[FEMUR1]->collision(meshModel[COXA6])) {
-		collision_table[7]=true; collision_table[6]=true;
-	}
-	if (meshModel[FEMUR2]->collision(meshModel[COXA1])) {
-		collision_table[8]=true; collision_table[1]=true;
-	}
-	if (meshModel[FEMUR2]->collision(meshModel[COXA3])) {
-		collision_table[8]=true; collision_table[3]=true;
-	}
-	if (meshModel[FEMUR3]->collision(meshModel[COXA2])) {
-		collision_table[9]=true; collision_table[2]=true;
-	}
-	if (meshModel[FEMUR3]->collision(meshModel[COXA4])) {
-		collision_table[9]=true; collision_table[4]=true;
-	}
-	if (meshModel[FEMUR4]->collision(meshModel[COXA3])) {
-		collision_table[10]=true; collision_table[3]=true;
-	}
-	if (meshModel[FEMUR4]->collision(meshModel[COXA5])) {
-		collision_table[10]=true; collision_table[5]=true;
-	}
-	if (meshModel[FEMUR5]->collision(meshModel[COXA4])) {
-		collision_table[11]=true; collision_table[4]=true;
+	if (meshModel[FEMUR5]->collision(meshModel[COXA3])) {
+		collision_table[11]=true; collision_table[3]=true;
 	}
 	if (meshModel[FEMUR5]->collision(meshModel[COXA6])) {
 		collision_table[11]=true; collision_table[6]=true;
 	}
+	if (meshModel[FEMUR3]->collision(meshModel[COXA5])) {
+		collision_table[9]=true; collision_table[5]=true;
+	}
+	if (meshModel[FEMUR3]->collision(meshModel[COXA1])) {
+		collision_table[9]=true; collision_table[1]=true;
+	}
+	if (meshModel[FEMUR1]->collision(meshModel[COXA3])) {
+		collision_table[7]=true; collision_table[3]=true;
+	}
+	if (meshModel[FEMUR1]->collision(meshModel[COXA2])) {
+		collision_table[7]=true; collision_table[2]=true;
+	}
+	if (meshModel[FEMUR2]->collision(meshModel[COXA1])) {
+		collision_table[8]=true; collision_table[1]=true;
+	}
+	if (meshModel[FEMUR2]->collision(meshModel[COXA4])) {
+		collision_table[8]=true; collision_table[4]=true;
+	}
+	if (meshModel[FEMUR4]->collision(meshModel[COXA4])) {
+		collision_table[10]=true; collision_table[4]=true;
+	}
+	if (meshModel[FEMUR4]->collision(meshModel[COXA6])) {
+		collision_table[10]=true; collision_table[6]=true;
+	}
+	if (meshModel[FEMUR6]->collision(meshModel[COXA4])) {
+		collision_table[12]=true; collision_table[4]=true;
+	}
 	if (meshModel[FEMUR6]->collision(meshModel[COXA5])) {
 		collision_table[12]=true; collision_table[5]=true;
 	}
-	if (meshModel[FEMUR6]->collision(meshModel[COXA1])) {
-		collision_table[12]=true; collision_table[1]=true;
-	}
 	//=========KOLIZJE miedzy pierwszymi, a trzecimi ogniwami od korpusu miedzy roznymi nogami
-	if (meshModel[VITULUS1]->collision(meshModel[COXA2])) {
-		collision_table[13]=true; collision_table[2]=true;
-	}
-	if (meshModel[VITULUS1]->collision(meshModel[COXA6])) {
-		collision_table[13]=true; collision_table[6]=true;
-	}
-	if (meshModel[VITULUS2]->collision(meshModel[COXA1])) {
-		collision_table[14]=true; collision_table[1]=true;
-	}
-	if (meshModel[VITULUS2]->collision(meshModel[COXA3])) {
-		collision_table[14]=true; collision_table[3]=true;
-	}
-	if (meshModel[VITULUS3]->collision(meshModel[COXA2])) {
-		collision_table[15]=true; collision_table[2]=true;
-	}
-	if (meshModel[VITULUS3]->collision(meshModel[COXA4])) {
-		collision_table[15]=true; collision_table[4]=true;
-	}
-	if (meshModel[VITULUS4]->collision(meshModel[COXA3])) {
-		collision_table[16]=true; collision_table[3]=true;
-	}
-	if (meshModel[VITULUS4]->collision(meshModel[COXA5])) {
-		collision_table[16]=true; collision_table[5]=true;
-	}
-	if (meshModel[VITULUS5]->collision(meshModel[COXA4])) {
-		collision_table[17]=true; collision_table[4]=true;
+	if (meshModel[VITULUS5]->collision(meshModel[COXA3])) {
+		collision_table[17]=true; collision_table[3]=true;
 	}
 	if (meshModel[VITULUS5]->collision(meshModel[COXA6])) {
 		collision_table[17]=true; collision_table[6]=true;
 	}
+	if (meshModel[VITULUS3]->collision(meshModel[COXA5])) {
+		collision_table[15]=true; collision_table[5]=true;
+	}
+	if (meshModel[VITULUS3]->collision(meshModel[COXA1])) {
+		collision_table[15]=true; collision_table[1]=true;
+	}
+	if (meshModel[VITULUS1]->collision(meshModel[COXA3])) {
+		collision_table[13]=true; collision_table[3]=true;
+	}
+	if (meshModel[VITULUS1]->collision(meshModel[COXA2])) {
+		collision_table[13]=true; collision_table[2]=true;
+	}
+	if (meshModel[VITULUS2]->collision(meshModel[COXA1])) {
+		collision_table[14]=true; collision_table[1]=true;
+	}
+	if (meshModel[VITULUS2]->collision(meshModel[COXA4])) {
+		collision_table[14]=true; collision_table[4]=true;
+	}
+	if (meshModel[VITULUS4]->collision(meshModel[COXA2])) {
+		collision_table[16]=true; collision_table[2]=true;
+	}
+	if (meshModel[VITULUS4]->collision(meshModel[COXA6])) {
+		collision_table[16]=true; collision_table[6]=true;
+	}
+	if (meshModel[VITULUS6]->collision(meshModel[COXA4])) {
+		collision_table[18]=true; collision_table[4]=true;
+	}
 	if (meshModel[VITULUS6]->collision(meshModel[COXA5])) {
 		collision_table[18]=true; collision_table[5]=true;
-	}
-	if (meshModel[VITULUS6]->collision(meshModel[COXA1])) {
-		collision_table[18]=true; collision_table[1]=true;
 	}
 
 	//=========KOLIZJE miedzy pierwszymi, a trzecimi ogniwami od korpusu miedzy roznymi nogami (sasiednie Vitulus, a Coxa)
@@ -845,20 +945,20 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 
 	//=========KOLIZJE miedzy korpusem, a pierwszymi ogniwami od niego (Miedzy Coxa1-6, a Corpus)
 
+	if (meshModel[COXA5]->collision(meshModel[PLATFORM])) {
+		collision_table[5]=true; collision_table[0]=true;
+	}
+	if (meshModel[COXA3]->collision(meshModel[PLATFORM])) {
+		collision_table[3]=true; collision_table[0]=true;
+	}
 	if (meshModel[COXA1]->collision(meshModel[PLATFORM])) {
 		collision_table[1]=true; collision_table[0]=true;
 	}
 	if (meshModel[COXA2]->collision(meshModel[PLATFORM])) {
 		collision_table[2]=true; collision_table[0]=true;
 	}
-	if (meshModel[COXA3]->collision(meshModel[PLATFORM])) {
-		collision_table[3]=true; collision_table[0]=true;
-	}
 	if (meshModel[COXA4]->collision(meshModel[PLATFORM])) {
 		collision_table[4]=true; collision_table[0]=true;
-	}
-	if (meshModel[COXA5]->collision(meshModel[PLATFORM])) {
-		collision_table[5]=true; collision_table[0]=true;
 	}
 	if (meshModel[COXA6]->collision(meshModel[PLATFORM])) {
 		collision_table[6]=true; collision_table[0]=true;
@@ -866,20 +966,20 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 
 	//=========KOLIZJE miedzy korpusem, a drugimi ogniwami od niego (Miedzy Femur1-6, a Corpus)
 
-		if (meshModel[FEMUR1]->collision(meshModel[PLATFORM])) {
+		if (meshModel[FEMUR5]->collision(meshModel[PLATFORM])) {
+		collision_table[11]=true; collision_table[0]=true;
+	}
+	if (meshModel[FEMUR3]->collision(meshModel[PLATFORM])) {
+		collision_table[9]=true; collision_table[0]=true;
+	}
+	if (meshModel[FEMUR1]->collision(meshModel[PLATFORM])) {
 		collision_table[7]=true; collision_table[0]=true;
 	}
 	if (meshModel[FEMUR2]->collision(meshModel[PLATFORM])) {
 		collision_table[8]=true; collision_table[0]=true;
 	}
-	if (meshModel[FEMUR3]->collision(meshModel[PLATFORM])) {
-		collision_table[9]=true; collision_table[0]=true;
-	}
 	if (meshModel[FEMUR4]->collision(meshModel[PLATFORM])) {
 		collision_table[10]=true; collision_table[0]=true;
-	}
-	if (meshModel[FEMUR5]->collision(meshModel[PLATFORM])) {
-		collision_table[11]=true; collision_table[0]=true;
 	}
 	if (meshModel[FEMUR6]->collision(meshModel[PLATFORM])) {
 		collision_table[12]=true; collision_table[0]=true;
@@ -887,20 +987,20 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 
 	//=========KOLIZJE miedzy korpusem, a trzecimi ogniwami od niego (Miedzy Vitulus1-6, a Corpus)
 
+	if (meshModel[VITULUS5]->collision(meshModel[PLATFORM])) {
+		collision_table[17]=true; collision_table[0]=true;
+	}
+	if (meshModel[VITULUS3]->collision(meshModel[PLATFORM])) {
+		collision_table[15]=true; collision_table[0]=true;
+	}
 	if (meshModel[VITULUS1]->collision(meshModel[PLATFORM])) {
 		collision_table[13]=true; collision_table[0]=true;
 	}
 	if (meshModel[VITULUS2]->collision(meshModel[PLATFORM])) {
 		collision_table[14]=true; collision_table[0]=true;
 	}
-	if (meshModel[VITULUS3]->collision(meshModel[PLATFORM])) {
-		collision_table[15]=true; collision_table[0]=true;
-	}
 	if (meshModel[VITULUS4]->collision(meshModel[PLATFORM])) {
 		collision_table[16]=true; collision_table[0]=true;
-	}
-	if (meshModel[VITULUS5]->collision(meshModel[PLATFORM])) {
-		collision_table[17]=true; collision_table[0]=true;
 	}
 	if (meshModel[VITULUS6]->collision(meshModel[PLATFORM])) {
 		collision_table[18]=true; collision_table[0]=true;

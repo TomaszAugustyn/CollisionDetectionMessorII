@@ -78,7 +78,7 @@ GLfloat scale = 1.0;
 
 void init(void)
 {
-    glClearColor(0.0, 0.0, 0.0, 0.0); // This clear the background color to black
+    glClearColor(0.0, 0.5, 0.2, 0.0); // This clear the background color to black
     glShadeModel(GL_SMOOTH); // Type of shading for the polygons
    	
     // Viewport transformation
@@ -94,11 +94,9 @@ void init(void)
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_DITHER);
 
-
 	glEnable(GL_DEPTH_BUFFER_BIT);
     glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	//glLightf(GL_LIGHT0, GL_DIFFUSE, 0.8);
 
 	//konfiguracja dla serwonapedow lydek
 	config[2]=2.3;
@@ -108,7 +106,7 @@ void init(void)
 	config[14]=2.3;
 	config[17]=2.3;
 
-	config[0]=-0.7;
+	config[12]=-0.7;
 	
 	//konfiguracja dla serwonapedow ud
 	config[1]=-0.8;
