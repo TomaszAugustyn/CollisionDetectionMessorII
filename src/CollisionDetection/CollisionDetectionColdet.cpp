@@ -14,7 +14,7 @@ CollisionDetectionColdet::Ptr collisionDetectionColdet;
 
 CollisionDetectionColdet::CollisionDetectionColdet(void) : CollisionDetection("CollisionDetectionColdet", TYPE_COLDET) {
 
-	char a,b,c,d,e;
+/*	char a,b,c,d,e;
 	a=robot_model.ObjLoad("../../resources/Messor_II_Model/corpus.3ds");
 	b=robot_model.ObjLoad("../../resources/Messor_II_Model/coxa.3ds");
 	c=robot_model.ObjLoad("../../resources/Messor_II_Model/femur.3ds");
@@ -22,17 +22,17 @@ CollisionDetectionColdet::CollisionDetectionColdet(void) : CollisionDetection("C
 	/// Ladowanie z pelnej sciezki - niweluje problem ze program mozna zalaczyc tylko poprzez uruchomienie pliku "Demo.exe"
 	/// robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
 
-	for (int i=0;i<19;i++) {
+	for (int i=0; i<3*legsNo+1; i++) {
 		CollisionModel3D* tmp = newCollisionModel3D();
 		meshModel.push_back(tmp);
 	}
-//	InitializeTerrain();
+	// InitializeTerrain();
 	CollisionModels();	// Init Collision Models
-//	robot_model.TerrainCollisionModels();	// Init Collision Models
+	// robot_model.TerrainCollisionModels();	// Init Collision Models
 	initStructures();
 	for (int j=0;j<4;j++){
 		std::cout<<robot_model.object[j].vertices_qty<<"\n";
-	}
+	}*/
 
 }
 
@@ -51,7 +51,14 @@ void CollisionDetectionColdet::initCollisionModel(uint_fast8_t objectNo, Collisi
 
 void CollisionDetectionColdet::CollisionModels(void)
 {
-	initCollisionModel(0, *meshModel[PLATFORM]); // korpus
+	initCollisionModel(0, *meshModel[0]); 
+
+	for (int i=1; i<legsNo+1; i++){
+		initCollisionModel(1, *meshModel[i]);				//init Coxa (in number according to legsNo)
+		initCollisionModel(2, *meshModel[i+legsNo]);		//init Femur (in number according to legsNo)
+		initCollisionModel(3, *meshModel[i+2*legsNo]);		//init Vitulus (in number according to legsNo)
+	}
+/*	initCollisionModel(0, *meshModel[PLATFORM]); // korpus
 
 	initCollisionModel(1, *meshModel[COXA1]); // biodro_1
 	initCollisionModel(1, *meshModel[COXA2]); // biodro_2
@@ -72,7 +79,7 @@ void CollisionDetectionColdet::CollisionModels(void)
 	initCollisionModel(3, *meshModel[VITULUS3]); // lydka_3
 	initCollisionModel(3, *meshModel[VITULUS4]); // lydka_4
 	initCollisionModel(3, *meshModel[VITULUS5]); // lydka_5
-	initCollisionModel(3, *meshModel[VITULUS6]); // lydka_6
+	initCollisionModel(3, *meshModel[VITULUS6]); // lydka_6 */
 }
 
 void CollisionDetectionColdet::initStructures(void)
@@ -163,7 +170,7 @@ void CollisionDetectionColdet::Leg_All(int legNo, float Qn_1, float Qn_2, float 
 	m_noga1 = m_noga * Eigen::Translation3d(wektor_biodro) * Eigen::Translation3d(translacja) * Eigen::AngleAxisd ((Leg[2]+joint0[3])*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::Translation3d(trans_joint0) * Eigen::AngleAxisd (joint0[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_1*M_PI/180, Eigen::Vector3d::UnitZ());
 	float biodro[16];
 	copyTable(m_noga1,biodro);
-	meshModel[legNo+2*legsNo]->setTransform (biodro);
+	meshModel[legNo]->setTransform (biodro);
 
 	float udo[16];
 	glGetFloatv(GL_MODELVIEW_MATRIX, udo);
@@ -178,7 +185,7 @@ void CollisionDetectionColdet::Leg_All(int legNo, float Qn_1, float Qn_2, float 
 	coldet::Mat34 m_noga3;
 	m_noga3 = m_noga2 * Eigen::AngleAxisd (joint2[3]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (joint2[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga3,lydka);
-	meshModel[legNo]->setTransform (lydka);
+	meshModel[legNo+2*legsNo]->setTransform (lydka);
 }
 
 
@@ -740,14 +747,13 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 
 	//*******KOLIZJE KONCZYN ROBOTA******************************************************************
 	//=========KOLIZJE pierwszym, a drugim ogniwem od korpusu  ========================
-	//collision_table[0-5] pierwszy czlon koliduje
-	//collision_table[6-11] drugi czlon koliduje
-	//collision_table[12-17] trzeci czlon koliduje
-	//collision_table[18-23] trzeci czlon koliduje z terenem
-	//collision_table[24] teren koliduje
-	//collision_table[25] korpus koliduje
-	//uproszczony sposob
+	//collision_table[0] korpus koliduje
+	//collision_table[1-6] pierwszy czlon koliduje
+	//collision_table[7-12] drugi czlon koliduje
+	//collision_table[13-18] trzeci czlon koliduje
 
+
+	//uproszczony sposob
 	/*for (int i=0;i<6;i++) {
 		if ((config[i*3+1]>(24*3.14/180+1.1))){
 			collision_table[i]=true;
@@ -760,22 +766,19 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 		}
 	} */
 
-	/*
-	collision_table[0]=robot_model.segment_II_model_1->collision(robot_model.przegub_typu_C_1);
-	if (collision_table[0]) collision_table[6]=true;
-	collision_table[1]=robot_model.segment_II_model_2->collision(robot_model.przegub_typu_C_2);
-	if (collision_table[1]) collision_table[7]=true;
-	collision_table[2]=robot_model.segment_II_model_3->collision(robot_model.przegub_typu_C_3);
-	if (collision_table[2]) collision_table[8]=true;
-	collision_table[3]=robot_model.segment_II_model_4->collision(robot_model.przegub_typu_C_4);
-	if (collision_table[3]) collision_table[9]=true;
-	collision_table[4]=robot_model.segment_II_model_5->collision(robot_model.przegub_typu_C_5);
-	if (collision_table[4]) collision_table[10]=true;
-	collision_table[5]=robot_model.segment_II_model_6->collision(robot_model.przegub_typu_C_6);
-	if (collision_table[5]) collision_table[11]=true;
-	*/
 	//=========KOLIZJE miedzy drugimi ogniwami od korpusu roznymi nogami
-	if (meshModel[FEMUR5]->collision(meshModel[FEMUR6])) {
+
+	for(int j=0; j<3*legsNo+1; j++){
+			for(int i=0; i<3*legsNo+1; i++){
+				if(i!=j){
+						if (meshModel[j]->collision(meshModel[i])){
+							collision_table[j]=true; collision_table[i]=true;
+						}
+				}
+			}
+	}
+
+	/*if (meshModel[FEMUR5]->collision(meshModel[FEMUR6])) {
 		collision_table[11]=true; collision_table[12]=true;
 	}
 	if (meshModel[FEMUR5]->collision(meshModel[FEMUR3])) {
@@ -924,23 +927,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 		collision_table[18]=true; collision_table[5]=true;
 	}
 
-	//=========KOLIZJE miedzy pierwszymi, a trzecimi ogniwami od korpusu miedzy roznymi nogami (sasiednie Vitulus, a Coxa)
-	/*for (int i=1; i<6; i++)
-	{
-		if (meshModel[MechParts(i+1)]->collision(meshModel[MechParts(i+12)]))
-		collision_table[13+i]=true; collision_table[i]=true;
 
-	}*/
-	/*for (int i=1; i<6; i++)
-	{
-		if (meshModel[MechParts(i)]->collision(meshModel[MechParts(i+13)]))
-		collision_table[12+i]=true; collision_table[i+1]=true;
-	}*/
-
-	/*	if (meshModel[VITULUS6]->collision(meshModel[COXA1]))
-		collision_table[18]=true; collision_table[1]=true;
-		if (meshModel[VITULUS1]->collision(meshModel[COXA6]))
-		collision_table[13]=true; collision_table[6]=true;  */
 
 
 	//=========KOLIZJE miedzy korpusem, a pierwszymi ogniwami od niego (Miedzy Coxa1-6, a Corpus)
@@ -954,6 +941,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 	if (meshModel[COXA1]->collision(meshModel[PLATFORM])) {
 		collision_table[1]=true; collision_table[0]=true;
 	}
+
 	if (meshModel[COXA2]->collision(meshModel[PLATFORM])) {
 		collision_table[2]=true; collision_table[0]=true;
 	}
@@ -1004,7 +992,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 	}
 	if (meshModel[VITULUS6]->collision(meshModel[PLATFORM])) {
 		collision_table[18]=true; collision_table[0]=true;
-	}
+	} */
 
 
 	for (int i=0;i<19;i++){

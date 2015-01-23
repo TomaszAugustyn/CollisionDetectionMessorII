@@ -33,9 +33,11 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		enum MechParts
 		{
 			PLATFORM, //0
-			VITULUS1, VITULUS2, VITULUS3, VITULUS4, VITULUS5, VITULUS6,//1,2,3,4,5,6
+			COXA1, COXA2, COXA3, COXA4, COXA5, COXA6,//1,2,3,4,5,6 
 			FEMUR1, FEMUR2, FEMUR3, FEMUR4, FEMUR5, FEMUR6,//7,8,9,10,11,12
-			COXA1, COXA2, COXA3, COXA4, COXA5, COXA6,//13,14,15,16,17,18
+			VITULUS1, VITULUS2, VITULUS3, VITULUS4, VITULUS5, VITULUS6, //13,14,15,16,17,18
+
+
 		};
         /// Pointer
         typedef std::unique_ptr<CollisionDetectionColdet> Ptr;
@@ -148,7 +150,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 			/// Ladowanie z pelnej sciezki - niweluje problem ze program mozna zalaczyc tylko poprzez uruchomienie pliku "Demo.exe"
 			/// robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
 
-			for (int i=0;i<19;i++) {
+			for (int i=0;i<3*legsNo+1;i++) {
 				CollisionModel3D* tmp = newCollisionModel3D();
 				meshModel.push_back(tmp);
 			}
@@ -157,7 +159,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 			//	robot_model.TerrainCollisionModels();	// Init Collision Models
 			initStructures();
 			for (int j=0;j<4;j++){
-				std::cout<<"Number of "<<nazwy_czesci[j]<<" verticies is: "<<robot_model.object[j].vertices_qty<<"\n";
+				std::cout<<"Number of "<<nazwy_czesci[j]<<" vertices is: "<<robot_model.object[j].vertices_qty<<"\n";
 			}
 
 		}
@@ -173,6 +175,10 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 
 		/// Check collisions
 		bool checkCollision(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config, std::vector<bool>& collision_table) const;
+
+		/// Joints number and legs number loaded from XML file
+		int jointsNo;
+		int legsNo;
 		
        
     private:
@@ -207,12 +213,9 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 
 		void copyTable(coldet::Mat34& src, float * dest) const;
 		void DrawRobot(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config) const;
-
 		std::vector<CollisionModel3D*> meshModel;  /// model 3DS
 		CObjects3DS robot_model;
 
-		int jointsNo;
-		int legsNo;
 		std::vector<std::string> nazwy_czesci;   /// [0]- Platform,  [1]- Link0,  [2]- Link1,  [3]- Link2
 		coldet::float_type platform_length;
 		coldet::float_type platform_width;
@@ -221,7 +224,6 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		std::vector<coldet::float_type> joint0;
 		std::vector<coldet::float_type> joint1;
 		std::vector<coldet::float_type> joint2;
-		//std::vector< std::vector<coldet::float_type> > Leg;
 		std::vector< std::array<coldet::float_type, 3> > Leg;
 };
 

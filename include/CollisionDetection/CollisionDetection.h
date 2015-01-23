@@ -37,6 +37,10 @@ namespace coldet{
 			return name;
 			}
 
+			/// Joints number and legs number
+			int jointsNo;
+			int legsNo;
+
 			/// Initialize robot structure
 			virtual void initStructures(void) = 0;
 

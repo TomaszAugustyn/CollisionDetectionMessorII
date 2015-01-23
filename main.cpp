@@ -35,12 +35,11 @@ CollisionDetection* robot_structure;
 bool czy_jest_kolizja;
 std::vector<coldet::float_type> config(18, 0.8);
 std::vector<bool> collision_table(19);
-//bool collision_table[19];
 short int wybor_nogi=0;
 coldet::Mat34 pose;
 std::vector<coldet::float_type> set_pose(6); // x="0" y="0" z="0.0" alfa="0.0" beta="0.0" gamma="0.0"
 
-GLfloat light_position[ 4 ] =
+GLfloat light_position[4] =
 {
     0.0, 5.0, 2.0, 0.0   // 0.0, 5.0, 2.0, 0.0
 };
@@ -78,7 +77,7 @@ GLfloat scale = 1.0;
 
 void init(void)
 {
-    glClearColor(0.0, 0.5, 0.2, 0.0); // This clear the background color to black
+    glClearColor(0.0, 0.5, 0.2, 0.0); // This clear the background color to black  0.0, 0.5, 0.2, 0.0    1.056, 0.768, 0.312, 0.0,   0.951, 0.12, 0.22, 0.7
     glShadeModel(GL_SMOOTH); // Type of shading for the polygons
    	
     // Viewport transformation
