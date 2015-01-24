@@ -14,7 +14,7 @@ CollisionDetectionColdet::Ptr collisionDetectionColdet;
 
 CollisionDetectionColdet::CollisionDetectionColdet(void) : CollisionDetection("CollisionDetectionColdet", TYPE_COLDET) {
 
-/*	char a,b,c,d,e;
+	/*char a,b,c,d,e;
 	a=robot_model.ObjLoad("../../resources/Messor_II_Model/corpus.3ds");
 	b=robot_model.ObjLoad("../../resources/Messor_II_Model/coxa.3ds");
 	c=robot_model.ObjLoad("../../resources/Messor_II_Model/femur.3ds");

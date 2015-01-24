@@ -141,14 +141,51 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				for(int i=1; i<jointsNo+1; i++)
 				std::cout << nazwy_czesci[i] << " length is: " << links_lengths[i-1] <<"\n";
 
+				for(int i=0; i<3; i++)
+				std::cout<<polozenie_pocz[i]<<" ";
+
+				std::cout<<"\n";
+				std::cout<<legsNo<<"\n";
+				for(int i=0; i<legsNo; i++){
+				std::cout<<Leg[i][0]<<" "<<Leg[i][1]<<" "<<Leg[i][2]<<"\n";
+
+				}
+
+				for(int i=0; i<4; i++){
+				std::cout<<joint0[i]<<" ";
+
+				}
+				std::cout<<"\n";
+
+				for(int i=0; i<4; i++){
+				std::cout<<joint1[i]<<" ";
+
+				}
+				std::cout<<"\n";
+				for(int i=0; i<4; i++){
+				std::cout<<joint2[i]<<" ";
+
+				}
+				std::cout<<"\n";
+
 			}
 
-			robot_model.ObjLoad("../../resources/Messor_II_Model/corpus.3ds");
-			robot_model.ObjLoad("../../resources/Messor_II_Model/coxa.3ds");
-			robot_model.ObjLoad("../../resources/Messor_II_Model/femur.3ds");
-			robot_model.ObjLoad("../../resources/Messor_II_Model/vitulus.3ds");
+			char a,b,c,d;
+			a=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
+			b=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/coxa.3ds");
+			c=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/femur.3ds");
+			d=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/vitulus.3ds"); 
+
+			/*char a,b,c,d;
+			a=robot_model.ObjLoad("../../resources/Messor_II_Model/corpus.3ds");
+			b=robot_model.ObjLoad("../../resources/Messor_II_Model/coxa.3ds");
+			c=robot_model.ObjLoad("../../resources/Messor_II_Model/femur.3ds");
+			d=robot_model.ObjLoad("../../resources/Messor_II_Model/vitulus.3ds");*/
+
+
 			/// Ladowanie z pelnej sciezki - niweluje problem ze program mozna zalaczyc tylko poprzez uruchomienie pliku "Demo.exe"
 			/// robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
+			std::cout<<int(a)<<" "<<int(b)<<" "<<int(b)<<" "<<int(d)<<" ";
 
 			for (int i=0;i<3*legsNo+1;i++) {
 				CollisionModel3D* tmp = newCollisionModel3D();

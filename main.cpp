@@ -33,7 +33,8 @@ int filling=1; //0=OFF 1=ON
 //Now the object is generic, the cube has annoyed us a little bit, or not?
 CollisionDetection* robot_structure;
 bool czy_jest_kolizja;
-std::vector<coldet::float_type> config(18, 0.8);
+//std::vector<coldet::float_type> config(18, 0.8);
+std::vector<coldet::float_type> config(12, 0.0);
 std::vector<bool> collision_table(19);
 short int wybor_nogi=0;
 coldet::Mat34 pose;
@@ -121,8 +122,8 @@ void init(void)
 	set_pose[2]=0.0;				//z
 	set_pose[3]=45;					//alfa 90
 	set_pose[4]=0;					//beta 45
-	set_pose[5]=0;				//gamma
-
+	set_pose[5]=0;				//gamma 
+	
 }
 
 /**********************************************************
@@ -398,7 +399,7 @@ void display(void)
     glMatrixMode(GL_MODELVIEW); // Modeling transformation
     glLoadIdentity(); // Initialize the model matrix as identity
     
-	glTranslatef(0,0,-18.0); // We move the object forward (the model matrix is multiplied by the translation matrix)
+	glTranslatef(0,0, -200.0); // We move the object forward (the model matrix is multiplied by the translation matrix) 	glTranslatef(0,0,-18.0)
 
 	if (rotation_x > 359) rotation_x = 0;
 	if (rotation_y > 359) rotation_y = 0;
@@ -414,7 +415,7 @@ void display(void)
 	glEnable(GL_NORMALIZE);
 
 	// przesuniecie ukladu wspolrzednych obiektu do srodka bryly odcinania
-	glTranslatef( 0, 0, -( near + far ) / 2 );
+	//glTranslatef( 0, 0, -( near + far ) / 2 );
 
 	// obroty obiektu
     glRotatef( rotatex, 1.0, 0, 0 );
