@@ -74,12 +74,14 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				joint2.reserve(4);
 				Leg.reserve(legsNo);
 
+				/// sczytywanie nazwy i wymiarow korpusu
 				std::string parName = "Part0";
 				element =(config.FirstChildElement("document")->FirstChildElement(parName.c_str()));
 				nazwy_czesci[0]=element->Attribute("name");
 				element->QueryDoubleAttribute("length", &param); platform_length = param;
 				element->QueryDoubleAttribute("width", &param); platform_width = param;
 
+				/// sczytywanie nazwy i wymiarow poszczegolnych czesci robota
 				for(int i=1; i<jointsNo+1; i++){
 					parName = "Part" + std::to_string(i);
 					element =(config.FirstChildElement("document")->FirstChildElement(parName.c_str()));
@@ -87,30 +89,35 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 					element->QueryDoubleAttribute("length", &param);  links_lengths[i-1] = param;
 				}
 				
+				/// sczytywane sa parametry poczatkowe, w ktorych rysyowana bedzie pierwsza noga
 				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Poczatkowe");
 				element->QueryDoubleAttribute("x", &param);  polozenie_pocz[0] = param;
 				element->QueryDoubleAttribute("y", &param);  polozenie_pocz[1] = param;
 				element->QueryDoubleAttribute("z", &param);  polozenie_pocz[2] = param;
 				//nazwa 'PolozeniePocz' nie dziala, nie wiadomo dlaczego
 
+				/// przeksztalcenia pierwszego wezla
 				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0");
 				element->QueryDoubleAttribute("x", &param);  joint0[0] = param;
 				element->QueryDoubleAttribute("z", &param);  joint0[1] = param;
 				element->QueryDoubleAttribute("alfa", &param);  joint0[2] = param;
 				element->QueryDoubleAttribute("gamma", &param);  joint0[3] = param;
 
+				/// przeksztalcenia drugiego wezla
 				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1");
 				element->QueryDoubleAttribute("x", &param);  joint1[0] = param;
 				element->QueryDoubleAttribute("z", &param);  joint1[1] = param;
 				element->QueryDoubleAttribute("alfa", &param);  joint1[2] = param;
 				element->QueryDoubleAttribute("gamma", &param);  joint1[3] = param;
 
+				/// przeksztalcenia trzeciego wezla
 				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2");
 				element->QueryDoubleAttribute("x", &param);  joint2[0] = param;
 				element->QueryDoubleAttribute("z", &param);  joint2[1] = param;
 				element->QueryDoubleAttribute("alfa", &param);  joint2[2] = param;
 				element->QueryDoubleAttribute("gamma", &param);  joint2[3] = param;
 
+				/// sczytywanie pozycji kolejnych nog robota wzgledem pozycji poczatkowej
 				for(int i=0; i<legsNo; i++){
 
 					parName = "Leg" + std::to_string(i+1);
@@ -141,7 +148,9 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				for(int i=1; i<jointsNo+1; i++)
 				std::cout << nazwy_czesci[i] << " length is: " << links_lengths[i-1] <<"\n";
 
-				for(int i=0; i<3; i++)
+
+				//wyswietlenie paramterow z zaladowanego pliku .xml, sprawdzenie poprawnosci
+				/*for(int i=0; i<3; i++)
 				std::cout<<polozenie_pocz[i]<<" ";
 
 				std::cout<<"\n";
@@ -166,27 +175,25 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				std::cout<<joint2[i]<<" ";
 
 				}
-				std::cout<<"\n";
+				std::cout<<"\n";*/
 
 			}
 
+			/// Ladowanie czesci robota
 			char a,b,c,d;
-			a=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
-			b=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/coxa.3ds");
-			c=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/femur.3ds");
-			d=robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/vitulus.3ds"); 
-
-			/*char a,b,c,d;
 			a=robot_model.ObjLoad("../../resources/Messor_II_Model/corpus.3ds");
 			b=robot_model.ObjLoad("../../resources/Messor_II_Model/coxa.3ds");
 			c=robot_model.ObjLoad("../../resources/Messor_II_Model/femur.3ds");
-			d=robot_model.ObjLoad("../../resources/Messor_II_Model/vitulus.3ds");*/
+			d=robot_model.ObjLoad("../../resources/Messor_II_Model/vitulus.3ds");
 
 
 			/// Ladowanie z pelnej sciezki - niweluje problem ze program mozna zalaczyc tylko poprzez uruchomienie pliku "Demo.exe"
 			/// robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
-			std::cout<<int(a)<<" "<<int(b)<<" "<<int(b)<<" "<<int(d)<<" ";
 
+			//std::cout<<int(a)<<" "<<int(b)<<" "<<int(b)<<" "<<int(d)<<" ";
+
+
+			/// tworzenie modeli kolizji w zaleznosci od ilosci nog robota (zalozenie ze kazda noga ma 3 stawy)
 			for (int i=0;i<3*legsNo+1;i++) {
 				CollisionModel3D* tmp = newCollisionModel3D();
 				meshModel.push_back(tmp);

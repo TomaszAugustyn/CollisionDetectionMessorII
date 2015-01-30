@@ -10,12 +10,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/CollisionDetection/CollisionDetectionColdet.h"
+#include <chrono>
+#include <ctime>
 
-//using namespace std;
 /**********************************************************
  * VARIABLES DECLARATION
  *********************************************************/
-
 
 // The width and height of your window, change them as you like
 int screen_width=1024;
@@ -30,25 +30,30 @@ double translation_z=0;
 // Flag for rendering as lines or filled polygons
 int filling=1; //0=OFF 1=ON
 
-//Now the object is generic, the cube has annoyed us a little bit, or not?
+
 CollisionDetection* robot_structure;
-bool czy_jest_kolizja;
-//std::vector<coldet::float_type> config(18, 0.8);
-std::vector<coldet::float_type> config(12, 0.0);
-std::vector<bool> collision_table(19);
-short int wybor_nogi=0;
+bool czy_jest_kolizja;		///bedzie przyjmowala wartosc zwracana przez metoda CheckCollision - 1 -> sa kolije,  0->brak kolizji
+std::vector<coldet::float_type> config(18, -0.90);  ///pozycje serwonapedow nog robota
+std::vector<bool> collision_table(19);  ///tablica kolizji, jej elementy przyjmuja wartosc '1' jezeli odpowiadajaca jej czesc robota koliduje. [0] -> corpus, [1-6] -> coxa1-6,  [7-12] -> femur1-6,   [13-18] -> vitulus1-6
+short int wybor_nogi=0;  //wybor nogi do sterowania pozycjami jej serownapedow w openGL'u
+
 coldet::Mat34 pose;
 std::vector<coldet::float_type> set_pose(6); // x="0" y="0" z="0.0" alfa="0.0" beta="0.0" gamma="0.0"
 
+///mierzenie sredniego czasu kolizji. Po wcisnieciu klawisza 'x' program zlicza srednia z 250 prob.
+std::chrono::time_point<std::chrono::system_clock> start, end;
+std::chrono::duration<double> elapsed_seconds;
+
+
 GLfloat light_position[4] =
 {
-    0.0, 5.0, 2.0, 0.0   // 0.0, 5.0, 2.0, 0.0
+    0.0, 5.0, 2.0, 0.0
 };
 
 GLfloat light_rotatex = -10.0;  //-10
 GLfloat light_rotatey = 90.0;    //0, 90
 
-// katy obrotu obiektu
+// katy obrotu obiektu przy obsludze myszki
 GLfloat rotatex = 0.0;
 GLfloat rotatey = 0.0;
 
@@ -94,35 +99,38 @@ void init(void)
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_DITHER);
 
+	/// Dodanie oswietlenia
 	glEnable(GL_DEPTH_BUFFER_BIT);
     glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
-	//konfiguracja dla serwonapedow lydek
-	config[2]=2.3;
-	config[5]=2.3;
-	config[8]=2.3;
-	config[11]=2.3;
-	config[14]=2.3;
-	config[17]=2.3;
 
-	config[12]=-0.7;
-	
-	//konfiguracja dla serwonapedow ud
-	config[1]=-0.8;
-	config[4]=-0.8;
-	config[7]=-0.8;
-	config[10]=-0.8;
-	config[13]=-0.8;
-	config[16]=-0.8;
+	/// Konfiguracja dla serwonapedow ud
+	config[1]=0.8;
+	config[4]=0.8;
+	config[7]=0.8;
+	config[10]=0.8;
+	config[13]=0.8;
+	config[16]=0.8;
 
-	//Konfiguracja pozycji robota
+	/// Konfiguracja dla serwonapedow lydek
+	config[2]=-2.3;
+	config[5]=-2.3;
+	config[8]=-2.3;
+	config[11]=-2.3;
+	config[14]=-2.3;
+	config[17]=-2.3;
+
+	config[15]=0.7;
+
+
+	/// Konfiguracja pozycji robota
 	set_pose[0]=0.0;				//x
 	set_pose[1]=0.0;				//y
 	set_pose[2]=0.0;				//z
 	set_pose[3]=45;					//alfa 90
 	set_pose[4]=0;					//beta 45
-	set_pose[5]=0;				//gamma 
+	set_pose[5]=0;					//gamma 
 	
 }
 
@@ -136,14 +144,15 @@ void init(void)
 
 void resize (int width, int height)
 {
-    screen_width=width; // We obtain the new screen width values and store it
-    screen_height=height; // Height value
+    screen_width=width;		// We obtain the new screen width values and store it
+    screen_height=height;	// Height value
 
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // We clear both the color and the depth buffer so to draw the next frame
-    glViewport(0,0,screen_width,screen_height); // Viewport transformation
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// We clear both the color and the depth buffer so to draw the next frame
+    glViewport(0,0,screen_width,screen_height);				// Viewport transformation
 
-    glMatrixMode(GL_PROJECTION); // Projection transformation
-    glLoadIdentity(); // We initialize the projection matrix as identity
+    glMatrixMode(GL_PROJECTION);	// Projection transformation
+    glLoadIdentity();				// We initialize the projection matrix as identity
+
     gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,10.0f,10000.0f);
 
     glutPostRedisplay (); // This command redraw the scene (it calls the same routine of glutDisplayFunc)
@@ -302,13 +311,208 @@ void keyboard (unsigned char key, int x, int y)
 				config[15]=config[15]-0.02;
 		break;
 
+		/// wyswietlenie tabeli kolizji
 		case 'z': case 'Z':
 			std::cout<<czy_jest_kolizja<<"\n";
 			for (int i=0; i<19; i++)
 				std::cout <<collision_table[i];
 			std::cout<<"\n";
+
 		break;
 
+		/// konfiguracja robota tak aby nie wystepowaly kolizje
+		case 'c': case 'C':
+			for(int i=0; i<18; i++)
+				config[i]=-0.75;
+
+				//uda
+				config[1]=0.8;
+				config[4]=0.8;
+				config[7]=0.8;
+				config[10]=0.8;
+				config[13]=0.8;
+				config[16]=0.8;
+
+				/// Konfiguracja dla serwonapedow lydek
+				config[2]=-2.3;
+				config[5]=-2.3;
+				config[8]=-2.3;
+				config[11]=-2.3;
+				config[14]=-2.3;
+				config[17]=-2.3;
+
+		break;
+
+				/// konfiguracja robota tak aby wystapily 3 kolizje
+				case 'v': case 'V':
+			for(int i=0; i<18; i++)
+				config[i]=-0.85;
+				
+				//uda
+				config[1]=0.8;
+				config[4]=0.8;
+				config[7]=0.8;
+				config[10]=0.8;
+				config[16]=0.8;
+
+				/// Konfiguracja dla serwonapedow lydek
+				config[2]=-2.3;
+				config[5]=-2.3;
+				config[8]=-2.3;
+				config[11]=-2.3;
+				config[14]=-2.3;
+				config[17]=-2.3;
+
+				config[9]=-0.76;
+				config[12]=0.15;
+				config[6]=-0.75;
+				config[13]=0.65;
+
+		break;
+
+				/// konfiguracja robota tak aby wystapilo 7 kolizji
+				case 'b': case 'B':
+			for(int i=0; i<18; i++)
+				config[i]=-0.85;
+				
+				//uda
+				config[1]=0.8;
+				config[4]=0.8;
+				config[7]=0.8;
+				config[10]=0.8;
+				config[16]=0.8;
+
+				/// Konfiguracja dla serwonapedow lydek
+				config[2]=-2.3;
+				config[5]=-2.3;
+				config[8]=-2.3;
+				config[11]=-2.3;
+				config[14]=-2.3;
+				config[17]=-2.3;
+
+				config[9]=-0.76;
+				config[12]=0.15;
+				config[6]=-0.93;
+				config[13]=0.65;
+
+		break;
+
+	break;
+
+			/// konfiguracja robota tak aby wystapilo 9 kolizji
+			case 'n': case 'N':
+			for(int i=0; i<18; i++)
+				config[i]=-0.90;
+				
+			/// Konfiguracja dla serwonapedow ud
+			config[1]=0.8;
+			config[4]=0.8;
+			config[7]=0.8;
+			config[10]=0.8;
+			config[13]=0.8;
+			config[16]=0.8;
+
+			/// Konfiguracja dla serwonapedow lydek
+			config[2]=-2.3;
+			config[5]=-2.3;
+			config[8]=-2.3;
+			config[11]=-2.3;
+			config[14]=-2.3;
+			config[17]=-2.3;
+
+			config[15]=0.72;
+
+
+		break;
+			/// konfiguracja robota tak aby wystapilo 13 kolizji
+			case 'm': case 'M':
+			for(int i=0; i<18; i++)
+				config[i]=-0.90;
+				
+			/// Konfiguracja dla serwonapedow ud
+			config[1]=0.8;
+			config[4]=0.8;
+			config[7]=0.8;
+			config[10]=0.8;
+			config[13]=0.8;
+			config[16]=0.8;
+
+			/// Konfiguracja dla serwonapedow lydek
+			config[2]=-2.3;
+			config[5]=-2.3;
+			config[8]=-2.3;
+			config[11]=-2.3;
+			config[14]=-2.3;
+			config[17]=-2.3;
+
+			config[15]=0.72;
+			config[0]=0.72;
+
+		break;
+
+			/// konfiguracja robota tak aby wystapilo 16 kolizji
+			case '7':
+			for(int i=0; i<18; i++)
+				config[i]=-0.90;
+				
+			/// Konfiguracja dla serwonapedow ud
+			config[1]=0.8;
+			config[4]=0.8;
+			config[7]=0.8;
+			config[10]=0.8;
+			config[13]=0.8;
+			config[16]=0.8;
+
+			/// Konfiguracja dla serwonapedow lydek
+			config[2]=-2.3;
+			config[11]=-2.3;
+			config[17]=-2.3;
+
+			config[15]=0.72;
+			config[0]=0.72;
+
+			config[5]=-2.72;
+			config[8]=-2.92;
+			config[14]=-2.90;
+
+
+		break;
+
+			/// konfiguracja robota tak aby wystapilo 19 kolizji
+			case '8':
+			for(int i=0; i<18; i++)
+				config[i]=-0.90;
+				
+			/// Konfiguracja dla serwonapedow ud
+			config[1]=0.8;
+			config[4]=0.8;
+			config[7]=0.8;
+			config[10]=0.8;
+			config[13]=0.8;
+			config[16]=0.8;
+
+			/// Konfiguracja dla serwonapedow lydek
+			config[2]=-2.3;
+			config[11]=-2.3;
+			config[17]=-2.3;
+
+			config[5]=-2.88;
+			config[8]=-2.92;
+			config[14]=-2.90;
+
+			config[0]=1.32;
+			config[3]=-1.32;
+			config[6]=-1.57;
+			config[9]=-1.57;
+			config[12]=1.71;
+			config[15]=1.32;
+
+
+		break;
+
+
+
+		/// Zmiana kata padanie swiatla w OpenGL'u w osiach x i y
 		case 't': case 'T':
 			light_rotatex = light_rotatex + 5.0;
 		break;
@@ -370,7 +574,6 @@ void MouseButton( int button, int state, int x, int y )
 }
 
 // obsluga ruchu kursora myszki
-
 void MouseMotion( int x, int y )
 {
     if( button_state == GLUT_DOWN )
@@ -395,17 +598,17 @@ void display(void)
 {
     int l_index;
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // This clear the background color to dark blue
-    glMatrixMode(GL_MODELVIEW); // Modeling transformation
-    glLoadIdentity(); // Initialize the model matrix as identity
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// This clear the background color to dark blue
+    glMatrixMode(GL_MODELVIEW);		// Modeling transformation
+    glLoadIdentity();	// Initialize the model matrix as identity
     
-	glTranslatef(0,0, -200.0); // We move the object forward (the model matrix is multiplied by the translation matrix) 	glTranslatef(0,0,-18.0)
+	glTranslatef(0,0, -18.0);	// We move the object forward (the model matrix is multiplied by the translation matrix)	glTranslatef(0,0, -200.0)
 
 	if (rotation_x > 359) rotation_x = 0;
 	if (rotation_y > 359) rotation_y = 0;
 	if (rotation_z > 359) rotation_z = 0;
 
-    glRotatef(rotation_x,1.0,0.0,0.0); // Rotations of the object (the model matrix is multiplied by the rotation matrices)
+    glRotatef(rotation_x,1.0,0.0,0.0);	// Rotations of the object (the model matrix is multiplied by the rotation matrices)
     glRotatef(rotation_y,0.0,1.0,0.0);
     glRotatef(rotation_z,0.0,0.0,1.0);
 	glTranslatef(translation_x, 0.0, 0.0);
@@ -414,30 +617,37 @@ void display(void)
 
 	glEnable(GL_NORMALIZE);
 
-	// przesuniecie ukladu wspolrzednych obiektu do srodka bryly odcinania
-	//glTranslatef( 0, 0, -( near + far ) / 2 );
-
-	// obroty obiektu
+	// obroty obiektu za pomoca myszki
     glRotatef( rotatex, 1.0, 0, 0 );
     glRotatef( rotatey, 0, 1.0, 0 );
 
 	glPushMatrix();
-    // macierz modelowania = macierz jednostkowa
-    glLoadIdentity();
+    glLoadIdentity();     /// macierz modelowania = macierz jednostkowa
     
-    // obroty kierunku zrodla swiatla - klawisze kursora
+    // obroty kierunku zrodla swiatla
     glRotatef(light_rotatex, 1.0, 0, 0 );
     glRotatef(light_rotatey, 0, 1.0, 0 );
     
     // ustalenie kierunku zrodla swiatla
     glLightfv( GL_LIGHT0, GL_POSITION, light_position );
-    // przywrocenie pierwotnej macierzy modelowania
-    glPopMatrix(); 
 
-	//pose = coldet::Quaternion(set_pose[0], set_pose[1], set_pose[2], set_pose[3])* coldet::Vec3(set_pose[4], set_pose[5], set_pose[6]);
+    glPopMatrix();     // przywrocenie pierwotnej macierzy modelowania
+
+	//pose = coldet::Quaternion(set_pose[0], set_pose[1], set_pose[2], set_pose[3])* coldet::Vec3(set_pose[4], set_pose[5], set_pose[6]);	
 	pose = coldet::Vec3(set_pose[0], set_pose[1], set_pose[2])* Eigen::AngleAxisd (set_pose[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (set_pose[4]*M_PI/180, Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd (set_pose[5]*M_PI/180, Eigen::Vector3d::UnitZ());
-	czy_jest_kolizja=robot_structure->checkCollision (pose, config, collision_table);
+
+
+	//petla liczaca czas wykonywania sie 50 razy metody checkCollision, ilosc petli mozna zmieniac
+	start = std::chrono::system_clock::now();
+	for (int i=0;i<50;i++){
+		czy_jest_kolizja=robot_structure->checkCollision (pose, config, collision_table);
+	}
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end-start;
 	robot_structure->GLDrawRobot (pose, config, collision_table);
+
+	std::cout<<"Sredni czas wykrywania kolizji wynosi: "<< elapsed_seconds.count()/50<< "s\n";
+
 
     glFlush(); // This force the execution of OpenGL commands
     glutSwapBuffers(); // In double buffered mode we invert the positions of the visible buffer and the writing buffer
@@ -457,7 +667,7 @@ int main(int argc, char **argv)
     glutInitWindowSize(screen_width,screen_height);
     glutInitWindowPosition(400,200);
     glutCreateWindow("Model robota Messor II");    
-	robot_structure = createCollisionDetectionColdet("Messor_II_Model.xml");
+	robot_structure = createCollisionDetectionColdet("Messor_II_Model.xml");  // Wczytywanie pliku .xml Messora II, wywolanie konstruktora.
 	init();
     glutDisplayFunc(display);
     glutIdleFunc(display);

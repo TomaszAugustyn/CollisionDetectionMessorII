@@ -50,6 +50,7 @@ namespace coldet{
 			/// Check collisions
 			virtual bool checkCollision (const coldet::Mat34& pose, const std::vector<coldet::float_type>& config,  std::vector<bool>& collision_table) const = 0;
 
+
 			/*void CheckCollisions (const RobotConfiguration& config, CollisionTable& collisionTable);
 			void DecodeCollisionTable (const CollisionTable ...);
 			void CheckCollisions (const Mat34 RobotPose, const RobotConfiguration config, const CElevationMap& map, CollisionTable& collisionTable);
