@@ -1,7 +1,10 @@
-/** @file CollisionDetectionColdet.h
- *
- * implementation - CollisionDetectionColdet
- */
+
+/**********************************************************
+*	
+*		author: Tomasz Augustyn
+* 
+**********************************************************/
+
 #ifndef COLLISIONDETECTIONCOLDET_H_INCLUDED
 #define COLLISIONDETECTIONCOLDET_H_INCLUDED
 
@@ -49,8 +52,6 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		CollisionDetectionColdet(std::string configFilename) : CollisionDetection("CollisionDetectionColdet", TYPE_COLDET){
             tinyxml2::XMLDocument config;
             std::string filename = "../../resources/" + configFilename;
-			//Ladowanie z pelnej sciezki - niweluje problem ze program mozna zalaczyc tylko poprzez uruchomienie pliku "Demo.exe"
-			//std::string filename = "C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/" + configFilename;
             config.LoadFile(filename.c_str());
             if (config.ErrorID())
 			{
@@ -127,22 +128,6 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 					element->QueryDoubleAttribute("gamma", &param);  Leg[i][2] = param;
 				}
 
-				/*joint0[0]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("x")->GetText());
-				joint0[1]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("y")->GetText());
-				joint0[2]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("z")->GetText());
-				joint0[3]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("alfa")->GetText());
-				joint0[4]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("beta")->GetText());
-				joint0[5]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0")->FirstChildElement("gamma")->GetText());
-				
-				joint1[0]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("x")->GetText());
-				joint1[1]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("z")->GetText());
-				joint1[2]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("alfa")->GetText());
-				joint1[3]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1")->FirstChildElement("gamma")->GetText());
-
-				joint2[0]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("x")->GetText());
-				joint2[1]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("z")->GetText());
-				joint2[2]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("alfa")->GetText());
-				joint2[3]=std::stof(config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2")->FirstChildElement("gamma")->GetText()); */
 
 				std::cout << nazwy_czesci[0] << " length is: " << platform_length << " and width is: " << platform_width <<"\n";
 				for(int i=1; i<jointsNo+1; i++)
@@ -157,19 +142,15 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 			c=robot_model.ObjLoad("../../resources/Messor_II_Model/femur.3ds");
 			d=robot_model.ObjLoad("../../resources/Messor_II_Model/vitulus.3ds");
 
-			/// Ladowanie z pelnej sciezki - niweluje problem ze program mozna zalaczyc tylko poprzez uruchomienie pliku "Demo.exe"
-			/// robot_model.ObjLoad("C:/Users/dom/Documents/GitHub/CollisionDetectionMessorII/resources/Messor_II_Model/corpus.3ds");
-
 
 			/// tworzenie modeli kolizji w zaleznosci od ilosci nog robota (zalozenie ze kazda noga ma 3 stawy)
 			for (int i=0;i<3*legsNo+1;i++) {
 				CollisionModel3D* tmp = newCollisionModel3D();
 				meshModel.push_back(tmp);
 			}
-			//	InitializeTerrain();
+
 			CollisionModels();	// Init Collision Models
-			//	robot_model.TerrainCollisionModels();	// Init Collision Models
-			initStructures();
+			initStructures();	// Init Structures
 			for (int j=0;j<4;j++){
 				std::cout<<"Number of "<<nazwy_czesci[j]<<" vertices is: "<<robot_model.object[j].vertices_qty<<"\n";
 			}
@@ -208,20 +189,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void drawCoordinateSystem(void);
 
 		void Leg_All(int legNo, float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga, std::array<coldet::float_type, 3> Leg) const;
-		void Leg1(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
-		void Leg2(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
-		void Leg3(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
-		void Leg4(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
-		void Leg5(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
-		void Leg6(float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga) const;
-
 		void GLLeg_All(int legNo, float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table, std::array<coldet::float_type, 3> Leg) const;
-		void GLLeg1(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
-		void GLLeg2(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
-		void GLLeg3(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
-		void GLLeg4(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
-		void GLLeg5(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
-		void GLLeg6(float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table) const;
 
 		void copyTable(coldet::Mat34& src, float * dest) const;
 		void DrawRobot(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config) const;

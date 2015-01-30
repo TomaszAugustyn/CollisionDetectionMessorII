@@ -1,3 +1,9 @@
+/**********************************************************
+*
+*		author: Tomasz Augustyn
+* 
+**********************************************************/
+
 #include "../include/CollisionDetection/CollisionDetectionColdet.h"
 #include <stdexcept>
 #include <stdio.h>

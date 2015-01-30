@@ -1,5 +1,11 @@
 // Main.cpp : Defines the entry point for the console application.
 
+/**********************************************************
+*		CollisionDetectionColdet Demo
+*		author: Tomasz Augustyn
+* 
+**********************************************************/
+
 #include "../Defs/defs.h"
 #include <thread>
 #include <vector>
@@ -39,10 +45,6 @@ short int wybor_nogi=0;  //wybor nogi do sterowania pozycjami jej serownapedow w
 
 coldet::Mat34 pose;
 std::vector<coldet::float_type> set_pose(6); // x="0" y="0" z="0.0" alfa="0.0" beta="0.0" gamma="0.0"
-
-///mierzenie sredniego czasu kolizji. Po wcisnieciu klawisza 'x' program zlicza srednia z 250 prob.
-std::chrono::time_point<std::chrono::system_clock> start, end;
-std::chrono::duration<double> elapsed_seconds;
 
 
 GLfloat light_position[4] =
@@ -397,7 +399,6 @@ void keyboard (unsigned char key, int x, int y)
 
 		break;
 
-	break;
 
 			/// konfiguracja robota tak aby wystapilo 9 kolizji
 			case 'n': case 'N':
@@ -422,8 +423,8 @@ void keyboard (unsigned char key, int x, int y)
 
 			config[15]=0.72;
 
-
 		break;
+
 			/// konfiguracja robota tak aby wystapilo 13 kolizji
 			case 'm': case 'M':
 			for(int i=0; i<18; i++)
@@ -475,7 +476,6 @@ void keyboard (unsigned char key, int x, int y)
 			config[8]=-2.92;
 			config[14]=-2.90;
 
-
 		break;
 
 			/// konfiguracja robota tak aby wystapilo 19 kolizji
@@ -507,9 +507,7 @@ void keyboard (unsigned char key, int x, int y)
 			config[12]=1.71;
 			config[15]=1.32;
 
-
 		break;
-
 
 
 		/// Zmiana kata padanie swiatla w OpenGL'u w osiach x i y
@@ -602,7 +600,7 @@ void display(void)
     glMatrixMode(GL_MODELVIEW);		// Modeling transformation
     glLoadIdentity();	// Initialize the model matrix as identity
     
-	glTranslatef(0,0, -18.0);	// We move the object forward (the model matrix is multiplied by the translation matrix)	glTranslatef(0,0, -200.0)
+	glTranslatef(0,0, -18.0);	// We move the object forward (the model matrix is multiplied by the translation matrix)
 
 	if (rotation_x > 359) rotation_x = 0;
 	if (rotation_y > 359) rotation_y = 0;
@@ -635,18 +633,8 @@ void display(void)
 
 	//pose = coldet::Quaternion(set_pose[0], set_pose[1], set_pose[2], set_pose[3])* coldet::Vec3(set_pose[4], set_pose[5], set_pose[6]);	
 	pose = coldet::Vec3(set_pose[0], set_pose[1], set_pose[2])* Eigen::AngleAxisd (set_pose[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (set_pose[4]*M_PI/180, Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd (set_pose[5]*M_PI/180, Eigen::Vector3d::UnitZ());
-
-
-	//petla liczaca czas wykonywania sie 50 razy metody checkCollision, ilosc petli mozna zmieniac
-	start = std::chrono::system_clock::now();
-	for (int i=0;i<50;i++){
-		czy_jest_kolizja=robot_structure->checkCollision (pose, config, collision_table);
-	}
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end-start;
+	czy_jest_kolizja=robot_structure->checkCollision (pose, config, collision_table);
 	robot_structure->GLDrawRobot (pose, config, collision_table);
-
-	std::cout<<"Sredni czas wykrywania kolizji wynosi: "<< elapsed_seconds.count()/50<< "s\n";
 
 
     glFlush(); // This force the execution of OpenGL commands

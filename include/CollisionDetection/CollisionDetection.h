@@ -1,7 +1,9 @@
-/** @file CollisionDetection.h
- *
- * Point Cloud CollisionDetection interface
- */
+/**********************************************************
+*	
+*		author: Tomasz Augustyn
+* 
+**********************************************************/
+
 #ifndef _COLLISIONDETECTION_H_
 #define _COLLISIONDETECTION_H_
 
@@ -14,7 +16,7 @@
 #include "../include/CollisionDetection/coldet.h"
 #include "../include/CollisionDetection/objects3DS.h"
 #include <GL/glut.h>
-//#include <mutex>
+
 
 namespace coldet{
 	//CollisionDetection interface
@@ -49,14 +51,6 @@ namespace coldet{
 
 			/// Check collisions
 			virtual bool checkCollision (const coldet::Mat34& pose, const std::vector<coldet::float_type>& config,  std::vector<bool>& collision_table) const = 0;
-
-
-			/*void CheckCollisions (const RobotConfiguration& config, CollisionTable& collisionTable);
-			void DecodeCollisionTable (const CollisionTable ...);
-			void CheckCollisions (const Mat34 RobotPose, const RobotConfiguration config, const CElevationMap& map, CollisionTable& collisionTable);
-
-			bool CheckCollisions(const RobotConfiguration& config, CollisionTable& collisionTable);
-			bool CheckCollisions (const Mat34 RobotPose, const RobotConfiguration config, const CElevationMap& map, CollisionTable& collisionTable);*/
 
             /// Virtual descrutor
             virtual ~CollisionDetection() {}
