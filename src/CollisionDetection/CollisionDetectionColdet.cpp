@@ -504,7 +504,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 	} */
 
 
-	for (int i=0;i<i<3*legsNo+1;i++){
+	for (int i=0; i<3*legsNo+1; i++){
 		if (collision_table[i]==true) 
 			return true;
 	}
