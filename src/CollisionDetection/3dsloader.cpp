@@ -13,10 +13,9 @@
  *  
  */
 
-//#include <windows.h>
+#define _CRT_SECURE_NO_DEPRECATE
 #include <stdio.h>
 #include <stdlib.h>
-//#include <conio.h>
 
 #include <stdio.h>
 #include <stdlib.h>
