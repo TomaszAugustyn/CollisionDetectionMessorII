@@ -1,4 +1,4 @@
-# CollisionDetection
+# Collision Detection
 Collision detection library implemented in Messor II robot.
 
 Requirements:
